@@ -12,8 +12,8 @@ export type Brand = {
 // CART PRODUCTS
 export type CartProduct = {
   product: Product
-  cantidad: number
-  precio_unidad: number
+  quantity: number
+  unit_price: number
 }
 
 
