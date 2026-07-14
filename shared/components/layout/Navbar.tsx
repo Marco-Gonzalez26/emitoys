@@ -72,9 +72,9 @@ export const Navbar = ({ brands }: NavbarProps) => {
           )}
         </div>
         <Link
-          href='/contacto'
+          href='/sobre-nosotros'
           className='h-16 px-5 flex items-center text-(--text-secondary) hover:text-(--text-primary) no-underline font-semibold text-xs tracking-widest uppercase transition-colors duration-200'>
-          Contacto
+          Sobre nosotros
         </Link>
       </div>
 
@@ -124,10 +124,10 @@ export const Navbar = ({ brands }: NavbarProps) => {
                 </div>
               </div>
               <Link
-                href='/contacto'
+                href='/sobre-nosotros'
                 onClick={closeMobile}
                 className='px-6 py-4 text-sm font-semibold text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface) no-underline transition-colors duration-150'>
-                Contacto
+                Sobre nosotros
               </Link>
             </div>
           </SheetContent>

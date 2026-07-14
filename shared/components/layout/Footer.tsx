@@ -1,17 +1,18 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 export function Footer() {
   return (
     <footer className='border-t border-border bg-(--surface) px-10 py-8 flex justify-between items-center w-full'>
-      <span className='font-extrabold text-sm text-(--brand)'>EMITOYS</span>
+      <Image src="/logo.png" alt="Logo" width={50} height={50} />
       <span className='text-xs text-(--text-secondary)'>
-        © {new Date().getFullYear()} EmiToys Garage · Distribuidor autorizado
+        © {new Date().getFullYear()} EmiToys Garage 
       </span>
       <div className='flex gap-6'>
-        {['Políticas de envío', 'Términos', 'Contacto'].map((item) => (
+        {[ 'Sobre nosotros'].map((item) => (
           <Link
             key={item}
-            href='#'
+            href='/sobre-nosotros'
             className='text-xs text-(--text-secondary) hover:text-(--text-primary) no-underline transition-colors duration-200'>
             {item}
           </Link>
