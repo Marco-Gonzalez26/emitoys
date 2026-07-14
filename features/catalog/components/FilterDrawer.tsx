@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Sheet,
   SheetTrigger,
@@ -8,6 +8,7 @@ import {
   SheetTitle
 } from '@/shared/components/ui/sheet'
 import { Slider } from '@/shared/components/ui/slider'
+import { Input } from '@/shared/components/ui/input'
 import type { Brand } from '@/shared/types'
 
 interface FilterDrawerProps {
@@ -48,15 +49,6 @@ export function FilterDrawer({
   const [localMin, setLocalMin] = useState(precioMin ?? 0)
   const [localMax, setLocalMax] = useState(precioMax ?? maxPrice)
 
-  // Sincronizar cuando cambian desde afuera (ej: limpiar filtros)
-  useEffect(() => {
-    setPendingMarcas(selectedMarcas)
-    setPendingEscalas(selectedEscalas)
-    setSliderValue([precioMin ?? 0, precioMax ?? maxPrice])
-    setLocalMin(precioMin ?? 0)
-    setLocalMax(precioMax ?? maxPrice)
-  }, [selectedMarcas, selectedEscalas, precioMin, precioMax, maxPrice])
-
   const toggleMarca = (slug: string) => {
     setPendingMarcas((prev) =>
       prev.includes(slug) ? prev.filter((m) => m !== slug) : [...prev, slug]
@@ -84,7 +76,7 @@ export function FilterDrawer({
       localMin > 0 ? localMin : undefined,
       localMax < maxPrice ? localMax : undefined
     )
-    setOpen(false) // cierra el drawer al aplicar
+    setOpen(false)
   }
 
   const handleClear = () => {
@@ -108,7 +100,7 @@ export function FilterDrawer({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <button className='lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-[var(--brand)] text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 font-semibold text-sm'>
+        <button className='lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-[var(--brand)] text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 font-semibold text-sm border-none cursor-pointer'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -135,12 +127,11 @@ export function FilterDrawer({
           </SheetTitle>
           <button
             onClick={handleClear}
-            className='text-xs text-[var(--text-secondary)] hover:text-[var(--brand)] transition-colors duration-200'>
+            className='text-xs text-[var(--text-secondary)] hover:text-[var(--brand)] transition-colors duration-200 bg-transparent border-none cursor-pointer'>
             Limpiar
           </button>
         </div>
 
-        {/* Marcas */}
         <div className='mb-6'>
           <h3 className='text-xs font-semibold tracking-wider uppercase text-[var(--text-secondary)] mb-3'>
             Marcas
@@ -150,7 +141,7 @@ export function FilterDrawer({
               <button
                 key={brand.id}
                 onClick={() => toggleMarca(brand.slug)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border-none cursor-pointer ${
                   pendingMarcas.includes(brand.slug)
                     ? 'bg-[var(--brand)] text-white'
                     : 'bg-[var(--surface-2)] text-[var(--text-primary)] border border-[var(--border)]'
@@ -161,7 +152,6 @@ export function FilterDrawer({
           </div>
         </div>
 
-        {/* Escalas */}
         <div className='mb-6'>
           <h3 className='text-xs font-semibold tracking-wider uppercase text-[var(--text-secondary)] mb-3'>
             Escalas
@@ -171,7 +161,7 @@ export function FilterDrawer({
               <button
                 key={escala}
                 onClick={() => toggleEscala(escala)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border-none cursor-pointer ${
                   pendingEscalas.includes(escala)
                     ? 'bg-[var(--brand)] text-white'
                     : 'bg-[var(--surface-2)] text-[var(--text-primary)] border border-[var(--border)]'
@@ -182,7 +172,6 @@ export function FilterDrawer({
           </div>
         </div>
 
-        {/* Precio */}
         <div className='mb-6'>
           <h3 className='text-xs font-semibold tracking-wider uppercase text-[var(--text-secondary)] mb-3'>
             Precio
@@ -201,32 +190,31 @@ export function FilterDrawer({
             </div>
           </div>
           <div className='flex gap-2 items-center'>
-            <input
+            <Input
               type='number'
               value={localMin}
               onChange={(e) => setLocalMin(Number(e.target.value))}
               placeholder='Min'
-              className='w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg py-2 px-3 text-center text-sm focus:outline-none focus:border-[var(--brand)]'
+              className='text-center'
               min={0}
               max={localMax}
             />
             <span className='text-[var(--text-secondary)]'>-</span>
-            <input
+            <Input
               type='number'
               value={localMax}
               onChange={(e) => setLocalMax(Number(e.target.value))}
               placeholder='Max'
-              className='w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg py-2 px-3 text-center text-sm focus:outline-none focus:border-[var(--brand)]'
+              className='text-center'
               min={localMin}
               max={maxPrice}
             />
           </div>
         </div>
 
-        {/* Aplicar */}
         <button
           onClick={handleApply}
-          className={`w-full py-3 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-200 ${
+          className={`w-full py-3 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-200 border-none cursor-pointer ${
             hasPendingChanges
               ? 'bg-[var(--brand)] text-white hover:opacity-90'
               : 'bg-[var(--surface-2)] text-[var(--text-secondary)] cursor-default'

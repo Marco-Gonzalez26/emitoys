@@ -30,7 +30,7 @@ export function CatalogPage({ products, maxPrice, brands }: CatalogPageProps) {
   const pathname = usePathname()
   const { filters, setSort, clearFilters } = useCatalogFilters()
 
-  // Client-side filtering
+ 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       if (filters.marca && filters.marca.length > 0) {
@@ -82,11 +82,6 @@ export function CatalogPage({ products, maxPrice, brands }: CatalogPageProps) {
   // Infinite scroll
   const [displayCount, setDisplayCount] = useState(INITIAL_DISPLAY_COUNT)
   const loadMoreRef = useRef<HTMLDivElement>(null)
-
-  // Reset display count when filters change
-  useEffect(() => {
-    setDisplayCount(INITIAL_DISPLAY_COUNT)
-  }, [filters])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -143,7 +138,7 @@ export function CatalogPage({ products, maxPrice, brands }: CatalogPageProps) {
       </div>
 
       {/* Main Content */}
-      <div className='flex-grow'>
+      <div key={JSON.stringify({ marca: filters.marca, escala: filters.escala, precio_min: filters.precio_min, precio_max: filters.precio_max })} className='flex-grow'>
         <div className='flex justify-between items-center mb-6'>
           <h1 className='text-2xl font-extrabold tracking-tight text-[var(--text-primary)]'>
             Catálogo Completo
