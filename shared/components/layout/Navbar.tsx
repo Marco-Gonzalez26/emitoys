@@ -10,6 +10,7 @@ import {
   SheetTrigger
 } from '@/shared/components/ui/sheet'
 import { MenuIcon } from 'lucide-react'
+import Image from 'next/image'
 
 type NavbarProps = {
   brands: Pick<Brand, 'nombre' | 'id' | 'slug' | 'color_hex'>[]
@@ -24,10 +25,8 @@ export const Navbar = ({ brands }: NavbarProps) => {
   return (
     <nav className='sticky top-0 z-50 h-16 flex items-center gap-4 md:gap-8 px-4 md:px-10 bg-(--bg) border-b border-border backdrop-blur-xl'>
       <Link href='/' className='flex items-center gap-2 text-xl font-semibold'>
-        <span className='font-extrabold text-lg tracking-tight'>
-          <span className='text-(--brand)'>EMI</span>
-          <span className='text-(--text-primary)'>TOYS</span>
-        </span>
+      <Image src="/logo.png" alt="Logo" width={50} height={50} />
+       
       </Link>
 
       <div className='hidden md:flex items-center flex-1'>
