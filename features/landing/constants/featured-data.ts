@@ -1,5 +1,3 @@
-import type { Brand } from '@/shared/types'
-
 export interface FeaturedProduct {
   id: string
   nombre: string
@@ -15,12 +13,13 @@ export interface FeaturedProduct {
     slug: string
     color_hex: string
     logo_url: string | null
-  } | null
+    created_at: string
+  }
   imagenes: { url: string; orden: number }[]
 }
 
 export interface BrandWithProducts {
-  marca: Brand & { id: string }
+  marca: FeaturedProduct['marca']
   productos: FeaturedProduct[]
 }
 

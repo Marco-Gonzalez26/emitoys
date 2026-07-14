@@ -2,30 +2,7 @@
 
 import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
-
-interface FeaturedProduct {
-  id: string
-  nombre: string
-  slug: string
-  escala: string | null
-  precio: number
-  precio_oferta: number | null
-  estado: 'disponible' | 'pre_venta' | 'agotado'
-  marca_id: string
-  marca: {
-    id: string
-    nombre: string
-    slug: string
-    color_hex: string
-    logo_url: string | null
-  } | null
-  imagenes: { url: string; orden: number }[]
-}
-
-interface BrandWithProducts {
-  marca: FeaturedProduct['marca'] & { id: string }
-  productos: FeaturedProduct[]
-}
+import type { FeaturedProduct, BrandWithProducts } from '../constants/featured-data'
 
 export async function getFeaturedByBrand(): Promise<BrandWithProducts[]> {
   const cookieStore = await cookies()
@@ -42,7 +19,7 @@ export async function getFeaturedByBrand(): Promise<BrandWithProducts[]> {
       precio_oferta,
       estado,
       marca_id,
-      marcas:id,marcas(nombre,slug,color_hex,logo_url),
+      marcas:id,marcas(nombre,slug,color_hex,logo_url,created_at),
       imagenes_producto(url,orden)
     `)
     .eq('es_destacado', true)
@@ -57,22 +34,20 @@ export async function getFeaturedByBrand(): Promise<BrandWithProducts[]> {
   const grouped = new Map<string, BrandWithProducts>()
 
   for (const item of products as Record<string, unknown>[]) {
-    const marca = item.marcas as FeaturedProduct['marca']
+    const rawMarca = item.marcas as { nombre: string; slug: string; color_hex: string; logo_url: string | null; created_at: string } | null
     const marcaId = item.marca_id as string
 
-    if (!marca || !grouped.has(marcaId)) {
-      if (marca && !grouped.has(marcaId)) {
-        grouped.set(marcaId, {
-          marca: { ...marca, id: marcaId },
-          productos: []
-        })
-      }
+    if (!rawMarca) continue
+
+    if (!grouped.has(marcaId)) {
+      grouped.set(marcaId, {
+        marca: { ...rawMarca, id: marcaId },
+        productos: []
+      })
     }
 
-    const group = grouped.get(marcaId)
-    if (!group) continue
-
-    const imagenes = (item.imagenes_producto as FeaturedProduct['imagenes']) || []
+    const group = grouped.get(marcaId)!
+    const imagenes = (item.imagenes_producto as { url: string; orden: number }[]) || []
 
     group.productos.push({
       id: item.id as string,
@@ -83,7 +58,7 @@ export async function getFeaturedByBrand(): Promise<BrandWithProducts[]> {
       precio_oferta: item.precio_oferta as number | null,
       estado: item.estado as FeaturedProduct['estado'],
       marca_id: marcaId,
-      marca,
+      marca: group.marca,
       imagenes
     })
   }
