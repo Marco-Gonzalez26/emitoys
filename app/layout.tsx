@@ -1,12 +1,7 @@
 import type { Metadata } from 'next'
-import { Manrope, Inter } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/shared/lib/utils'
-import { Navbar } from '@/shared/components/layout/Navbar'
-import { Footer } from '@/shared/components/layout/Footer'
-import { createClient } from '@/shared/lib/supabase/server'
-import { cookies } from 'next/headers'
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -24,12 +19,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const cookieStore = await cookies()
-  const supabase = await createClient(cookieStore)
-  const { data: brands } = await supabase
-    .from('marcas')
-    .select('id, nombre, slug, color_hex')
-    .order('nombre')
   return (
     <html
       lang='es'
@@ -37,9 +26,7 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={manrope.variable}>
       <body className={cn('relative ', manrope.variable)}>
-        <Navbar brands={brands ?? []} />
-        <main className='min-h-screen'>{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   )

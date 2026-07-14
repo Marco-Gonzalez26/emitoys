@@ -1,7 +1,5 @@
 @import 'tailwindcss';
 
-@import 'tailwindcss';
-
 @import 'tw-animate-css';
 
 @import 'shadcn/tailwind.css';
@@ -52,7 +50,7 @@
   --font-manrope: 'Manrope', sans-serif;
 }
 
-/* [data-theme='dark'] {
+[data-theme='dark'] {
   --bg: #0d0014;
   --surface: #1a0035;
   --surface-2: #2d0057;
@@ -62,7 +60,7 @@
   --brand: #c92ac7;
   --brand-hover: #a020a0;
   --cyan: #00e5ff;
-} */
+}
 
 body {
   background-color: var(--bg);
