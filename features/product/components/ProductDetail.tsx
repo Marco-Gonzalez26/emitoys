@@ -84,13 +84,13 @@ export function ProductDetail({
 
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16'>
         <div className='flex flex-col gap-4'>
-          <div className='relative aspect-square bg-[var(--surface)] border border-(--brand)/30 rounded-2xl overflow-hidden flex items-center justify-center'>
+          <div className='relative aspect-square bg-(--surface)  rounded-2xl overflow-hidden flex items-center justify-center'>
             <div className='absolute inset-0 opacity-10 blur-2xl scale-75 bg-(--brand)' />
             <Image
               src={images[selectedImage]}
               alt={product.nombre}
               fill
-              className='relative z-10 object-contain p-8 drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)]'
+              className='relative z-10 object-contain p-8 drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)] rounded'
               sizes='(max-width: 1024px) 100vw, 50vw'
               priority
             />
@@ -205,12 +205,13 @@ export function ProductDetail({
           <div className='flex gap-3 mt-2'>
             <Tooltip>
               <TooltipTrigger>
-                <Button
-                  onClick={handleAddToCart}
-                  disabled
-                  className='flex-1 py-3.5 rounded-full bg-(--brand) text-white text-xs font-semibold uppercase tracking-widest hover:bg-(--brand-hover) transition-colors duration-200 active:scale-[0.98] cursor-pointer border-none'>
+                <div
+                  // onClick={handleAddToCart}
+                  
+                
+                  className='flex-1 py-3.5 rounded-full bg-(--brand) text-white text-xs font-semibold uppercase tracking-widest hover:bg-(--brand-hover) transition-colors duration-200 active:scale-[0.98] cursor-pointer border-none px-4'>
                   Añadir al carrito
-                </Button>
+                </div>
               </TooltipTrigger>
               <TooltipContent>
                 <p className='text-sm text-white'>
@@ -230,7 +231,7 @@ export function ProductDetail({
                 target='_blank'
                 rel='noopener noreferrer'
                 className='flex-1 py-3.5 rounded-full border border-green-600 bg-green-600 text-white text-xs font-semibold uppercase tracking-widest hover:opacity-90 transition-opacity no-underline text-center'>
-                WhatsApp
+                Pedir en WhatsApp
               </a>
             )}
           </div>
@@ -239,7 +240,7 @@ export function ProductDetail({
 
       {relatedProducts.length > 0 && (
         <section>
-          <h2 className='text-xl font-extrabold tracking-tight text-[var(--text-primary)] mb-6'>
+          <h2 className='text-xl font-extrabold tracking-tight text-(--text-primary) mb-6'>
             Productos relacionados
           </h2>
           <div
