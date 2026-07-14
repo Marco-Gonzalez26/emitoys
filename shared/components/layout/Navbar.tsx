@@ -2,9 +2,14 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { useCartStore } from '@/features/cart/store/cartStore'
 import type { Brand } from '@/shared/types'
-import { ThemeToggle } from '../ui/ThemeToggle'
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger
+} from '@/shared/components/ui/sheet'
+import { MenuIcon } from 'lucide-react'
 
 type NavbarProps = {
   brands: Pick<Brand, 'nombre' | 'id' | 'slug' | 'color_hex'>[]
@@ -12,32 +17,40 @@ type NavbarProps = {
 
 export const Navbar = ({ brands }: NavbarProps) => {
   const [dropDownOpen, setDropDownOpen] = useState(false)
-  const totalItems = useCartStore((state) => state.totalItems())
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  const closeMobile = () => setMobileOpen(false)
+
   return (
-    <nav className='sticky top-0 z-50 h-16 flex items-center gap-8 px-10 bg-(--bg) border-b border-border backdrop-blur-xl'>
+    <nav className='sticky top-0 z-50 h-16 flex items-center gap-4 md:gap-8 px-4 md:px-10 bg-(--bg) border-b border-border backdrop-blur-xl'>
       <Link href='/' className='flex items-center gap-2 text-xl font-semibold'>
         <span className='font-extrabold text-lg tracking-tight'>
-          {/** TODO: Add logo */}
           <span className='text-(--brand)'>EMI</span>
           <span className='text-(--text-primary)'>TOYS</span>
         </span>
       </Link>
-      <div className='flex items-center flex-1'>
+
+      <div className='hidden md:flex items-center flex-1'>
+        <Link
+          href='/'
+          className='h-16 px-5 flex items-center text-(--text-secondary) hover:text-(--text-primary) no-underline font-semibold text-xs tracking-widest uppercase transition-colors duration-200'>
+          Inicio
+        </Link>
         <div
           className='relative'
           onMouseEnter={() => setDropDownOpen(true)}
           onMouseLeave={() => setDropDownOpen(false)}>
-          <button className='h-16 px-5 bg-transparent border-none text-(--text-secondary) hover:text-(--text-primary) text-xs tracking-widest uppercase cursor-pointer transition-colors duration-200 font-(--font-manrope)'>
+          <button className='h-16 px-5 bg-transparent border-none text-(--text-secondary) hover:text-(--text-primary) text-xs tracking-widest uppercase cursor-pointer transition-colors duration-200 font-semibold'>
             Productos
           </button>
-          {dropDownOpen ? (
+          {dropDownOpen && (
             <div className='absolute top-16 left-0 min-w-50 bg-(--bg) border border-border border-t-0 rounded-b-xl overflow-hidden shadow-lg'>
               {brands.map((brand) => (
                 <Link
                   key={brand.id}
-                  href={`/catalogo/${brand.slug}`}
+                  href={`/catalogo?marca=${brand.slug}`}
                   className='flex items-center gap-3 px-5 py-3 text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface) no-underline text-xs font-semibold transition-all duration-150'
-                  style={{ borderLeft: `3px solid transparent` }}
+                  style={{ borderLeft: '3px solid transparent' }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderLeftColor = brand.color_hex
                   }}
@@ -57,32 +70,69 @@ export const Navbar = ({ brands }: NavbarProps) => {
                 Ver todo el catálogo
               </Link>
             </div>
-          ) : null}
+          )}
         </div>
-        <Link
-          href='/ofertas'
-          className='h-16 px-5 flex items-center text-(--text-secondary) hover:text-(--text-primary) no-underline font-semibold text-xs tracking-widest uppercase transition-colors duration-200'>
-          Ofertas
-        </Link>
-
         <Link
           href='/contacto'
           className='h-16 px-5 flex items-center text-(--text-secondary) hover:text-(--text-primary) no-underline font-semibold text-xs tracking-widest uppercase transition-colors duration-200'>
           Contacto
         </Link>
       </div>
-      <div className='flex items-center gap-3'>
-        <ThemeToggle />
 
-        <Link
-          href='/checkout'
-          className='relative w-10 h-10 rounded-full border border-border bg-(--surface) flex items-center justify-center no-underline text-base hover:border-(--brand) transition-colors duration-200'>
-          {totalItems > 0 && (
-            <span className='absolute -top-1 -right-1 w-4 h-4 rounded-full bg-(--brand) text-white text-[9px] font-extrabold flex items-center justify-center'>
-              {totalItems}
-            </span>
-          )}
-        </Link>
+      <div className='hidden md:flex items-center gap-3'>
+        {/* Cart / Theme toggles go here */}
+      </div>
+
+      <div className='flex md:hidden items-center ml-auto'>
+        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+          <SheetTrigger className='h-10 w-10 flex items-center justify-center rounded-full border border-border bg-(--surface) text-(--text-primary) hover:border-(--brand) transition-colors duration-200 cursor-pointer'>
+            <MenuIcon className='w-5 h-5' />
+            <span className='sr-only'>Abrir menú</span>
+          </SheetTrigger>
+          <SheetContent side='left' showCloseButton={false} className='w-72 p-0 bg-(--bg) border-border'>
+            <SheetTitle className='sr-only'>Menú de navegación</SheetTitle>
+            <div className='flex flex-col pt-16'>
+              <Link
+                href='/'
+                onClick={closeMobile}
+                className='px-6 py-4 text-sm font-semibold text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface) no-underline transition-colors duration-150'>
+                Inicio
+              </Link>
+              <div className='px-6 py-2'>
+                <p className='text-xs font-semibold text-(--text-secondary) uppercase tracking-widest mb-2'>
+                  Productos
+                </p>
+                <div className='flex flex-col'>
+                  {brands.map((brand) => (
+                    <Link
+                      key={brand.id}
+                      href={`/catalogo?marca=${brand.slug}`}
+                      onClick={closeMobile}
+                      className='flex items-center gap-3 py-2.5 text-sm text-(--text-secondary) hover:text-(--text-primary) no-underline transition-colors duration-150'>
+                      <span
+                        className='w-2 h-2 rounded-full shrink-0'
+                        style={{ background: brand.color_hex }}
+                      />
+                      {brand.nombre}
+                    </Link>
+                  ))}
+                  <Link
+                    href='/catalogo'
+                    onClick={closeMobile}
+                    className='py-2.5 text-sm font-bold text-(--brand) no-underline'>
+                    Ver todo el catálogo
+                  </Link>
+                </div>
+              </div>
+              <Link
+                href='/contacto'
+                onClick={closeMobile}
+                className='px-6 py-4 text-sm font-semibold text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface) no-underline transition-colors duration-150'>
+                Contacto
+              </Link>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </nav>
   )
