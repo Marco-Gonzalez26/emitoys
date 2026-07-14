@@ -42,7 +42,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
   const pathname = usePathname()
 
   return (
-    <Sidebar>
+    <Sidebar collapsible='icon'>
       <SidebarHeader>
         <Link href='/' className='flex items-center gap-2 no-underline px-2 py-1'>
           <span className='font-extrabold text-lg tracking-tight'>
@@ -82,7 +82,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
           <div className='w-8 h-8 rounded-full bg-[var(--brand)] flex items-center justify-center text-white text-xs font-bold shrink-0'>
             {userName.charAt(0).toUpperCase()}
           </div>
-          <div className='flex-1 min-w-0'>
+          <div className='flex-1 min-w-0 group-data-[collapsible=icon]:hidden'>
             <p className='text-sm font-semibold text-[var(--text-primary)] truncate m-0'>{userName}</p>
           </div>
         </div>
@@ -90,9 +90,9 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
           <Button
             type='submit'
             variant='ghost'
-            className='w-full justify-start gap-3 text-[var(--text-secondary)] hover:text-red-500 hover:bg-red-50'>
-            <LogOut className='w-5 h-5' />
-            Cerrar sesión
+            className='w-full justify-start gap-3 text-[var(--text-secondary)] hover:text-red-500 hover:bg-red-50 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-2'>
+            <LogOut className='w-5 h-5 shrink-0' />
+            <span className='group-data-[collapsible=icon]:hidden'>Cerrar sesión</span>
           </Button>
         </form>
       </SidebarFooter>
