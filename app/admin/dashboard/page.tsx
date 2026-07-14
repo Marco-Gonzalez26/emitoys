@@ -21,7 +21,7 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <h1 className='text-2xl font-extrabold tracking-tight text-[var(--text-primary)] mb-8'>
+      <h1 className='text-2xl font-extrabold tracking-tight text-(--text-primary) mb-8'>
         Dashboard
       </h1>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>

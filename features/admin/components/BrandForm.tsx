@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import type { Brand } from '@/shared/types'
 import { createBrand, updateBrand, deleteBrand } from '../../brand/actions/brands'
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog'
+import { ImageUploader } from './ImageUploader'
 import { Input } from '@/shared/components/ui/input'
 import { Label } from '@/shared/components/ui/label'
 import { Button } from '@/shared/components/ui/button'
@@ -18,6 +19,7 @@ export function BrandForm({ brand }: BrandFormProps) {
   const [nombre, setNombre] = useState(brand?.nombre ?? '')
   const [slug, setSlug] = useState(brand?.slug ?? '')
   const [colorHex, setColorHex] = useState(brand?.color_hex ?? '#960DF2')
+  const [logoUrl, setLogoUrl] = useState(brand?.logo_url ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -28,8 +30,8 @@ export function BrandForm({ brand }: BrandFormProps) {
     setLoading(true)
 
     const result = brand
-      ? await updateBrand(brand.id, { nombre, slug, color_hex: colorHex })
-      : await createBrand({ nombre, slug, color_hex: colorHex })
+      ? await updateBrand(brand.id, { nombre, slug, color_hex: colorHex, logo_url: logoUrl || undefined })
+      : await createBrand({ nombre, slug, color_hex: colorHex, logo_url: logoUrl || undefined })
 
     setLoading(false)
 
@@ -108,6 +110,28 @@ export function BrandForm({ brand }: BrandFormProps) {
               className='font-mono'
             />
           </div>
+        </div>
+
+        <div className='flex flex-col gap-2'>
+          <Label>Logo</Label>
+          {logoUrl ? (
+            <div className='relative group'>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={logoUrl}
+                alt='Logo preview'
+                className='w-full h-32 object-contain rounded-xl border border-[var(--border)] bg-[var(--surface)]'
+              />
+              <button
+                type='button'
+                onClick={() => setLogoUrl('')}
+                className='absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer border-none'>
+                ✕
+              </button>
+            </div>
+          ) : (
+            <ImageUploader onUpload={setLogoUrl} disabled={loading} />
+          )}
         </div>
 
         {error && (

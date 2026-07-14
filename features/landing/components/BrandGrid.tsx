@@ -11,7 +11,7 @@ const BrandGrid = ({ brands }: { brands: Brand[] }) => {
       {brands?.map((brand: Brand, index: number) => (
         <Link
           key={brand.id}
-          href={`/catalogo/${brand.slug}`}
+          href={`/catalogo?marca=${brand.slug}`}
           className='relative col-span-1 rounded-2xl overflow-hidden border border-[var(--border)] min-h-40 md:min-h-55 group no-underline box'>
           <img
             src={brand.logo_url ?? FALLBACK_IMAGE}

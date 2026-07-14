@@ -139,7 +139,7 @@ export function ProductForm({ product, brands }: ProductFormProps) {
   }
 
   return (
-    <div className='max-w-2xl'>
+    <div className='w-full max-w-2xl mx-auto px-4 sm:px-6'>
       <div className='mb-8'>
         <h1 className='text-2xl font-extrabold tracking-tight text-[var(--text-primary)]'>
           {product ? 'Editar producto' : 'Nuevo producto'}
@@ -148,7 +148,7 @@ export function ProductForm({ product, brands }: ProductFormProps) {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-5'>
-          <div className='grid grid-cols-2 gap-4'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
             <FormField
               control={form.control as Control<ProductFormData>}
               name='nombre'
@@ -183,7 +183,7 @@ export function ProductForm({ product, brands }: ProductFormProps) {
             />
           </div>
 
-          <div className='grid grid-cols-2 gap-4'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
             <FormField
               control={form.control as Control<ProductFormData>}
               name='codigo'
@@ -235,7 +235,7 @@ export function ProductForm({ product, brands }: ProductFormProps) {
             )}
           />
 
-          <div className='grid grid-cols-3 gap-4'>
+          <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
             <FormField
               control={form.control as Control<ProductFormData>}
               name='escala'
@@ -295,7 +295,7 @@ export function ProductForm({ product, brands }: ProductFormProps) {
             />
           </div>
 
-          <div className='grid grid-cols-3 gap-4'>
+          <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
             <FormField
               control={form.control as Control<ProductFormData>}
               name='stock'
@@ -370,7 +370,7 @@ export function ProductForm({ product, brands }: ProductFormProps) {
 
           <div className='flex flex-col gap-2'>
             <FormLabel>Imágenes</FormLabel>
-            <div className='grid grid-cols-4 gap-3'>
+            <div className='grid grid-cols-2 sm:grid-cols-4 gap-3'>
               {imagenes.map((img, i) => (
                 <div key={i} className='relative group'>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -402,7 +402,7 @@ export function ProductForm({ product, brands }: ProductFormProps) {
             </p>
           )}
 
-          <div className='flex gap-3 pt-2'>
+          <div className='flex flex-col sm:flex-row gap-3 pt-2'>
             {product && (
               <Button
                 type='button'
@@ -412,7 +412,7 @@ export function ProductForm({ product, brands }: ProductFormProps) {
                 Eliminar
               </Button>
             )}
-            <div className='flex-1' />
+            <div className='hidden sm:block flex-1' />
             <Button
               type='button'
               variant='outline'

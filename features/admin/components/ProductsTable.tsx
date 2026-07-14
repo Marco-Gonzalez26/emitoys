@@ -156,20 +156,7 @@ export function ProductsTable() {
                       ) : (
                         <div className='w-10 h-10 rounded-lg bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)] text-xs'>
                           IMG
-      <ConfirmDialog
-        open={!!deleteTarget}
-        onOpenChange={(open) => { if (!open) setDeleteTarget(null) }}
-        title='Eliminar producto'
-        description={`¿Eliminar "${deleteTarget?.nombre}"? Esta acción no se puede deshacer.`}
-        confirmLabel='Eliminar'
-        onConfirm={handleDelete}
-      />
-      <ErrorDialog
-        open={!!errorDialog}
-        onOpenChange={(open) => { if (!open) setErrorDialog('') }}
-        description={errorDialog}
-      />
-    </div>
+                        </div>
                       )}
                       <div>
                         <p className='text-sm font-semibold text-[var(--text-primary)]'>
@@ -231,6 +218,20 @@ export function ProductsTable() {
           </Table>
         </div>
       )}
+
+      <ConfirmDialog
+        open={!!deleteTarget}
+        onOpenChange={(open) => { if (!open) setDeleteTarget(null) }}
+        title='Eliminar producto'
+        description={`¿Eliminar "${deleteTarget?.nombre}"? Esta acción no se puede deshacer.`}
+        confirmLabel='Eliminar'
+        onConfirm={handleDelete}
+      />
+      <ErrorDialog
+        open={!!errorDialog}
+        onOpenChange={(open) => { if (!open) setErrorDialog('') }}
+        description={errorDialog}
+      />
     </div>
   )
 }

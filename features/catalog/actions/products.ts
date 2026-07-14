@@ -5,7 +5,13 @@ import { cookies } from 'next/headers'
 import type { CatalogFilters, Product } from '@/shared/types'
 
 export type ProductWithBrand = Product & {
-  marca: { id: string; nombre: string; slug: string; color_hex: string; logo_url: string | null } | null
+  marca: {
+    id: string
+    nombre: string
+    slug: string
+    color_hex: string
+    logo_url: string | null
+  } | null
   imagenes: { id: string; url: string; orden: number }[]
 }
 
@@ -29,7 +35,7 @@ export async function getProducts(
       imagenes_producto(id,url,orden)
     `
     )
-    .eq('estado', 'disponible')
+    .in('estado', ['disponible', 'pre_venta', 'agotado'])
 
   if (filters.marca && filters.marca.length > 0) {
     query = query.in('marca.slug', filters.marca)
@@ -46,9 +52,7 @@ export async function getProducts(
     query = query.lte('precio', filters.precio_max)
   }
 
-  if (filters.estado) {
-    query = query.eq('estado', filters.estado)
-  }
+
 
   if (filters.solo_en_stock) {
     query = query.gt('stock', 0)
@@ -79,7 +83,7 @@ export async function getProducts(
   const { data: maxPriceData } = await supabase
     .from('productos')
     .select('precio')
-    .eq('estado', 'disponible')
+    .in('estado', ['disponible', 'pre_venta', 'agotado'])
     .order('precio', { ascending: false })
     .limit(1)
     .single()
@@ -106,7 +110,6 @@ export async function getProducts(
     created_at: item.created_at as string,
     imagenes: (item.imagenes_producto as ProductWithBrand['imagenes']) || []
   }))
-
   return {
     products,
     maxPrice
