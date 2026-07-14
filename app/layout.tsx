@@ -11,7 +11,10 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: 'EmiToys — De coleccionistas para coleccionistas',
   description:
-    'Coleccionables de autos a escala en Ecuador. Hot Wheels, Tarmac Works, Inno64 y más.'
+    'Coleccionables de autos a escala en Ecuador. Hot Wheels, Tarmac Works, Inno64 y más. Envios para todo el Ecuador',
+  keywords:
+    'coleccionables, coleccionistas, hot wheels, tarmac works, inno64, emitoys, emi, toys, ecuador, colecciones, envios, productos, modelos, modelo, coleccion, colecciones, hot wheels, tarmac works, inno64, emitoys, emi, toys, ecuador, colecciones, envios, productos, modelos, modelo',
+    
 }
 
 export default async function RootLayout({
@@ -25,9 +28,7 @@ export default async function RootLayout({
       data-theme='light'
       suppressHydrationWarning
       className={manrope.variable}>
-      <body className={cn('relative ', manrope.variable)}>
-        {children}
-      </body>
+      <body className={cn('relative ', manrope.variable)}>{children}</body>
     </html>
   )
 }
