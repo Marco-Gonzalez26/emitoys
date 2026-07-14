@@ -14,7 +14,11 @@ export const metadata: Metadata = {
     'Coleccionables de autos a escala en Ecuador. Hot Wheels, Tarmac Works, Inno64 y más. Envios para todo el Ecuador',
   keywords:
     'coleccionables, coleccionistas, hot wheels, tarmac works, inno64, emitoys, emi, toys, ecuador, colecciones, envios, productos, modelos, modelo, coleccion, colecciones, hot wheels, tarmac works, inno64, emitoys, emi, toys, ecuador, colecciones, envios, productos, modelos, modelo',
-    
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico'
+  }
 }
 
 export default async function RootLayout({
