@@ -31,8 +31,8 @@ export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
   }, [])
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-2 gap-4'>
-      <div className='relative col-span-1 md:col-span-2 lg:col-span-4 row-span-1 rounded-2xl overflow-hidden border border-[var(--border)] min-h-64 md:min-h-85 flex flex-col lg:flex-row'>
+    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-4 gap-4'>
+      <div className='relative col-span-1 md:col-span-2 lg:col-span-4 row-span-2 rounded-2xl overflow-hidden border border-[var(--border)] min-h-64 md:min-h-85 flex flex-col lg:flex-row'>
         <HeroCarousel slides={slides} interval={5000} />
 
         <div className='relative bg-[var(--surface)] p-6 md:p-10 flex flex-col justify-center gap-6 w-full lg:w-[55%] shrink-0 box'>
