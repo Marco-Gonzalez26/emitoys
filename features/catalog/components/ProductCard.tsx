@@ -78,7 +78,7 @@ export function ProductCard({ product }: ProductCardProps) {
             'absolute top-3 right-3 z-20 text-[10px] font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-full h-auto',
             badge?.className
           )}>
-          {badge?.label} 
+          {badge?.label}
         </Badge>
 
         {product.es_nuevo && (
@@ -100,7 +100,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className='flex items-center justify-between'>
           <span className='text-lg font-extrabold text-[var(--brand)]'>
-            {price.toFixed(2)}$
+            ${price.toFixed(2)}
           </span>
 
           <Button

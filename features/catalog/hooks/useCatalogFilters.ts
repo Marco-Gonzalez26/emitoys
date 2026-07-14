@@ -14,19 +14,26 @@ export function useCatalogFilters() {
     const escala = searchParams.get('escala')?.split(',').filter(Boolean) ?? []
     const precio_min = searchParams.get('precio_min')
     const precio_max = searchParams.get('precio_max')
-    const sort = (searchParams.get('sort') as CatalogFilters['sort']) ?? 'reciente'
+    const sort =
+      (searchParams.get('sort') as CatalogFilters['sort']) ?? 'reciente'
+    const estado =
+      (searchParams.get('estado') as CatalogFilters['estado']) ?? undefined
 
     return {
       marca: marca.length > 0 ? marca : undefined,
       escala: escala.length > 0 ? escala : undefined,
       precio_min: precio_min ? parseFloat(precio_min) : undefined,
       precio_max: precio_max ? parseFloat(precio_max) : undefined,
-      sort
+      sort,
+      estado
     }
   }, [searchParams])
 
   const setFilter = useCallback(
-    (key: keyof CatalogFilters, value: string | string[] | number | undefined) => {
+    (
+      key: keyof CatalogFilters,
+      value: string | string[] | number | undefined
+    ) => {
       const params = new URLSearchParams(searchParams.toString())
 
       if (value === undefined || (Array.isArray(value) && value.length === 0)) {

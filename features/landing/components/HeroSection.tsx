@@ -13,6 +13,12 @@ interface HeroSectionProps {
 }
 
 export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
+  const sortedBrands = [...brands].sort((a, b) => {
+    if (a.slug === 'mini-gt') return -1
+    if (b.slug === 'mini-gt') return 1
+    return 0
+  })
+
   useGSAP(() => {
     gsap.from('.box', {
       y: 30,
@@ -46,7 +52,7 @@ export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
             <Button
               asChild
               size='lg'
-              className='rounded-full bg-[var(--brand)] text-white font-bold tracking-wide hover:bg-[var(--brand-hover)] pointer-events-none! opacity-45'>
+              className='rounded-full bg-[var(--brand)] text-white font-bold tracking-wide hover:bg-[var(--brand-hover)]'>
               <Link href='/catalogo?estado=pre_venta'>Pre-ventas</Link>
             </Button>
             <Button
@@ -60,7 +66,7 @@ export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
               asChild
               variant='outline'
               size='lg'
-              className='rounded-full border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-primary)] font-bold tracking-wide hover:border-[var(--brand)] hover:text-[var(--brand)] pointer-events-none! opacity-45'>
+              className='rounded-full border-border bg-(--surface-2) text-(--text-primary) font-bold tracking-wide hover:border-(--brand) hover:text-(--brand) pointer-events-none! opacity-45'>
               <Link href='/catalogo?estado=subasta'>Subastas</Link>
             </Button>
             <Button
@@ -77,7 +83,7 @@ export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
           </div>
         </div>
       </div>
-      <BrandGrid brands={brands} />
+      <BrandGrid brands={sortedBrands} />
     </div>
   )
 }

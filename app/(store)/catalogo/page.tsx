@@ -2,7 +2,7 @@ import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { getProducts } from '@/features/catalog/actions/products'
 import { CatalogPage } from '@/features/catalog/components/CatalogPage'
-import type { Brand } from '@/shared/types'
+import type { Brand, CatalogFilters } from '@/shared/types'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,6 +12,7 @@ interface SearchParams {
   precio_min?: string
   precio_max?: string
   sort?: string
+  estado?: string
 }
 
 export default async function CatalogoPage({
@@ -36,7 +37,7 @@ export default async function CatalogoPage({
   // Fetch ALL products (client-side filtering)
   const { products, maxPrice } = await getProducts({
     sort,
-    estado: 'disponible'
+    estado: (params.estado as CatalogFilters['estado']) ?? undefined
   })
 
   return (

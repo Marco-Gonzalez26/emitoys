@@ -12,7 +12,7 @@ const BrandGrid = ({ brands }: { brands: Brand[] }) => {
         <Link
           key={brand.id}
           href={`/catalogo?marca=${brand.slug}`}
-          className='relative col-span-1 rounded-2xl overflow-hidden border border-[var(--border)] min-h-40 md:min-h-55 group no-underline box'>
+          className={`relative col-span-1 rounded-2xl overflow-hidden border border-[var(--border)] group no-underline box ${index === 0 ? 'min-h-55 md:min-h-55' : 'min-h-40 md:min-h-55'}`}>
           <img
             src={brand.logo_url ?? FALLBACK_IMAGE}
             alt={brand.nombre}

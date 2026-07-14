@@ -138,13 +138,13 @@ export function CatalogPage({ products, maxPrice, brands }: CatalogPageProps) {
       </div>
 
       {/* Main Content */}
-      <div key={JSON.stringify({ marca: filters.marca, escala: filters.escala, precio_min: filters.precio_min, precio_max: filters.precio_max })} className='flex-grow'>
+      <div key={JSON.stringify({ marca: filters.marca, escala: filters.escala, precio_min: filters.precio_min, precio_max: filters.precio_max })} className='grow'>
         <div className='flex justify-between items-center mb-6'>
-          <h1 className='text-2xl font-extrabold tracking-tight text-[var(--text-primary)]'>
+          <h1 className='text-2xl font-extrabold tracking-tight text-(--text-primary)'>
             Catálogo Completo
           </h1>
           <div className='flex items-center gap-2'>
-            <span className='text-sm text-[var(--text-secondary)]'>
+            <span className='text-sm text-(--text-secondary)'>
               Ordenar por:
             </span>
             <select
