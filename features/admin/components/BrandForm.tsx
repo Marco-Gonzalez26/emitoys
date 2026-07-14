@@ -9,6 +9,7 @@ import { ImageUploader } from './ImageUploader'
 import { Input } from '@/shared/components/ui/input'
 import { Label } from '@/shared/components/ui/label'
 import { Button } from '@/shared/components/ui/button'
+import { TrashIcon } from 'lucide-react'
 
 interface BrandFormProps {
   brand?: Brand
@@ -113,7 +114,7 @@ export function BrandForm({ brand }: BrandFormProps) {
         </div>
 
         <div className='flex flex-col gap-2'>
-          <Label>Logo</Label>
+          <Label>Logo / Imagen</Label>
           {logoUrl ? (
             <div className='relative group'>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -125,8 +126,8 @@ export function BrandForm({ brand }: BrandFormProps) {
               <button
                 type='button'
                 onClick={() => setLogoUrl('')}
-                className='absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer border-none'>
-                ✕
+                className='absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white text-xs flex items-center justify-center  transition-opacity cursor-pointer border-none'>
+                <TrashIcon className='w-4 h-4' />
               </button>
             </div>
           ) : (
