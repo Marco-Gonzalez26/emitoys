@@ -24,6 +24,9 @@ export async function logout() {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
 
+  const { data } = await supabase.auth.getClaims()
+  if (!data?.claims) redirect('/iniciar-sesion')
+
   await supabase.auth.signOut()
   redirect('/iniciar-sesion')
 }
@@ -43,9 +46,4 @@ export async function getCurrentUser() {
     .single()
 
   return profile
-}
-
-export async function isAdmin() {
-  const profile = await getCurrentUser()
-  return profile?.tipo_usuario === 'admin'
 }

@@ -5,6 +5,7 @@ import { Slider } from '@/shared/components/ui/slider'
 import { Checkbox } from '@/shared/components/ui/checkbox'
 import { Input } from '@/shared/components/ui/input'
 import type { Brand } from '@/shared/types'
+import { Button } from '@/shared/components/ui/button'
 
 interface FilterSidebarProps {
   brands: Brand[]
@@ -116,7 +117,7 @@ export function FilterSidebar({
                   checked={pendingMarcas.includes(brand.slug)}
                   onCheckedChange={() => toggleMarca(brand.slug)}
                 />
-                <span className='text-sm text-[var(--text-primary)] group-hover:text-[var(--brand)] transition-colors'>
+                <span className='text-sm text-(--text-primary) group-hover:text-(--brand) transition-colors'>
                   {brand.nombre}
                 </span>
               </label>
@@ -186,15 +187,15 @@ export function FilterSidebar({
           </div>
         </div>
 
-        <button
+        <Button
           onClick={handleApply}
-          className={`w-full py-3 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-200 border-none cursor-pointer ${
+          className={`w-full py-3 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-200 border border-border bg-(--surface-2) text-(--text-secondary) cursor-pointer ${
             hasPendingChanges
-              ? 'bg-[var(--brand)] text-white hover:opacity-90'
-              : 'bg-[var(--surface-2)] text-[var(--text-secondary)] cursor-default'
+              ? 'bg-(--brand) text-white hover:opacity-90'
+              : 'bg-(--surface-2) text-(--text-secondary) cursor-default hover:text-white'
           }`}>
           Aplicar filtros
-        </button>
+        </Button>
       </div>
     </aside>
   )

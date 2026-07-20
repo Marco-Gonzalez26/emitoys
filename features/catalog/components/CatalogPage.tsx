@@ -152,7 +152,7 @@ export function CatalogPage({ products, maxPrice, brands }: CatalogPageProps) {
               onChange={(e) =>
                 setSort(e.target.value as CatalogFilters['sort'])
               }
-              className='bg-[var(--surface)] border border-[var(--border)] rounded-lg py-2 pl-3 pr-8 text-sm focus:outline-none focus:border-[var(--brand)]'>
+              className='bg-(--surface) border border-border rounded-lg py-2 pl-3 pr-8 text-sm focus:outline-none focus:border-(--brand)'>
               {SORT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}

@@ -29,6 +29,8 @@ export async function getAdminProducts(): Promise<ProductWithBrand[]> {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
 
+  if (!(await verifyAdmin(supabase))) return []
+
   const { data, error } = await supabase
     .from('productos')
     .select(`
@@ -94,14 +96,6 @@ export async function uploadImage(file: File): Promise<{ url: string; error?: st
   } catch (err) {
     console.error('Cloudinary upload error:', err)
     return { url: '', error: 'Error al subir imagen' }
-  }
-}
-
-export async function deleteImage(publicId: string) {
-  try {
-    await cloudinary.uploader.destroy(publicId)
-  } catch (err) {
-    console.error('Cloudinary delete error:', err)
   }
 }
 

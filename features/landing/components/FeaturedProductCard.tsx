@@ -24,8 +24,8 @@ export function FeaturedProductCard({
     FALLBACK_IMAGE
 
   return (
-    <article className='group relative shrink-0 w-55 md:w-65 rounded-2xl bg-neutral-50 border border-(--brand)/30 overflow-hidden transition-transform duration-300 hover:-translate-y-1'>
-      <div className='relative h-40 bg-neutral-100 flex items-center justify-center p-4 overflow-hidden'>
+    <article className='group relative shrink-0 w-55 md:w-65 rounded-2xl bg-white border border-(--brand)/30 overflow-hidden transition-transform duration-300 hover:-translate-y-1 '>
+      <div className='relative h-44 bg-white flex items-center justify-center  overflow-hidden'>
         <div className='absolute inset-0 opacity-10 blur-2xl scale-75 transition-opacity duration-300 group-hover:opacity-20 bg-(--brand)' />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -33,8 +33,11 @@ export function FeaturedProductCard({
           alt={producto.nombre}
           draggable={false}
           className={cn(
-            'relative z-10 w-full h-full object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.6)] transition-transform duration-300 group-hover:scale-105',
-            { 'opacity-40 grayscale': agotado }
+            'relative z-10 w-full h-full  drop-shadow-[0_8px_24px_rgba(150,13,242,0.3)] transition-transform duration-300 group-hover:scale-105 ',
+            { 'opacity-40 grayscale': agotado },
+            producto.marca?.slug === 'hot-wheels'
+              ? 'object-contain'
+              : 'object-cover'
           )}
         />
 
@@ -44,7 +47,7 @@ export function FeaturedProductCard({
             {
               'bg-green-300 text-green-900': producto.estado === 'disponible',
               'text-white font-extrabold': producto.estado === 'pre_venta',
-              'bg-white/10 text-white/30': producto.estado === 'agotado'
+              'bg-white/10 text-white/30 pointer-events-none': producto.estado === 'agotado'
             }
           )}
           style={
@@ -56,7 +59,7 @@ export function FeaturedProductCard({
         </span>
       </div>
 
-      <div className='p-4 flex flex-col gap-3'>
+      <div className='p-4 flex flex-col gap-3 bg-white/90 backdrop-blur-sm'>
         <div className='flex flex-col gap-0.5'>
           <span className='text-[11px] font-bold tracking-widest uppercase text-neutral-900/35'>
             {producto.escala}

@@ -52,7 +52,6 @@ export async function getProducts(
     query = query.lte('precio', filters.precio_max)
   }
 
-  console.log(filters.estado)
   if (filters.estado) {
     query = query.eq('estado', filters.estado)
   }

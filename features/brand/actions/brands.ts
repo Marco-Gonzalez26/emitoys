@@ -8,6 +8,9 @@ export async function getBrands(): Promise<Brand[]> {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
 
+  const { data: session } = await supabase.auth.getClaims()
+  if (!session?.claims) return []
+
   const { data, error } = await supabase
     .from('marcas')
     .select('*')
@@ -24,6 +27,9 @@ export async function getBrands(): Promise<Brand[]> {
 export async function getBrandById(id: string): Promise<Brand | null> {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
+
+  const { data: session } = await supabase.auth.getClaims()
+  if (!session?.claims) return null
 
   const { data, error } = await supabase
     .from('marcas')

@@ -23,7 +23,7 @@ export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
     gsap.from('.box', {
       y: 30,
       opacity: 0,
-   
+
       duration: 0.8,
       stagger: 0.1,
       ease: 'power2.out'
@@ -32,34 +32,36 @@ export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-4 gap-4'>
-      <div className='relative col-span-1 md:col-span-2 lg:col-span-4 row-span-2 rounded-2xl overflow-hidden border border-[var(--border)] min-h-64 md:min-h-85 flex flex-col lg:flex-row'>
+      <div className='relative col-span-1 md:col-span-2 lg:col-span-4 row-span-2 rounded-2xl overflow-hidden  min-h-64 md:min-h-85 flex flex-col lg:flex-row'>
         <HeroCarousel slides={slides} interval={5000} />
 
-        <div className='relative bg-[var(--surface)] p-6 md:p-10 flex flex-col justify-center gap-6 w-full lg:w-[55%] shrink-0 box'>
-          <div className='flex flex-col gap-3'>
-            <h1 className='text-3xl md:text-5xl font-extrabold tracking-tight leading-[0.95] text-[var(--text-primary)] '>
+        <div className='relative  flex flex-col justify-center gap-6 w-full lg:w-[50%] shrink-0 box'>
+          <div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#960DF922,transparent)]'></div>
+
+          <div className='flex flex-col gap-3 p-6 md:p-10'>
+            <h1 className='text-3xl md:text-5xl font-extrabold tracking-tight leading-[0.95] text-(--text-primary) '>
               De coleccionistas
               <br />
-              <span className='text-[var(--brand)]'>para coleccionistas</span>
+              <span className='text-(--brand)'>para coleccionistas</span>
             </h1>
-            <p className='text-[var(--text-secondary)] text-base max-w-sm leading-relaxed'>
+            <p className='text-(--text-secondary) text-base max-w-sm leading-relaxed'>
               Queremos acompañarte en cada momento ayudando a crecer tu
               colección. ¡Mira los modelos que tenemos para ti!
             </p>
           </div>
 
-          <div className='flex flex-wrap gap-3'>
+          <div className='flex flex-wrap gap-3 p-6 md:p-10'>
             <Button
               asChild
               size='lg'
-              className='rounded-full bg-[var(--brand)] text-white font-bold tracking-wide hover:bg-[var(--brand-hover)]'>
+              className='rounded-full bg-(--brand) text-white font-bold tracking-wide hover:bg-(--brand-hover)'>
               <Link href='/catalogo?estado=pre_venta'>Pre-ventas</Link>
             </Button>
             <Button
               asChild
               variant='outline'
               size='lg'
-              className='rounded-full border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-primary)] font-bold tracking-wide hover:border-[var(--brand)] hover:text-[var(--brand)]'>
+              className='rounded-full border-border bg-(--surface-2) text-(--text-primary) font-bold tracking-wide hover:border-(--brand) hover:text-(--brand)'>
               <Link href='/catalogo'>Catálogo</Link>
             </Button>
             <Button

@@ -8,7 +8,13 @@ import { cn } from '@/shared/lib/utils'
 import { buildWhatsAppUrl } from '@/shared/lib/whatsapp'
 import type { ProductWithBrand } from '@/features/catalog/actions/products'
 import { Button } from '@/shared/components/ui/button'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/components/ui/tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from '@/shared/components/ui/tooltip'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
 
 const FALLBACK_IMAGE =
   'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=600&q=80'
@@ -54,6 +60,15 @@ export function ProductDetail({
     add(product)
   }
 
+  useGSAP(() => {
+    gsap.from('.product-image', {
+    
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out'
+    })
+  }, [selectedImage])
+
   return (
     <div className='px-6 py-8 md:px-10 max-w-6xl mx-auto'>
       <nav className='text-xs text-[var(--text-secondary)] mb-8'>
@@ -90,7 +105,7 @@ export function ProductDetail({
               src={images[selectedImage]}
               alt={product.nombre}
               fill
-              className='relative z-10 object-contain p-8 drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)] rounded'
+              className='relative z-10 object-cover drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)] rounded product-image opacity-100'
               sizes='(max-width: 1024px) 100vw, 50vw'
               priority
             />
@@ -207,9 +222,8 @@ export function ProductDetail({
               <TooltipTrigger>
                 <div
                   // onClick={handleAddToCart}
-                  
-                
-                  className='flex-1 py-3.5 rounded-full bg-(--brand) text-white text-xs font-semibold uppercase tracking-widest hover:bg-(--brand-hover) transition-colors duration-200 active:scale-[0.98] cursor-pointer border-none px-4'>
+
+                  className='flex-1 py-3.5 rounded-full bg-(--brand) text-white text-xs font-semibold uppercase tracking-widest hover:bg-(--brand-hover) transition-colors duration-200 active:scale-[0.98] cursor-pointer border-none px-4 opacity-45 pointer-events-none'>
                   Añadir al carrito
                 </div>
               </TooltipTrigger>

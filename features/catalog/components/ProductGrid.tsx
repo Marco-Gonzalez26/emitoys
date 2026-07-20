@@ -24,9 +24,9 @@ export function ProductGrid({
   }
 
   return (
-    <div className="flex-grow">
+    <div className="grow">
       {/* Results count */}
-      <div className="text-sm text-[var(--text-secondary)] mb-6">
+      <div className="text-sm text-(--text-secondary) mb-6">
         {totalCount} {totalCount === 1 ? 'producto' : 'productos'}
       </div>
 
@@ -43,13 +43,13 @@ export function ProductGrid({
           ref={loadMoreRef} 
           className="h-20 flex items-center justify-center"
         >
-          <div className="w-8 h-8 border-2 border-[var(--brand)] border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-(--brand) border-t-transparent rounded-full animate-spin" />
         </div>
       )}
 
       {/* End of list */}
       {!hasMore && products.length > 0 && (
-        <div className="mt-8 text-center text-[var(--text-secondary)] text-sm">
+        <div className="mt-8 text-center text-(--text-secondary) text-sm">
           No hay más productos
         </div>
       )}

@@ -4,11 +4,12 @@ import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
+import Image from 'next/image'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const HERO_IMAGE =
-  'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1600&q=80'
+  'sobre-nosotros.jpg'
 
 export function AboutHero() {
   const ref = useRef<HTMLDivElement>(null)
@@ -31,16 +32,18 @@ export function AboutHero() {
   return (
     <div
       ref={ref}
-      className='w-full relative h-[400px] md:h-[500px] overflow-hidden rounded-2xl flex items-center justify-center'>
+      className='w-full relative h-100 md:h-125 lg:h-200 overflow-hidden rounded-2xl flex items-center justify-center'>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={HERO_IMAGE}
-        alt='EmiToys - Pasión por la Precisión'
-        className='absolute inset-0 w-full h-full object-cover z-0'
+      <Image
+        width={2000}
+        height={800}
+        src='/sobre-nosotros.jpeg'
+        alt='EmiToys - Pasión por el coleccionismo'
+        className='absolute inset-0 w-full h-full  z-0 object-cover '
       />
       <div className='absolute inset-0 bg-black/40 z-10' />
       <h1 className='relative z-20 text-center px-6 text-3xl md:text-5xl font-extrabold tracking-tight text-white m-0'>
-        Pasión por la Precisión
+        Pasión por el coleccionismo
       </h1>
     </div>
   )

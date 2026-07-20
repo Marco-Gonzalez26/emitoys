@@ -8,10 +8,9 @@ export default async function EditarProductoPage({
 }: {
   params: Promise<{ id: string }>
 }) {
-  const { id } = await params
-  const [products, brands] = await Promise.all([
-    getAdminProducts(),
-    getBrands()
+  const [[products, brands], { id }] = await Promise.all([
+    Promise.all([getAdminProducts(), getBrands()]),
+    params
   ])
 
   const product = products.find((p) => p.id === id)
