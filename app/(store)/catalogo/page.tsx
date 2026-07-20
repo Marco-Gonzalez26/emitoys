@@ -3,8 +3,20 @@ import { cookies } from 'next/headers'
 import { getProducts } from '@/features/catalog/actions/products'
 import { CatalogPage } from '@/features/catalog/components/CatalogPage'
 import type { Brand, CatalogFilters } from '@/shared/types'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'Catálogo',
+  description:
+    'Explora nuestra colección de autos a escala: Hot Wheels, Tarmac Works, Inno64, Mini GT y más. Filtra por marca, escala y precio.',
+  openGraph: {
+    title: 'Catálogo | EmiToys',
+    description:
+      'Explora nuestra colección de autos a escala: Hot Wheels, Tarmac Works, Inno64, Mini GT y más.'
+  }
+}
 
 interface SearchParams {
   marca?: string

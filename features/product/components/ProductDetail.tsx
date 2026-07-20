@@ -67,6 +67,7 @@ export function ProductDetail({
       duration: 0.8,
       ease: 'power2.out'
     })
+    
   }, [selectedImage])
 
   return (

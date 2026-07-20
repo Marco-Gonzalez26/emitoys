@@ -40,7 +40,7 @@ export function AboutBento() {
           Nuestra Historia
         </span>
         <h2 className='text-2xl md:text-3xl font-extrabold tracking-tight text-[var(--text-primary)] mb-4 m-0'>
-          De una Pasión Compartida a la Colección de tus Sueños
+          De una pasión compartida a la colección de tus sueños
         </h2>
         <p className='text-base md:text-lg leading-relaxed text-[var(--text-secondary)] max-w-2xl m-0'>
           Emi Toys nació en 2023 en Quito, capital del Ecuador, como un

@@ -8,9 +8,6 @@ import Image from 'next/image'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const HERO_IMAGE =
-  'sobre-nosotros.jpg'
-
 export function AboutHero() {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -33,7 +30,6 @@ export function AboutHero() {
     <div
       ref={ref}
       className='w-full relative h-100 md:h-125 lg:h-200 overflow-hidden rounded-2xl flex items-center justify-center'>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <Image
         width={2000}
         height={800}
