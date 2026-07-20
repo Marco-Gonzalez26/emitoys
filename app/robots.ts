@@ -1,5 +1,8 @@
 import type { MetadataRoute } from 'next'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
+  ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://emitoys.net')
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -9,6 +12,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/api/']
       }
     ],
-    sitemap: 'https://emitoys.shop/sitemap.xml'
+    sitemap: `${SITE_URL}/sitemap.xml`
   }
 }

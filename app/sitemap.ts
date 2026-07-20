@@ -2,7 +2,8 @@ import type { MetadataRoute } from 'next'
 import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
 
-const SITE_URL = 'https://emitoys.shop'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
+  ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://emitoys.net')
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const cookieStore = await cookies()
