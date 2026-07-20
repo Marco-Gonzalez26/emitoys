@@ -36,7 +36,7 @@ export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
         <HeroCarousel slides={slides} interval={5000} />
 
         <div className='relative  flex flex-col justify-center gap-6 w-full lg:w-[50%] shrink-0 box'>
-          <div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#960DF922,transparent)]'></div>
+          <div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#960DF922,transparent)] z-0'></div>
 
           <div className='flex flex-col gap-3 p-6 md:p-10'>
             <h1 className='text-3xl md:text-5xl font-extrabold tracking-tight leading-[0.95] text-(--text-primary) '>
@@ -50,7 +50,7 @@ export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
             </p>
           </div>
 
-          <div className='flex flex-wrap gap-3 p-6 md:p-10'>
+          <div className='flex flex-wrap gap-3 p-6 md:p-10 z-10'>
             <Button
               asChild
               size='lg'

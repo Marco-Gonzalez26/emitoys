@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCartStore } from '@/shared/store/cartStore'
@@ -45,7 +45,7 @@ export function ProductDetail({
 }: ProductDetailProps) {
   const add = useCartStore((state) => state.add)
   const [selectedImage, setSelectedImage] = useState(0)
-
+  const imageRef = useRef<HTMLImageElement>(null)
   const images =
     product.imagenes && product.imagenes.length > 0
       ? product.imagenes.sort((a, b) => a.orden - b.orden).map((img) => img.url)
@@ -61,13 +61,13 @@ export function ProductDetail({
   }
 
   useGSAP(() => {
-    gsap.from('.product-image', {
-    
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out'
-    })
-    
+    if (!imageRef.current) return
+
+    gsap.fromTo(
+      imageRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 1, ease: 'power2.out' }
+    )
   }, [selectedImage])
 
   return (
@@ -100,13 +100,14 @@ export function ProductDetail({
 
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16'>
         <div className='flex flex-col gap-4'>
-          <div className='relative aspect-square bg-(--surface)  rounded-2xl overflow-hidden flex items-center justify-center'>
+          <div className='relative aspect-square  rounded-2xl overflow-hidden flex items-center justify-center'>
             <div className='absolute inset-0 opacity-10 blur-2xl scale-75 bg-(--brand)' />
             <Image
               src={images[selectedImage]}
               alt={product.nombre}
               fill
-              className='relative z-10 object-cover drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)] rounded product-image opacity-100'
+              ref={imageRef}
+              className='relative z-10 object-cover drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)] rounded '
               sizes='(max-width: 1024px) 100vw, 50vw'
               priority
             />
