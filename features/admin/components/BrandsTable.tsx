@@ -113,14 +113,21 @@ export function BrandsTable({ initialBrands }: BrandsTableProps) {
   const [saving, setSaving] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<Brand | null>(null)
   const [errorDialog, setErrorDialog] = useState('')
-
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 100, tolerance: 5 } }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates
-    })
+  const [isTouchDevice] = useState(() =>
+    typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)
   )
+
+  const pointerSensor = useSensor(PointerSensor, {
+    activationConstraint: { distance: isTouchDevice ? 0 : 8 }
+  })
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: { delay: isTouchDevice ? 150 : 0, tolerance: 5 }
+  })
+  const keyboardSensor = useSensor(KeyboardSensor, {
+    coordinateGetter: sortableKeyboardCoordinates
+  })
+
+  const sensors = useSensors(pointerSensor, touchSensor, keyboardSensor)
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
