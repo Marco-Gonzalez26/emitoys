@@ -7,6 +7,7 @@ import {
   closestCenter,
   KeyboardSensor,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   type DragEndEvent
@@ -115,6 +116,7 @@ export function BrandsTable({ initialBrands }: BrandsTableProps) {
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 100, tolerance: 5 } }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates
     })
@@ -174,7 +176,6 @@ export function BrandsTable({ initialBrands }: BrandsTableProps) {
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
-          onDragStart={() => console.log('onDragStart')}
           onDragEnd={handleDragEnd}>
           <SortableContext
             items={brands.map((b) => String(b.id))}
