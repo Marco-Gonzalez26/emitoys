@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function SobreNosotrosPage() {
   return (
-    <section className='px-4 py-4 md:px-6 md:py-6 lg:px-12 flex flex-col gap-6'>
+    <section className='px-4 py-4 md:px-6 md:py-6  flex flex-col gap-6 max-w-7xl mx-auto'>
       <AboutHero />
       <AboutBento />
       <AboutValues />

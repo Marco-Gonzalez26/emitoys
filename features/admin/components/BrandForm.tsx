@@ -3,7 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Brand } from '@/shared/types'
-import { createBrand, updateBrand, deleteBrand } from '../../brand/actions/brands'
+import {
+  createBrand,
+  updateBrand,
+  deleteBrand
+} from '../../brand/actions/brands'
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog'
 import { ImageUploader } from './ImageUploader'
 import { Input } from '@/shared/components/ui/input'
@@ -21,6 +25,7 @@ export function BrandForm({ brand }: BrandFormProps) {
   const [slug, setSlug] = useState(brand?.slug ?? '')
   const [colorHex, setColorHex] = useState(brand?.color_hex ?? '#960DF2')
   const [logoUrl, setLogoUrl] = useState(brand?.logo_url ?? '')
+  const [orden, setOrden] = useState(brand?.orden ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -31,8 +36,19 @@ export function BrandForm({ brand }: BrandFormProps) {
     setLoading(true)
 
     const result = brand
-      ? await updateBrand(brand.id, { nombre, slug, color_hex: colorHex, logo_url: logoUrl || undefined })
-      : await createBrand({ nombre, slug, color_hex: colorHex, logo_url: logoUrl || undefined })
+      ? await updateBrand(brand.id, {
+          nombre,
+          slug,
+          color_hex: colorHex,
+          logo_url: logoUrl || undefined,
+          orden: Number(orden)
+        })
+      : await createBrand({
+          nombre,
+          slug,
+          color_hex: colorHex,
+          logo_url: logoUrl || undefined
+        })
 
     setLoading(false)
 
@@ -59,9 +75,9 @@ export function BrandForm({ brand }: BrandFormProps) {
   }
 
   return (
-    <div className='max-w-lg'>
+    <div className='max-w-lg w-full'>
       <div className='mb-8'>
-        <h1 className='text-2xl font-extrabold tracking-tight text-[var(--text-primary)]'>
+        <h1 className='text-2xl font-extrabold tracking-tight text-(--text-primary)'>
           {brand ? 'Editar marca' : 'Nueva marca'}
         </h1>
       </div>
@@ -75,7 +91,12 @@ export function BrandForm({ brand }: BrandFormProps) {
             onChange={(e) => {
               setNombre(e.target.value)
               if (!brand) {
-                setSlug(e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''))
+                setSlug(
+                  e.target.value
+                    .toLowerCase()
+                    .replace(/\s+/g, '-')
+                    .replace(/[^a-z0-9-]/g, '')
+                )
               }
             }}
             required
@@ -101,7 +122,7 @@ export function BrandForm({ brand }: BrandFormProps) {
               type='color'
               value={colorHex}
               onChange={(e) => setColorHex(e.target.value)}
-              className='w-12 h-10 rounded-lg border border-[var(--border)] cursor-pointer bg-transparent'
+              className='w-12 h-10 rounded-lg border border-border cursor-pointer bg-transparent'
             />
             <Input
               value={colorHex}
@@ -112,7 +133,15 @@ export function BrandForm({ brand }: BrandFormProps) {
             />
           </div>
         </div>
-
+        <div className='flex flex-col gap-2'>
+          <Label>Orden</Label>
+          <Input
+            value={orden}
+            onChange={(e) => setOrden(e.target.value)}
+            required
+            placeholder='1'
+          />
+        </div>
         <div className='flex flex-col gap-2'>
           <Label>Logo / Imagen</Label>
           {logoUrl ? (
@@ -121,7 +150,7 @@ export function BrandForm({ brand }: BrandFormProps) {
               <img
                 src={logoUrl}
                 alt='Logo preview'
-                className='w-full h-32 object-contain rounded-xl border border-[var(--border)] bg-[var(--surface)]'
+                className='w-full h-32 object-contain rounded-xl border border-border bg-(--surface)'
               />
               <button
                 type='button'
@@ -142,15 +171,15 @@ export function BrandForm({ brand }: BrandFormProps) {
         )}
 
         <div className='flex gap-3 pt-2'>
-            {brand && (
-              <Button
-                type='button'
-                variant='destructive'
-                onClick={() => setShowDeleteConfirm(true)}
-                disabled={loading}>
-                Eliminar
-              </Button>
-            )}
+          {brand && (
+            <Button
+              type='button'
+              variant='destructive'
+              onClick={() => setShowDeleteConfirm(true)}
+              disabled={loading}>
+              Eliminar
+            </Button>
+          )}
           <div className='flex-1' />
           <Button
             type='button'
@@ -159,9 +188,7 @@ export function BrandForm({ brand }: BrandFormProps) {
             disabled={loading}>
             Cancelar
           </Button>
-          <Button
-            type='submit'
-            disabled={loading}>
+          <Button type='submit' disabled={loading}>
             {loading ? 'Guardando...' : 'Guardar'}
           </Button>
         </div>

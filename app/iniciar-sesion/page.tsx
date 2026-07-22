@@ -22,7 +22,7 @@ export default function LoginPage() {
         </div>
 
         <p className='text-xs text-(--text-secondary)'>
-          © {new Date().getFullYear()} EmiToys Garage
+          © {new Date().getFullYear()} EmiToys 
         </p>
       </div>
     </div>

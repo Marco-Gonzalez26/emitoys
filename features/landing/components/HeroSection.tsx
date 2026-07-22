@@ -13,12 +13,6 @@ interface HeroSectionProps {
 }
 
 export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
-  const sortedBrands = [...brands].sort((a, b) => {
-    if (a.slug === 'mini-gt') return -1
-    if (b.slug === 'mini-gt') return 1
-    return 0
-  })
-
   useGSAP(() => {
     gsap.from('.box', {
       y: 30,
@@ -31,12 +25,12 @@ export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
   }, [])
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-4 gap-4'>
-      <div className='relative col-span-1 md:col-span-2 lg:col-span-4 row-span-2 rounded-2xl overflow-hidden  min-h-64 md:min-h-85 flex flex-col lg:flex-row'>
+    <div className='grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(280px,1fr))] auto-rows-auto gap-4'>
+      <div className='relative col-span-1 md:col-span-2 lg:col-span-4 row-span-2 rounded-2xl overflow-hidden  min-h-64 md:min-h-80 flex flex-col lg:flex-row gap-2'>
         <HeroCarousel slides={slides} interval={5000} />
 
-        <div className='relative  flex flex-col justify-center gap-6 w-full lg:w-[50%] shrink-0 box'>
-          <div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#960DF922,transparent)] z-0'></div>
+        <div className='relative  flex flex-col justify-center gap-6 w-full lg:w-[50%] shrink-0 box backdrop-blur-3xl bg-white/20 rounded'>
+
 
           <div className='flex flex-col gap-3 p-6 md:p-10'>
             <h1 className='text-3xl md:text-5xl font-extrabold tracking-tight leading-[0.95] text-(--text-primary) '>
@@ -85,7 +79,7 @@ export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
           </div>
         </div>
       </div>
-      <BrandGrid brands={sortedBrands} />
+      <BrandGrid brands={brands} />
     </div>
   )
 }

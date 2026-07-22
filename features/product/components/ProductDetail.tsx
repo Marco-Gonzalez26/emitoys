@@ -15,6 +15,7 @@ import {
 } from '@/shared/components/ui/tooltip'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import { WhatsApp } from '@/shared/components/icons/Whastapp'
 
 const FALLBACK_IMAGE =
   'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=600&q=80'
@@ -246,7 +247,8 @@ export function ProductDetail({
                 )}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='flex-1 py-3.5 rounded-full border border-green-600 bg-green-600 text-white text-xs font-semibold uppercase tracking-widest hover:opacity-90 transition-opacity no-underline text-center'>
+                className='flex-1 py-3.5 rounded-full border border-green-600  text-green-600 text-xs font-bold uppercase  hover:opacity-90 transition-opacity no-underline text-center flex items-center justify-center gap-2'>
+                <WhatsApp className='w-4 h-4' />
                 Pedir en WhatsApp
               </a>
             )}

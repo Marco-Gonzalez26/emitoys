@@ -6,6 +6,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/shared/components/ui/button'
+import Image from 'next/image'
 
 type Slide = {
   image: string
@@ -121,9 +122,11 @@ export function HeroCarousel({ slides, interval = 5000 }: Props) {
           className='absolute inset-0'
           style={{ opacity: i === 0 ? 1 : 0 }}>
           <img
+            width={2000}
+            height={800}
             src={s.image}
             alt={s.brand.nombre}
-            className='w-full h-full object-cover'
+            className='w-full h-full object-cover aspect-video rounded'
           />
         </div>
       ))}
@@ -131,10 +134,6 @@ export function HeroCarousel({ slides, interval = 5000 }: Props) {
       <div
         ref={badgeRef}
         className='absolute top-4 left-4 z-10 flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/20'>
-        <span
-          className='w-2 h-2 rounded-full shrink-0 transition-colors duration-300'
-          style={{ background: slide.brand.color_hex }}
-        />
         <span className='text-white text-xs font-bold tracking-wide'>
           {slide.brand.nombre}
         </span>

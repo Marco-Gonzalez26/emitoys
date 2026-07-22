@@ -53,7 +53,7 @@ export default async function CatalogoPage({
   })
 
   return (
-    <div className='px-6 py-8 md:px-10'>
+    <div className='px-6 py-8  max-w-7xl mx-auto'>
       <CatalogPage
         products={products}
         maxPrice={maxPrice}

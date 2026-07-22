@@ -158,7 +158,7 @@ export function ProductsTable() {
                           IMG
                         </div>
                       )}
-                      <div>
+                      <div className='text-wrap'>
                         <p className='text-sm font-semibold text-[var(--text-primary)]'>
                           {product.nombre}
                         </p>

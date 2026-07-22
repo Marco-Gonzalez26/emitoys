@@ -29,12 +29,12 @@ export default async function DashboardPage() {
           <Link
             key={stat.label}
             href={stat.href}
-            className='bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 flex flex-col gap-3 hover:border-[var(--brand)] transition-colors no-underline'>
+            className='bg-(--surface) border border-border rounded-2xl p-6 flex flex-col gap-3 hover:border-(--brand) transition-colors no-underline'>
             <div className='flex items-center justify-between'>
-              <span className='text-sm font-semibold text-[var(--text-secondary)]'>{stat.label}</span>
-              <stat.icon className='w-5 h-5 text-[var(--text-secondary)]' />
+              <span className='text-sm font-semibold text-(--text-secondary)'>{stat.label}</span>
+              <stat.icon className='w-5 h-5 text-(--text-secondary)' />
             </div>
-            <span className='text-3xl font-extrabold text-[var(--text-primary)]'>{stat.count}</span>
+            <span className='text-3xl font-extrabold text-(--text-primary)'>{stat.count}</span>
           </Link>
         ))}
       </div>

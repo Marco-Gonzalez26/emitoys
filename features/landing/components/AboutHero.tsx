@@ -29,7 +29,7 @@ export function AboutHero() {
   return (
     <div
       ref={ref}
-      className='w-full relative h-100 md:h-125 lg:h-200 overflow-hidden rounded-2xl flex items-center justify-center'>
+      className='w-full relative h-100 md:h-125 overflow-hidden rounded-2xl flex items-center justify-center'>
       <Image
         width={2000}
         height={800}

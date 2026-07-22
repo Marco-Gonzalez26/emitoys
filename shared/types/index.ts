@@ -7,6 +7,7 @@ export type Brand = {
   color_hex: string
   logo_url: string | null
   created_at: string
+  orden?: number
 }
 
 // CART PRODUCTS
@@ -15,8 +16,6 @@ export type CartProduct = {
   quantity: number
   unit_price: number
 }
-
-
 
 // PRODUCTS
 

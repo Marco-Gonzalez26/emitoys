@@ -25,8 +25,7 @@ export const Navbar = ({ brands }: NavbarProps) => {
   return (
     <nav className='sticky top-0 z-50 h-16 flex items-center gap-4 md:gap-8 px-4 md:px-10 bg-(--bg) border-b border-border backdrop-blur-xl'>
       <Link href='/' className='flex items-center gap-2 text-xl font-semibold'>
-      <Image src="/logo.png" alt="Logo" width={50} height={50} />
-       
+        <Image src='/logo.png' alt='Logo' width={50} height={50} />
       </Link>
 
       <div className='hidden md:flex items-center flex-1'>
@@ -76,6 +75,16 @@ export const Navbar = ({ brands }: NavbarProps) => {
           className='h-16 px-5 flex items-center text-(--text-secondary) hover:text-(--text-primary) no-underline font-semibold text-xs tracking-widest uppercase transition-colors duration-200'>
           Sobre nosotros
         </Link>
+        <Link
+          href='/comunidad'
+          className='h-16 px-5 flex items-center text-(--text-secondary) hover:text-(--text-primary) no-underline font-semibold text-xs tracking-widest uppercase transition-colors duration-200'>
+          Comunidad
+        </Link>
+        <Link
+          href='/envios'
+          className='h-16 px-5 flex items-center text-(--text-secondary) hover:text-(--text-primary) no-underline font-semibold text-xs tracking-widest uppercase transition-colors duration-200'>
+          Envíos
+        </Link>
       </div>
 
       <div className='hidden md:flex items-center gap-3'>
@@ -88,7 +97,10 @@ export const Navbar = ({ brands }: NavbarProps) => {
             <MenuIcon className='w-5 h-5' />
             <span className='sr-only'>Abrir menú</span>
           </SheetTrigger>
-          <SheetContent side='left' showCloseButton={false} className='w-72 p-0 bg-(--bg) border-border'>
+          <SheetContent
+            side='left'
+            showCloseButton={false}
+            className='w-72 p-0 bg-(--bg) border-border'>
             <SheetTitle className='sr-only'>Menú de navegación</SheetTitle>
             <div className='flex flex-col pt-16'>
               <Link
@@ -128,6 +140,18 @@ export const Navbar = ({ brands }: NavbarProps) => {
                 onClick={closeMobile}
                 className='px-6 py-4 text-sm font-semibold text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface) no-underline transition-colors duration-150'>
                 Sobre nosotros
+              </Link>
+              <Link
+                href='/comunidad'
+                onClick={closeMobile}
+                className='px-6 py-4 text-sm font-semibold text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface) no-underline transition-colors duration-150'>
+                Comunidad
+              </Link>
+              <Link
+                href='/envios'
+                onClick={closeMobile}
+                className='px-6 py-4 text-sm font-semibold text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface) no-underline transition-colors duration-150'>
+                Envíos
               </Link>
             </div>
           </SheetContent>

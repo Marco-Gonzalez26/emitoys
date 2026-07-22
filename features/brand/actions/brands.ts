@@ -3,6 +3,7 @@
 import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
 import type { Brand } from '@/shared/types'
+import { revalidatePath } from 'next/cache'
 
 export async function getBrands(): Promise<Brand[]> {
   const cookieStore = await cookies()
@@ -14,10 +15,9 @@ export async function getBrands(): Promise<Brand[]> {
   const { data, error } = await supabase
     .from('marcas')
     .select('*')
-    .order('nombre')
+    .order('orden', { ascending: true })
 
   if (error) {
-    console.error('Error fetching brands:', error)
     return []
   }
 
@@ -43,6 +43,52 @@ export async function getBrandById(id: string): Promise<Brand | null> {
   }
 
   return data as Brand
+}
+
+export async function updateBrand(
+  id: string,
+  brand: {
+    nombre: string
+    slug: string
+    color_hex: string
+    logo_url?: string
+    orden?: number
+  }
+) {
+  const cookieStore = await cookies()
+  const supabase = createClient(cookieStore)
+
+  const { data: auth } = await supabase.auth.getClaims()
+  if (!auth?.claims) return { error: 'No autorizado' }
+
+  const { data: profile } = await supabase
+    .from('usuarios')
+    .select('tipo_usuario')
+    .eq('id', auth.claims.sub)
+    .single()
+
+  if (profile?.tipo_usuario !== 'admin') return { error: 'No autorizado' }
+
+  const { data, error } = await supabase
+    .from('marcas')
+    .update({
+      nombre: brand.nombre,
+      slug: brand.slug,
+      color_hex: brand.color_hex,
+      logo_url: brand.logo_url ?? null,
+      orden: brand.orden
+    })
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) {
+    console.error('Error updating brand:', error)
+    return { error: error.message }
+  }
+
+  revalidatePath('/admin/dashboard/marcas')
+  return { data: data as Brand }
 }
 
 export async function createBrand(brand: {
@@ -84,14 +130,8 @@ export async function createBrand(brand: {
   return { data: data as Brand }
 }
 
-export async function updateBrand(
-  id: string,
-  brand: {
-    nombre: string
-    slug: string
-    color_hex: string
-    logo_url?: string
-  }
+export async function updateBrandsOrder(
+  updates: { id: string; orden: number }[]
 ) {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
@@ -107,24 +147,16 @@ export async function updateBrand(
 
   if (profile?.tipo_usuario !== 'admin') return { error: 'No autorizado' }
 
-  const { data, error } = await supabase
-    .from('marcas')
-    .update({
-      nombre: brand.nombre,
-      slug: brand.slug,
-      color_hex: brand.color_hex,
-      logo_url: brand.logo_url ?? null
-    })
-    .eq('id', id)
-    .select()
-    .single()
+  const { error } = await supabase.rpc('update_brands_order', {
+    updates: updates
+  })
 
   if (error) {
-    console.error('Error updating brand:', error)
+    console.error('Error updating brands order:', error)
     return { error: error.message }
   }
 
-  return { data: data as Brand }
+  revalidatePath('/admin/dashboard/marcas')
 }
 
 export async function deleteBrand(id: string) {
@@ -142,15 +174,12 @@ export async function deleteBrand(id: string) {
 
   if (profile?.tipo_usuario !== 'admin') return { error: 'No autorizado' }
 
-  const { error } = await supabase
-    .from('marcas')
-    .delete()
-    .eq('id', id)
+  const { error } = await supabase.from('marcas').delete().eq('id', id)
 
   if (error) {
     console.error('Error deleting brand:', error)
     return { error: error.message }
   }
-
+  revalidatePath('/admin/dashboard/marcas')
   return { success: true }
 }

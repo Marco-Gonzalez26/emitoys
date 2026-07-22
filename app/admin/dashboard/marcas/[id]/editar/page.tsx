@@ -11,5 +11,9 @@ export default async function EditarMarcaPage({
   const brand = await getBrandById(id)
   if (!brand) notFound()
 
-  return <BrandForm brand={brand} />
+  return (
+    <div className='px-6 py-8 md:px-10 flex justify-center w-full'>
+      <BrandForm brand={brand} />
+    </div>
+  )
 }
