@@ -6,7 +6,7 @@ import {
   DndContext,
   closestCenter,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor,
   TouchSensor,
   useSensor,
   useSensors,
@@ -53,15 +53,15 @@ function SortableRow({
     <div
       ref={setNodeRef}
       style={style}
-      className='flex items-center gap-4 px-4 py-3 bg-(--surface) border border-border rounded-xl mb-2'>
+      {...attributes}
+      {...listeners}
+      className='flex items-center gap-4 px-4 py-3 bg-(--surface) border border-border rounded-xl mb-2 cursor-grab active:cursor-grabbing'>
       {/* Handle */}
-      <button
-        {...attributes}
-        {...listeners}
-        className='cursor-grab active:cursor-grabbing text-(--text-secondary) hover:text-(--text-primary) transition-colors'
-        aria-label='Reordenar'>
+      <div
+        style={{ touchAction: 'none' }}
+        className='text-(--text-secondary) hover:text-(--text-primary) transition-colors'>
         <GripVertical className='w-4 h-4' />
-      </button>
+      </div>
 
       {/* Color dot */}
       <div
@@ -113,21 +113,18 @@ export function BrandsTable({ initialBrands }: BrandsTableProps) {
   const [saving, setSaving] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<Brand | null>(null)
   const [errorDialog, setErrorDialog] = useState('')
-  const [isTouchDevice] = useState(() =>
-    typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: { distance: 10 }
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 250, tolerance: 5 }
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates
+    })
   )
-
-  const pointerSensor = useSensor(PointerSensor, {
-    activationConstraint: { distance: isTouchDevice ? 0 : 8 }
-  })
-  const touchSensor = useSensor(TouchSensor, {
-    activationConstraint: { delay: isTouchDevice ? 150 : 0, tolerance: 5 }
-  })
-  const keyboardSensor = useSensor(KeyboardSensor, {
-    coordinateGetter: sortableKeyboardCoordinates
-  })
-
-  const sensors = useSensors(pointerSensor, touchSensor, keyboardSensor)
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
