@@ -24,6 +24,22 @@ export async function getBrands(): Promise<Brand[]> {
   return (data ?? []) as Brand[]
 }
 
+export async function getBrandsPublic(): Promise<Brand[]> {
+  const cookieStore = await cookies()
+  const supabase = createClient(cookieStore)
+
+  const { data, error } = await supabase
+    .from('marcas')
+    .select('*')
+    .order('orden', { ascending: true })
+
+  if (error) {
+    return []
+  }
+
+  return (data ?? []) as Brand[]
+}
+
 export async function getBrandById(id: string): Promise<Brand | null> {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
