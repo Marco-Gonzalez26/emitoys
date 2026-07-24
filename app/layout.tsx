@@ -2,14 +2,13 @@ import type { Metadata } from 'next'
 import { Manrope } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/shared/lib/utils'
+import { SITE_URL } from '@/shared/lib/site'
+import { OrganizationJsonLd } from '@/shared/components/JsonLd'
 
 const manrope = Manrope({
   subsets: ['latin'],
   variable: '--font-manrope'
 })
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
-  ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://emitoys.net')
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -20,14 +19,18 @@ export const metadata: Metadata = {
   description:
     'Coleccionables de autos a escala en Ecuador. Hot Wheels, Tarmac Works, Inno64, Mini GT y más. Envíos para todo el Ecuador.',
   keywords: [
-    'coleccionables', 'coleccionistas', 'hot wheels', 'tarmac works',
-    'inno64', 'mini gt', 'emitoys', 'ecuador', 'modelos a escala',
-    'diecast', 'autos en miniatura', 'colecciones', 'envíos'
+    'coleccionables', 'coleccionistas', 'hot wheels ecuador', 'tarmac works',
+    'inno64', 'mini gt', 'diecast ecuador', 'autos a escala',
+    'comprar hot wheels', 'tienda de coleccionables', 'modelos a escala en venta',
+    '1:64', 'preventa hot wheels', 'ecuador'
   ],
   authors: [{ name: 'EmiToys' }],
   creator: 'EmiToys',
   publisher: 'EmiToys',
   formatDetection: { telephone: false },
+  alternates: {
+    canonical: SITE_URL
+  },
   openGraph: {
     type: 'website',
     locale: 'es_EC',
@@ -81,7 +84,10 @@ export default async function RootLayout({
       data-theme='light'
       suppressHydrationWarning
       className={manrope.variable}>
-      <body className={cn('relative ', manrope.variable)}>{children}</body>
+      <body className={cn('relative ', manrope.variable)}>
+        <OrganizationJsonLd />
+        {children}
+      </body>
     </html>
   )
 }

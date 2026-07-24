@@ -2,13 +2,21 @@ import type { Brand } from '@/shared/types'
 import { HeroSection } from '@/features/landing/components/HeroSection'
 import FeaturedByBrand from '@/features/landing/components/FeaturedByBrand'
 import { getBrandsPublic } from '@/features/brand/actions/brands'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  description:
+    'Coleccionables de autos a escala en Ecuador. Hot Wheels, Tarmac Works, Inno64, Mini GT y más. Envíos para todo el Ecuador.',
+  alternates: {
+    canonical: '/'
+  }
+}
 
 const FALLBACK_IMAGE =
   'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80'
 
 export default async function Home() {
   const brands = await getBrandsPublic()
-  console.log('brands en producción:', brands)
   const slides = (brands ?? []).map((brand: Brand) => ({
     image: brand.logo_url ?? FALLBACK_IMAGE,
     brand

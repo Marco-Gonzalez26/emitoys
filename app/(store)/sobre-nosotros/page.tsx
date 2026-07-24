@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: 'Sobre nosotros',
   description:
     'Conoce EmiToys: emprendimiento familiar ecuatoriano dedicado a coleccionables de autos a escala. Hot Wheels, Mini GT, Tarmac Works y más.',
+  alternates: {
+    canonical: '/sobre-nosotros'
+  },
   openGraph: {
     title: 'Sobre nosotros | EmiToys',
     description:

@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: 'Catálogo',
   description:
     'Explora nuestra colección de autos a escala: Hot Wheels, Tarmac Works, Inno64, Mini GT y más. Filtra por marca, escala y precio.',
+  alternates: {
+    canonical: '/catalogo'
+  },
   openGraph: {
     title: 'Catálogo | EmiToys',
     description:

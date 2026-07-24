@@ -1,6 +1,21 @@
 import { getConfiguracion } from '@/features/settings/actions/settings'
 import { WhatsApp } from '@/shared/components/icons/Whastapp'
 import { Mail } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Envíos',
+  description:
+    'Conoce las opciones de envío de EmiToys. Enviamos coleccionables de autos a escala a todo Ecuador.',
+  alternates: {
+    canonical: '/envios'
+  },
+  openGraph: {
+    title: 'Envíos | EmiToys',
+    description:
+      'Conoce las opciones de envío de EmiToys. Enviamos coleccionables a todo Ecuador.'
+  }
+}
 
 export default async function EnviosPage() {
   const config = await getConfiguracion()

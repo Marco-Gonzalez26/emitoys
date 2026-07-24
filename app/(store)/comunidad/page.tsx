@@ -4,6 +4,21 @@ import Facebook from '@/shared/components/icons/Facebook'
 import { Instagram } from '@/shared/components/icons/Instagram'
 import { TikTok } from '@/shared/components/icons/Tiktok'
 import { WhatsApp } from '@/shared/components/icons/Whastapp'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Comunidad',
+  description:
+    'Únete a la comunidad de coleccionistas EmiToys. Síguenos en redes sociales y entérate de las últimas novedades.',
+  alternates: {
+    canonical: '/comunidad'
+  },
+  openGraph: {
+    title: 'Comunidad | EmiToys',
+    description:
+      'Únete a la comunidad de coleccionistas EmiToys. Síguenos en redes sociales.'
+  }
+}
 
 export default async function ComunidadPage() {
   const config = await getConfiguracion()

@@ -1,7 +1,5 @@
 import type { MetadataRoute } from 'next'
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
-  ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://emitoys.net')
+import { SITE_URL } from '@/shared/lib/site'
 
 export default function robots(): MetadataRoute.Robots {
   return {
