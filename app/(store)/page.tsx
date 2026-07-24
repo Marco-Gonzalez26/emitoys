@@ -10,7 +10,7 @@ const FALLBACK_IMAGE =
 
 export default async function Home() {
   const brands = await getBrands()
-
+  console.log('brands en producción:', brands)
   const slides = (brands ?? []).map((brand: Brand) => ({
     image: brand.logo_url ?? FALLBACK_IMAGE,
     brand
