@@ -90,9 +90,10 @@ export function HeroCarousel({ slides, interval = 5000 }: Props) {
   )
 
   useEffect(() => {
+    if (!slides.length) return
     const timer = setInterval(next, interval)
     return () => clearInterval(timer)
-  }, [next, interval])
+  }, [next, interval, slides.length])
 
   useGSAP(
     () => {
@@ -108,6 +109,8 @@ export function HeroCarousel({ slides, interval = 5000 }: Props) {
   )
 
   const slide = slides[current]
+
+  if (!slides.length || !slide) return null
 
   return (
     <div
