@@ -120,6 +120,19 @@ export type OrderItem = {
   created_at: string
 }
 
+// TESTIMONIALS
+
+export type Testimonial = {
+  id: string
+  nombre_cliente: string
+  comentario: string
+  foto_url: string | null
+  estrellas: number
+  orden: number
+  activo: boolean
+  created_at: string
+}
+
 // CATALOG FILTERS
 
 export type CatalogFilters = {

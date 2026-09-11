@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { LayoutDashboard, Package, Tag, LogOut, Home, Settings } from 'lucide-react'
+import { LayoutDashboard, Package, Tag, LogOut, Home, Settings, MessageSquareQuote } from 'lucide-react'
 import { logout } from '@/features/auth/actions/auth'
 import {
   Sidebar,
@@ -40,6 +40,11 @@ const NAV_ITEMS = [
     label: 'Marcas',
     href: '/admin/dashboard/marcas',
     icon: Tag
+  },
+  {
+    label: 'Testimonios',
+    href: '/admin/dashboard/testimonios',
+    icon: MessageSquareQuote
   },
   {
     label: 'Configuración',

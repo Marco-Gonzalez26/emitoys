@@ -2,15 +2,9 @@
 
 import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
-import { v2 as cloudinary } from 'cloudinary'
+import { uploadToCloudinary } from '@/shared/lib/cloudinary'
 import type { Product } from '@/shared/types'
 import type { ProductWithBrand } from '@/features/catalog/actions/products'
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-})
 
 async function verifyAdmin(supabase: ReturnType<typeof createClient>) {
   const { data: auth } = await supabase.auth.getClaims()
@@ -79,18 +73,7 @@ export async function uploadImage(file: File): Promise<{ url: string; error?: st
   const buffer = Buffer.from(bytes)
 
   try {
-    const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
-      cloudinary.uploader.upload_stream(
-        {
-          folder: 'emitoys/products',
-          transformation: [{ width: 800, height: 800, crop: 'limit' }, { quality: 'auto' }]
-        },
-        (error, result) => {
-          if (error) reject(error)
-          else resolve(result as { secure_url: string })
-        }
-      ).end(buffer)
-    })
+    const result = await uploadToCloudinary(buffer, 'emitoys/products')
 
     return { url: result.secure_url }
   } catch (err) {

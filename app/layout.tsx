@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Manrope } from 'next/font/google'
+import { Manrope, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/shared/lib/utils'
 import { SITE_URL } from '@/shared/lib/site'
@@ -8,6 +8,11 @@ import { OrganizationJsonLd } from '@/shared/components/JsonLd'
 const manrope = Manrope({
   subsets: ['latin'],
   variable: '--font-manrope'
+})
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-display'
 })
 
 export const metadata: Metadata = {
@@ -83,8 +88,8 @@ export default async function RootLayout({
       lang='es'
       data-theme='light'
       suppressHydrationWarning
-      className={manrope.variable}>
-      <body className={cn('relative ', manrope.variable)}>
+      className={cn(manrope.variable, plusJakartaSans.variable)}>
+      <body className={cn('relative', manrope.variable)}>
         <OrganizationJsonLd />
         {children}
       </body>

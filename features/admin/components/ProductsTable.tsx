@@ -119,7 +119,7 @@ export function ProductsTable() {
 
       {loading ? (
         <div className='flex items-center justify-center py-16'>
-          <div className='w-8 h-8 border-2 border-[var(--brand)] border-t-transparent rounded-full animate-spin' />
+          <div className='w-8 h-8 border-2 border-(--brand) border-t-transparent rounded-full animate-spin' />
         </div>
       ) : filtered.length === 0 ? (
         <div className='text-center py-16 text-[var(--text-secondary)]'>
