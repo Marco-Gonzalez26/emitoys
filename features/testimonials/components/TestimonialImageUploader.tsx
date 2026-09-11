@@ -2,15 +2,18 @@
 
 import { useRef, useState } from 'react'
 import { ImagePlus } from 'lucide-react'
-import { uploadImage } from '../actions/products'
+import { uploadTestimonialImage } from '../actions/testimonials'
 import { ErrorDialog } from '@/shared/components/ErrorDialog'
 
-interface ImageUploaderProps {
+interface TestimonialImageUploaderProps {
   onUpload: (url: string) => void
   disabled?: boolean
 }
 
-export function ImageUploader({ onUpload, disabled }: ImageUploaderProps) {
+export function TestimonialImageUploader({
+  onUpload,
+  disabled
+}: TestimonialImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [errorDialog, setErrorDialog] = useState('')
 
@@ -18,7 +21,7 @@ export function ImageUploader({ onUpload, disabled }: ImageUploaderProps) {
     const file = e.target.files?.[0]
     if (!file) return
 
-    const result = await uploadImage(file)
+    const result = await uploadTestimonialImage(file)
     if (result.url) {
       onUpload(result.url)
     } else if (result.error) {
@@ -45,7 +48,7 @@ export function ImageUploader({ onUpload, disabled }: ImageUploaderProps) {
         disabled={disabled}
         className='w-full h-32 border-2 border-dashed border-[var(--border)] rounded-xl flex flex-col items-center justify-center gap-2 text-[var(--text-secondary)] hover:border-[var(--brand)] hover:text-[var(--brand)] transition-colors cursor-pointer bg-transparent disabled:opacity-50 disabled:cursor-not-allowed'>
         <ImagePlus className='w-8 h-8' />
-        <span className='text-xs font-semibold'>Subir imagen</span>
+        <span className='text-xs font-semibold'>Subir foto del cliente</span>
       </button>
       <ErrorDialog
         open={!!errorDialog}

@@ -92,20 +92,20 @@ export function FilterSidebar({
 
   return (
     <aside className='w-full lg:w-64 shrink-0'>
-      <div className='bg-[var(--surface)] border border-[var(--border)] rounded-xl p-6 sticky top-28'>
+      <div className='bg-(--surface) border border-(--border) rounded-2xl p-6 sticky top-24'>
         <div className='flex items-center justify-between mb-6'>
-          <h2 className='text-xl font-extrabold tracking-tight text-[var(--text-primary)]'>
+          <h2 className='text-xl font-extrabold tracking-tight text-(--text-primary)'>
             Filtros
           </h2>
           <button
             onClick={handleClear}
-            className='text-xs text-[var(--text-secondary)] hover:text-[var(--brand)] transition-colors duration-200 bg-transparent border-none cursor-pointer'>
+            className='text-xs text-(--text-secondary) hover:text-(--brand) transition-colors duration-200 bg-transparent border-none cursor-pointer'>
             Limpiar
           </button>
         </div>
 
         <div className='mb-6'>
-          <h3 className='text-xs font-semibold tracking-wider uppercase text-[var(--text-secondary)] mb-3'>
+          <h3 className='text-xs font-semibold tracking-wider uppercase text-(--text-secondary) mb-3'>
             Marcas
           </h3>
           <div className='space-y-2'>
@@ -117,6 +117,10 @@ export function FilterSidebar({
                   checked={pendingMarcas.includes(brand.slug)}
                   onCheckedChange={() => toggleMarca(brand.slug)}
                 />
+                <span
+                  className='h-2.5 w-2.5 rounded-full'
+                  style={{ background: brand.color_hex }}
+                />
                 <span className='text-sm text-(--text-primary) group-hover:text-(--brand) transition-colors'>
                   {brand.nombre}
                 </span>
@@ -126,7 +130,7 @@ export function FilterSidebar({
         </div>
 
         <div className='mb-6'>
-          <h3 className='text-xs font-semibold tracking-wider uppercase text-[var(--text-secondary)] mb-3'>
+          <h3 className='text-xs font-semibold tracking-wider uppercase text-(--text-secondary) mb-3'>
             Escalas
           </h3>
           <div className='space-y-2'>
@@ -138,7 +142,7 @@ export function FilterSidebar({
                   checked={pendingEscalas.includes(escala)}
                   onCheckedChange={() => toggleEscala(escala)}
                 />
-                <span className='text-sm text-[var(--text-primary)] group-hover:text-[var(--brand)] transition-colors'>
+                <span className='text-sm text-(--text-primary) group-hover:text-(--brand) transition-colors'>
                   {escala}
                 </span>
               </label>
@@ -147,7 +151,7 @@ export function FilterSidebar({
         </div>
 
         <div className='mb-6'>
-          <h3 className='text-xs font-semibold tracking-wider uppercase text-[var(--text-secondary)] mb-3'>
+          <h3 className='text-xs font-semibold tracking-wider uppercase text-(--text-secondary) mb-3'>
             Precio
           </h3>
           <div className='mb-4'>
@@ -159,7 +163,7 @@ export function FilterSidebar({
               step={1}
               className='py-2'
             />
-            <div className='flex justify-between text-xs text-[var(--text-secondary)] mt-1'>
+            <div className='flex justify-between text-xs text-(--text-secondary) mt-1'>
               <span>${sliderValue[0]}</span>
               <span>${sliderValue[1]}</span>
             </div>
