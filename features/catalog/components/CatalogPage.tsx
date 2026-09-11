@@ -5,6 +5,13 @@ import { useRouter, usePathname } from 'next/navigation'
 import { useCatalogFilters } from '../hooks/useCatalogFilters'
 import type { Brand, CatalogFilters } from '@/shared/types'
 import type { ProductWithBrand } from '../actions/products'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/shared/components/ui/select'
 import { FilterSidebar } from './FilterSidebar'
 import { FilterDrawer } from './FilterDrawer'
 import { ProductGrid } from './ProductGrid'
@@ -18,7 +25,10 @@ interface CatalogPageProps {
 const INITIAL_DISPLAY_COUNT = 12
 const LOAD_MORE_COUNT = 12
 
-const SORT_OPTIONS: { value: CatalogFilters['sort']; label: string }[] = [
+const SORT_OPTIONS: {
+  value: NonNullable<CatalogFilters['sort']>
+  label: string
+}[] = [
   { value: 'reciente', label: 'Recientes' },
   { value: 'precio_asc', label: 'Precio: Menor a Mayor' },
   { value: 'precio_desc', label: 'Precio: Mayor a Menor' },
@@ -29,6 +39,7 @@ export function CatalogPage({ products, maxPrice, brands }: CatalogPageProps) {
   const router = useRouter()
   const pathname = usePathname()
   const { filters, setSort, clearFilters } = useCatalogFilters()
+  const whatsappNumero = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? ''
 
  
   const filteredProducts = useMemo(() => {
@@ -139,27 +150,32 @@ export function CatalogPage({ products, maxPrice, brands }: CatalogPageProps) {
 
       {/* Main Content */}
       <div key={JSON.stringify({ marca: filters.marca, escala: filters.escala, precio_min: filters.precio_min, precio_max: filters.precio_max })} className='grow'>
-        <div className='flex justify-between items-center mb-6'>
-          <h1 className='text-2xl font-extrabold tracking-tight text-(--text-primary)'>
-            Catálogo Completo
-          </h1>
-          <div className='flex items-center gap-2'>
-            <span className='text-sm text-(--text-secondary)'>
-              Ordenar por:
+        <div className='mb-8 flex flex-wrap items-end justify-between gap-4'>
+          <div className='flex flex-col gap-1'>
+            <span className='text-xs font-semibold uppercase tracking-widest text-(--brand)'>
+              Colección
             </span>
-            <select
-              value={filters.sort}
-              onChange={(e) =>
-                setSort(e.target.value as CatalogFilters['sort'])
-              }
-              className='bg-(--surface) border border-border rounded-lg py-2 pl-3 pr-8 text-sm focus:outline-none focus:border-(--brand)'>
-              {SORT_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <h1 className='text-3xl font-extrabold tracking-tight text-(--text-primary) md:text-4xl'>
+              Catálogo
+            </h1>
           </div>
+          <Select
+            value={filters.sort}
+            onValueChange={(value) => setSort(value as CatalogFilters['sort'])}>
+            <SelectTrigger className='h-10 rounded-full border-(--border) bg-(--surface) px-4 text-sm font-semibold text-(--text-primary) shadow-none'>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className='rounded-2xl border-(--border) bg-(--surface) shadow-[var(--shadow-lift)]'>
+              {SORT_OPTIONS.map((option) => (
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  className='cursor-pointer rounded-xl text-(--text-primary) focus:bg-(--brand-soft)'>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <ProductGrid
@@ -168,6 +184,7 @@ export function CatalogPage({ products, maxPrice, brands }: CatalogPageProps) {
           hasMore={hasMore}
           loadMoreRef={loadMoreRef}
           onClearFilters={clearFilters}
+          whatsappNumero={whatsappNumero}
         />
       </div>
 

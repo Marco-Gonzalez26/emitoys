@@ -1,85 +1,196 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 
-import { HeroCarousel } from './HeroCarousel'
-import BrandGrid from './BrandGrid'
-import { Brand } from '@/shared/types'
+import type { FeaturedProduct } from '../constants/featured-data'
 import { Button } from '@/shared/components/ui/button'
+import { getOptimizedImage } from '@/shared/lib/image'
 import { useGSAP } from '@gsap/react'
+import { useRef } from 'react'
 import gsap from 'gsap'
+
 interface HeroSectionProps {
-  slides: { image: string; brand: Brand }[]
-  brands: Brand[]
+  products: FeaturedProduct[]
 }
 
-export const HeroSection = ({ slides, brands }: HeroSectionProps) => {
-  useGSAP(() => {
-    gsap.from('.box', {
-      y: 30,
-      opacity: 0,
+const FALLBACK_IMAGE =
+  'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80'
 
-      duration: 0.8,
-      stagger: 0.1,
-      ease: 'power2.out'
-    })
-  }, [])
+const productImage = (p?: FeaturedProduct) =>
+  getOptimizedImage(
+    p?.imagenes?.find((img) => img.orden === 0)?.url ??
+      p?.imagenes?.[0]?.url ??
+      FALLBACK_IMAGE
+  )
+
+export const HeroSection = ({ products }: HeroSectionProps) => {
+  const containerRef = useRef<HTMLElement>(null)
+  const [tall, squareA, squareB] = products
+
+  const inlineImage = (p?: FeaturedProduct, key?: string) =>
+    p ? (
+      <Image
+        key={key}
+        src={productImage(p)}
+        alt=''
+        width={96}
+        height={64}
+        quality={90}
+        className='mx-1.5 hidden h-10 w-14 rounded-xl object-cover align-middle md:inline-block md:h-12 md:w-16 lg:h-14 lg:w-20'
+        aria-hidden
+      />
+    ) : null
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia()
+      mm.add('(prefers-reduced-motion: reduce)', () => {
+        gsap.set('.hero-fade', { clearProps: 'all' })
+      })
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.fromTo(
+          '.hero-fade',
+          { y: 28, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            stagger: 0.09,
+            ease: 'cubic-bezier(0.23,1,0.32,1)',
+            clearProps: 'opacity,transform'
+          }
+        )
+        gsap.fromTo(
+          '.hero-bento-cell',
+          { y: 32, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.65,
+            stagger: 0.08,
+            ease: 'cubic-bezier(0.23,1,0.32,1)',
+            clearProps: 'opacity,transform'
+          }
+        )
+      })
+      return () => mm.revert()
+    },
+    { scope: containerRef }
+  )
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(280px,1fr))] auto-rows-auto gap-4'>
-      <div className='relative col-span-1 md:col-span-2 lg:col-span-4 row-span-2 rounded-2xl overflow-hidden  min-h-64 md:min-h-80 flex flex-col lg:flex-row gap-2'>
-        <HeroCarousel slides={slides} interval={5000} />
+    <section
+      ref={containerRef}
+      className='w-full py-12 md:py-20'>
+      <div className='grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12'>
+        <div className='hero-fade flex flex-col items-start gap-6 lg:col-span-7'>
+          <span className='inline-flex w-max items-center gap-2 text-[11px] font-bold tracking-[0.3em] uppercase text-(--text-secondary)'>
+            <span className='h-2 w-2 rounded-full bg-(--brand)' />
+            Coleccionables a escala · Ecuador
+          </span>
 
-        <div className='relative  flex flex-col justify-center gap-6 w-full lg:w-[50%] shrink-0 box backdrop-blur-3xl bg-white/20 rounded'>
+          <h1 className='m-0 text-[2.5rem] leading-[1.08] sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-[-0.03em] text-(--text-primary) font-[family-name:var(--font-display)]'>
+            De coleccionistas{inlineImage(products[4], 'w1')}
+            <br />
+            para{' '}
+            {inlineImage(products[3], 'w2')}
+            <span className='text-(--brand)'>coleccionistas</span>
+          </h1>
 
+          <p className='max-w-md text-base leading-relaxed text-(--text-secondary) md:text-lg'>
+            Piezas únicas y pre-ventas de las marcas que llenan tu vitrina, con
+            envíos a todo Ecuador.
+          </p>
 
-          <div className='flex flex-col gap-3 p-6 md:p-10'>
-            <h1 className='text-3xl md:text-5xl font-extrabold tracking-tight leading-[0.95] text-(--text-primary) '>
-              De coleccionistas
-              <br />
-              <span className='text-(--brand)'>para coleccionistas</span>
-            </h1>
-            <p className='text-(--text-secondary) text-base max-w-sm leading-relaxed'>
-              Queremos acompañarte en cada momento ayudando a crecer tu
-              colección. ¡Mira los modelos que tenemos para ti!
-            </p>
-          </div>
-
-          <div className='flex flex-wrap gap-3 p-6 md:p-10 z-10'>
+          <div className='flex flex-wrap items-center gap-3 pt-1'>
             <Button
               asChild
               size='lg'
-              className='rounded-full bg-(--brand) text-white font-bold tracking-wide hover:bg-(--brand-hover)'>
-              <Link href='/catalogo?estado=pre_venta'>Pre-ventas</Link>
-            </Button>
-            <Button
-              asChild
-              variant='outline'
-              size='lg'
-              className='rounded-full border-border bg-(--surface-2) text-(--text-primary) font-bold tracking-wide hover:border-(--brand) hover:text-(--brand)'>
-              <Link href='/catalogo'>Catálogo</Link>
-            </Button>
-            <Button
-              asChild
-              variant='outline'
-              size='lg'
-              className='rounded-full border-border bg-(--surface-2) text-(--text-primary) font-bold tracking-wide hover:border-(--brand) hover:text-(--brand) pointer-events-none! opacity-45'>
-              <Link href='/catalogo?estado=subasta'>Subastas</Link>
+              className='rounded-full bg-(--brand) text-white font-bold tracking-wide px-8 transition-colors duration-200 hover:bg-(--brand-hover) active:scale-[0.97]'>
+              <Link href='/catalogo'>Explorar catálogo</Link>
             </Button>
             <Button
               asChild
               size='lg'
-              className='rounded-full bg-green-600 text-white font-bold tracking-wide hover:bg-green-700'>
-              <a
-                href='https://chat.whatsapp.com/DHElpltb1DFEIIrFtOJ1CO'
-                target='_blank'
-                rel='noopener noreferrer'>
-                Grupo WhatsApp
-              </a>
+              className='rounded-full border border-(--border) bg-(--surface) text-(--text-primary) font-bold tracking-wide px-8 transition-colors duration-200 hover:bg-(--surface-2) active:scale-[0.97]'>
+              <Link href='/catalogo?estado=pre_venta'>Ver pre-ventas</Link>
             </Button>
           </div>
         </div>
+
+        <div className='hero-bento grid grid-cols-2 gap-3 md:gap-4 lg:col-span-5'>
+          {tall && (
+            <Link
+              href={`/producto/${tall.slug}`}
+              className='hero-bento-cell group relative col-span-2 aspect-[16/9] overflow-hidden rounded-2xl border border-(--border) bg-(--surface) no-underline will-change-transform'>
+              <Image
+                src={productImage(tall)}
+                alt={tall.nombre}
+                fill
+                quality={90}
+                sizes='(min-width: 1024px) 45vw, 100vw'
+                className='object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='eager'
+              />
+              <div className='absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent' />
+              <div className='absolute bottom-0 left-0 right-0 flex flex-col gap-1 p-5'>
+                <span className='text-white text-sm font-bold leading-snug line-clamp-1 font-[family-name:var(--font-display)]'>
+                  {tall.nombre}
+                </span>
+                <span className='text-white/85 text-sm font-extrabold'>
+                  ${tall.precio.toFixed(2)}
+                </span>
+              </div>
+            </Link>
+          )}
+
+          {squareA && (
+            <Link
+              href={`/producto/${squareA.slug}`}
+              className='hero-bento-cell group relative aspect-square overflow-hidden rounded-2xl border border-(--border) bg-(--surface) no-underline will-change-transform'>
+              <Image
+                src={productImage(squareA)}
+                alt={squareA.nombre}
+                fill
+                quality={90}
+                sizes='(min-width: 1024px) 22vw, 50vw'
+                className='object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+              />
+              <div className='absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100' />
+              <div className='absolute inset-x-0 bottom-0 translate-y-2 p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100'>
+                <span className='block text-white text-sm font-bold leading-snug line-clamp-1 font-[family-name:var(--font-display)]'>
+                  {squareA.nombre}
+                </span>
+              </div>
+            </Link>
+          )}
+
+          {squareB && (
+            <Link
+              href={`/producto/${squareB.slug}`}
+              className='hero-bento-cell group relative aspect-square overflow-hidden rounded-2xl border border-(--border) bg-(--surface) no-underline will-change-transform'>
+              <Image
+                src={productImage(squareB)}
+                alt={squareB.nombre}
+                fill
+                quality={90}
+                sizes='(min-width: 1024px) 22vw, 50vw'
+                className='object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+              />
+              <div className='absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100' />
+              <div className='absolute inset-x-0 bottom-0 translate-y-2 p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100'>
+                <span className='block text-white text-sm font-bold leading-snug line-clamp-1 font-[family-name:var(--font-display)]'>
+                  {squareB.nombre}
+                </span>
+              </div>
+            </Link>
+          )}
+        </div>
       </div>
-      <BrandGrid brands={brands} />
-    </div>
+    </section>
   )
 }
+
+export default HeroSection

@@ -7,7 +7,9 @@ import { useCartStore } from '@/shared/store/cartStore'
 import { cn } from '@/shared/lib/utils'
 import { buildWhatsAppUrl } from '@/shared/lib/whatsapp'
 import type { ProductWithBrand } from '@/features/catalog/actions/products'
-import { Button } from '@/shared/components/ui/button'
+import { GlowCard } from '@/shared/components/ui/GlowCard'
+import { ProductCard } from '@/shared/components/cards/ProductCard'
+import { getOptimizedImage } from '@/shared/lib/image'
 import {
   Tooltip,
   TooltipContent,
@@ -30,9 +32,12 @@ function getProductImage(product: ProductWithBrand): string {
 }
 
 const ESTADO_LABEL: Record<string, { label: string; className: string }> = {
-  disponible: { label: 'Disponible', className: 'bg-green-300 text-green-900' },
+  disponible: {
+    label: 'Disponible',
+    className: 'bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-300'
+  },
   pre_venta: { label: 'Pre-venta', className: 'text-white font-extrabold' },
-  agotado: { label: 'Agotado', className: 'bg-white/10 text-white/30' }
+  agotado: { label: 'Agotado', className: 'bg-(--surface-3) text-(--text-secondary)' }
 }
 
 interface ProductDetailProps {
@@ -49,13 +54,16 @@ export function ProductDetail({
   const imageRef = useRef<HTMLImageElement>(null)
   const images =
     product.imagenes && product.imagenes.length > 0
-      ? product.imagenes.sort((a, b) => a.orden - b.orden).map((img) => img.url)
-      : [getProductImage(product)]
+      ? product.imagenes
+          .sort((a, b) => a.orden - b.orden)
+          .map((img) => getOptimizedImage(img.url))
+      : [getOptimizedImage(getProductImage(product))]
 
   const price = product.precio_oferta ?? product.precio
   const badge = ESTADO_LABEL[product.estado]
   const whatsappNumber =
     process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '593999999999'
+  const isHotWheels = product.marca?.slug === 'hot-wheels'
 
   const handleAddToCart = () => {
     add(product)
@@ -72,86 +80,97 @@ export function ProductDetail({
   }, [selectedImage])
 
   return (
-    <div className='px-6 py-8 md:px-10 max-w-6xl mx-auto'>
-      <nav className='text-xs text-[var(--text-secondary)] mb-8'>
+    <div className='mx-auto max-w-6xl px-6 py-8 md:px-10'>
+      <nav className='mb-8 text-xs text-(--text-secondary)'>
         <Link
           href='/'
-          className='hover:text-[var(--brand)] transition-colors no-underline text-[var(--text-secondary)]'>
+          className='no-underline text-(--text-secondary) transition-colors hover:text-(--brand)'>
           Inicio
         </Link>
         <span className='mx-2'>/</span>
         <Link
           href='/catalogo'
-          className='hover:text-[var(--brand)] transition-colors no-underline text-[var(--text-secondary)]'>
+          className='no-underline text-(--text-secondary) transition-colors hover:text-(--brand)'>
           Catálogo
         </Link>
-        <span className='mx-2'>/</span>
         {product.marca && (
           <>
+            <span className='mx-2'>/</span>
             <Link
               href={`/catalogo?marca=${product.marca.slug}`}
-              className='hover:text-[var(--brand)] transition-colors no-underline text-[var(--text-secondary)]'>
+              className='no-underline text-(--text-secondary) transition-colors hover:text-(--brand)'>
               {product.marca.nombre}
             </Link>
-            <span className='mx-2'>/</span>
           </>
         )}
-        <span className='text-[var(--text-primary)]'>{product.nombre}</span>
+        <span className='mx-2'>/</span>
+        <span className='text-(--text-primary)'>{product.nombre}</span>
       </nav>
 
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16'>
+      <div className='mb-16 grid grid-cols-1 gap-10 lg:grid-cols-2'>
         <div className='flex flex-col gap-4'>
-          <div className='relative aspect-square  rounded-2xl overflow-hidden flex items-center justify-center'>
-            <div className='absolute inset-0 opacity-10 blur-2xl scale-75 bg-(--brand)' />
-            <Image
-              src={images[selectedImage]}
-              alt={product.nombre}
-              fill
-              ref={imageRef}
-              className='relative z-10 object-cover drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)] rounded '
-              sizes='(max-width: 1024px) 100vw, 50vw'
-              priority
-            />
+          <GlowCard
+            glowColor={product.marca?.color_hex}
+            glowSize={260}
+            className='border border-border bg-(--surface)'>
+            <div className='relative aspect-square overflow-hidden rounded-2xl bg-(--surface-2)'>
+              <Image
+                src={images[selectedImage]}
+                alt={product.nombre}
+                fill
+                ref={imageRef}
+                quality={90}
+                className={cn(
+                  'relative z-10 transition-transform duration-500',
+                  isHotWheels ? 'object-contain p-8 md:p-12' : 'object-cover'
+                )}
+                sizes='(max-width: 1024px) 100vw, 50vw'
+                priority
+              />
 
-            <span
-              className={cn(
-                'absolute top-4 right-4 z-20 text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full',
-                badge?.className
-              )}
-              style={
-                product.estado === 'pre_venta'
-                  ? { background: 'var(--brand)' }
-                  : undefined
-              }>
-              {badge?.label}
-            </span>
-
-            {product.es_nuevo && (
-              <span className='absolute top-4 left-4 z-20 text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full bg-[var(--brand)] text-white'>
-                Nuevo
+              <span
+                className={cn(
+                  'absolute right-4 top-4 z-20 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest',
+                  badge?.className
+                )}
+                style={
+                  product.estado === 'pre_venta'
+                    ? { background: 'var(--brand)' }
+                    : undefined
+                }>
+                {badge?.label}
               </span>
-            )}
-          </div>
+
+              {product.es_nuevo && (
+                <span className='absolute left-4 top-4 z-20 rounded-full bg-(--brand) px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white'>
+                  Nuevo
+                </span>
+              )}
+            </div>
+          </GlowCard>
 
           {images.length > 1 && (
-            <div className='flex gap-3 overflow-x-auto pb-2'>
+            <div className='flex gap-3 overflow-x-auto pb-2 no-scrollbar'>
               {images.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setSelectedImage(i)}
+                  aria-label={`Imagen ${i + 1} de ${product.nombre}`}
                   className={cn(
-                    'relative w-20 h-20 rounded-xl overflow-hidden shrink-0 border-2 transition-colors bg-[var(--surface)] cursor-pointer',
+                    'relative h-20 w-20 shrink-0 cursor-pointer overflow-hidden rounded-xl border-2 bg-(--surface) transition-colors',
                     selectedImage === i
-                      ? 'border-[var(--brand)]'
-                      : 'border-[var(--border)] hover:border-[var(--brand)]/50'
+                      ? 'border-(--brand)'
+                      : 'border-(--border) hover:border-(--brand)/50'
                   )}>
                   <Image
                     src={img}
                     alt={`${product.nombre} ${i + 1}`}
                     fill
                     loading='eager'
-                    className='object-cover'
-                    sizes='(max-width: 1024px) 100vw, 80px'
+                    className={cn(
+                      isHotWheels ? 'object-contain p-2' : 'object-cover'
+                    )}
+                    sizes='80px'
                   />
                 </button>
               ))}
@@ -163,76 +182,73 @@ export function ProductDetail({
           {product.marca && (
             <div className='flex items-center gap-2'>
               <span
-                className='w-2.5 h-2.5 rounded-full'
+                className='h-2.5 w-2.5 rounded-full'
                 style={{ background: product.marca.color_hex }}
               />
-              <span className='text-xs font-bold tracking-widest uppercase text-[var(--text-secondary)]'>
+              <span className='text-xs font-semibold uppercase tracking-widest text-(--text-secondary)'>
                 {product.marca.nombre}
               </span>
             </div>
           )}
 
-          <h1 className='text-3xl md:text-4xl font-extrabold tracking-tight text-[var(--text-primary)] m-0'>
+          <h1 className='m-0 text-3xl font-extrabold tracking-tight text-(--text-primary) md:text-4xl'>
             {product.nombre}
           </h1>
 
-          <div className='flex items-center gap-4'>
+          <div className='flex flex-wrap items-center gap-3'>
             {product.escala && (
-              <span className='text-sm font-semibold text-[var(--text-secondary)] bg-[var(--surface)] border border-[var(--border)] rounded-full px-3 py-1'>
+              <span className='rounded-full border border-(--border) bg-(--surface) px-3 py-1 text-sm font-semibold text-(--text-primary)'>
                 {product.escala}
               </span>
             )}
             {product.codigo && (
-              <span className='text-sm text-[var(--text-secondary)]'>
+              <span className='text-sm text-(--text-secondary)'>
                 Código: {product.codigo}
               </span>
             )}
           </div>
 
           <div className='flex items-baseline gap-3'>
-            <span className='text-4xl font-extrabold text-[var(--brand)]'>
+            <span className='text-4xl font-extrabold text-(--brand)'>
               ${price.toFixed(2)}
             </span>
             {product.precio_oferta && (
-              <span className='text-lg text-[var(--text-secondary)] line-through'>
+              <span className='text-lg text-(--text-secondary) line-through'>
                 ${product.precio.toFixed(2)}
               </span>
             )}
           </div>
 
           {product.descripcion && (
-            <p className='text-sm text-[var(--text-secondary)] leading-relaxed m-0'>
+            <p className='m-0 text-sm leading-relaxed text-(--text-secondary)'>
               {product.descripcion}
             </p>
           )}
 
-          <div className='flex flex-col gap-3'>
-            <div className='flex items-center gap-2 text-sm'>
-              <span
-                className={cn(
-                  'w-2 h-2 rounded-full',
-                  product.stock > 0 ? 'bg-green-500' : 'bg-red-500'
-                )}
-              />
-              <span className='text-[var(--text-secondary)]'>
-                {product.stock > 0 ? `${product.stock} en stock` : 'Sin stock'}
-              </span>
-            </div>
+          <div className='flex items-center gap-2 text-sm'>
+            <span
+              className={cn(
+                'h-2 w-2 rounded-full',
+                product.stock > 0 ? 'bg-green-500' : 'bg-red-500'
+              )}
+            />
+            <span className='text-(--text-secondary)'>
+              {product.stock > 0 ? `${product.stock} en stock` : 'Sin stock'}
+            </span>
           </div>
 
-          <div className='flex gap-3 mt-2'>
+          <div className='mt-2 flex gap-3'>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <div
-                  // onClick={handleAddToCart}
-
-                  className='flex-1 py-3.5 rounded-full bg-(--brand) text-white text-xs font-semibold uppercase tracking-widest hover:bg-(--brand-hover) transition-colors duration-200 active:scale-[0.98] cursor-pointer border-none px-4 opacity-45 pointer-events-none'>
+                  onClick={handleAddToCart}
+                  className='flex-1 cursor-pointer rounded-full border border-(--border) bg-(--surface) px-4 py-3.5 text-xs font-semibold uppercase tracking-widest text-(--text-secondary) opacity-60 transition-colors duration-200 pointer-events-none'>
                   Añadir al carrito
                 </div>
               </TooltipTrigger>
               <TooltipContent>
                 <p className='text-sm text-white'>
-                  Estamos trabajando en esta funcionalidad :)
+                  Estamos trabajando en esta funcionalidad
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -247,8 +263,8 @@ export function ProductDetail({
                 )}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='flex-1 py-3.5 rounded-full border border-green-600  text-green-600 text-xs font-bold uppercase  hover:opacity-90 transition-opacity no-underline text-center flex items-center justify-center gap-2'>
-                <WhatsApp className='w-4 h-4' />
+                className='flex flex-1 items-center justify-center gap-2 rounded-full bg-(--brand) px-4 py-3.5 text-xs font-bold uppercase tracking-widest text-white no-underline transition-colors duration-200 hover:bg-(--brand-hover) active:scale-[0.97]'>
+                <WhatsApp className='h-4 w-4' />
                 Pedir en WhatsApp
               </a>
             )}
@@ -258,39 +274,19 @@ export function ProductDetail({
 
       {relatedProducts.length > 0 && (
         <section>
-          <h2 className='text-xl font-extrabold tracking-tight text-(--text-primary) mb-6'>
-            Productos relacionados
+          <h2 className='mb-6 m-0 text-2xl font-extrabold tracking-tight text-(--text-primary)'>
+            Te puede gustar
           </h2>
           <div
-            className='flex gap-4 overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory'
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            className='flex gap-4 overflow-x-auto pb-4 no-scrollbar snap-x snap-mandatory'>
             {relatedProducts.map((rp) => (
-              <Link
-                key={rp.id}
-                href={`/producto/${rp.slug}`}
-                className='group shrink-0 w-55 md:w-65 snap-start bg-[var(--surface)] border border-(--brand)/30 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-(--brand) no-underline'>
-                <div className='relative h-40 bg-[var(--surface-2)] flex items-center justify-center p-4 overflow-hidden'>
-                  <div className='absolute inset-0 opacity-10 blur-2xl scale-75 bg-(--brand)' />
-                  <Image
-                    src={rp.imagenes?.[0]?.url ?? getProductImage(rp)}
-                    alt={rp.nombre}
-                    fill
-                    className='relative z-10 object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.6)] transition-transform duration-300 group-hover:scale-105'
-                    sizes='260px'
-                  />
-                </div>
-                <div className='p-4 flex flex-col gap-2'>
-                  <span className='text-[11px] font-bold tracking-widest uppercase text-[var(--text-secondary)]'>
-                    {rp.escala ?? rp.marca?.nombre}
-                  </span>
-                  <h3 className='text-sm font-bold text-[var(--text-primary)] line-clamp-2 m-0'>
-                    {rp.nombre}
-                  </h3>
-                  <span className='text-lg font-extrabold text-[var(--brand)]'>
-                    ${(rp.precio_oferta ?? rp.precio).toFixed(2)}
-                  </span>
-                </div>
-              </Link>
+              <div key={rp.id} className='snap-start'>
+                <ProductCard
+                  product={rp}
+                  whatsappNumero={whatsappNumber}
+                  className='w-[280px] shrink-0'
+                />
+              </div>
             ))}
           </div>
         </section>

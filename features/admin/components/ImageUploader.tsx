@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import { ImagePlus } from 'lucide-react'
 import { uploadImage } from '../actions/products'
 import { ErrorDialog } from '@/shared/components/ErrorDialog'
 
@@ -43,9 +44,7 @@ export function ImageUploader({ onUpload, disabled }: ImageUploaderProps) {
         onClick={() => inputRef.current?.click()}
         disabled={disabled}
         className='w-full h-32 border-2 border-dashed border-[var(--border)] rounded-xl flex flex-col items-center justify-center gap-2 text-[var(--text-secondary)] hover:border-[var(--brand)] hover:text-[var(--brand)] transition-colors cursor-pointer bg-transparent disabled:opacity-50 disabled:cursor-not-allowed'>
-        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-8 h-8'>
-          <path strokeLinecap='round' strokeLinejoin='round' d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5' />
-        </svg>
+        <ImagePlus className='w-8 h-8' />
         <span className='text-xs font-semibold'>Subir imagen</span>
       </button>
       <ErrorDialog

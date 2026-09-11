@@ -4,20 +4,26 @@
 
 @import 'shadcn/tailwind.css';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is([data-theme='dark'] *, .dark *));
 
 :root {
   --bg: #ffffff;
   --surface: #f9f9fb;
   --surface-2: #f0eef8;
+  --surface-3: #e9e7f3;
   --text-primary: #1a1a1a;
   --text-secondary: #666666;
-  --border: oklch(0.922 0 0);
+  --border: #e2e8f0;
   --brand: #960df2;
   --brand-hover: #7a0bc8;
+  --brand-soft: rgba(150, 13, 242, 0.08);
+  --brand-ink: #7a0bc8;
   --cyan: #00ffff;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --shadow-lift: 0 12px 24px rgba(26, 26, 26, 0.06);
+  --background: #ffffff;
+  --foreground: #1a1a1a;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -51,18 +57,25 @@
 }
 
 [data-theme='dark'] {
-  --bg: #0d0014;
-  --surface: #1a0035;
-  --surface-2: #2d0057;
-  --text-primary: #f0e8ff;
-  --text-secondary: rgba(240, 232, 255, 0.5);
-  --border: rgba(255, 255, 255, 0.08);
-  --brand: #c92ac7;
-  --brand-hover: #a020a0;
+  --bg: #161317;
+  --surface: #211d24;
+  --surface-2: #2b2730;
+  --surface-3: #352f3a;
+  --text-primary: #f3f0ef;
+  --text-secondary: rgba(243, 240, 239, 0.55);
+  --border: rgba(255, 255, 255, 0.1);
+  --brand: #dfb7ff;
+  --brand-hover: #f1daff;
+  --brand-soft: rgba(223, 183, 255, 0.14);
+  --brand-ink: #dfb7ff;
   --cyan: #00e5ff;
+  --shadow-lift: 0 12px 24px rgba(0, 0, 0, 0.3);
+  --background: #161317;
+  --foreground: #f3f0ef;
 }
 
 body {
+  overflow-x: hidden;
   background-color: var(--bg);
   color: var(--text-primary);
   transition:
@@ -70,8 +83,102 @@ body {
     color 0.3s ease;
 }
 
+@keyframes heroProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-progress {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Cursor-tracking glow cards */
+.glow-card {
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-size: 400px;
+  --glow-color: var(--brand);
+  --glow-fill: 22%;
+  --glow-active: 0;
+  position: relative;
+}
+.glow-card::before,
+.glow-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--glow-active);
+  transition: opacity 0.3s ease;
+}
+.glow-card::before {
+  z-index: 0;
+  background: radial-gradient(
+    circle at var(--glow-x) var(--glow-y),
+    color-mix(in srgb, var(--glow-color) var(--glow-fill), transparent),
+    transparent calc(var(--glow-size) * 0.6)
+  );
+}
+.glow-card::after {
+  z-index: 20;
+  padding: 2px;
+  background:
+    radial-gradient(
+      circle at var(--glow-x) var(--glow-y),
+      rgba(255, 255, 255, 0.9),
+      transparent calc(var(--glow-size) * 0.35)
+    ),
+    radial-gradient(
+      circle at var(--glow-x) var(--glow-y),
+      var(--glow-color),
+      transparent calc(var(--glow-size) * 0.55)
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+[data-theme='dark'] .glow-card {
+  --glow-fill: 30%;
+}
+.glow-card:hover,
+.glow-card:focus-within {
+  --glow-active: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .glow-card::before,
+  .glow-card::after {
+    opacity: 0 !important;
+  }
+}
+@media (hover: none) {
+  .glow-card::before,
+  .glow-card::after {
+    opacity: 0 !important;
+  }
+}
+
 @theme inline {
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-display);
+  --font-display: var(--font-display);
   --font-sans: var(--font-sans);
   --font-manrope: var(--font-manrope);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -114,6 +221,7 @@ body {
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+:root[data-theme='dark'],
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -160,4 +268,21 @@ body {
   html {
     @apply font-manrope;
   }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

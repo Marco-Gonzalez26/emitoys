@@ -50,7 +50,7 @@ export async function Footer() {
               href={`https://chat.whatsapp.com/DHElpltb1DFEIIrFtOJ1CO`}
               target='_blank'
               rel='noopener noreferrer'
-              className='w-9 h-9 rounded-full bg-white text-white flex items-center justify-center hover:scale-110 transition-transform border border-green-500 '
+              className='w-9 h-9 rounded-full bg-green-500 text-white flex items-center justify-center hover:scale-110 transition-transform border border-green-500'
               aria-label='WhatsApp'>
               <WhatsApp className='w-4 h-4' />
             </a>

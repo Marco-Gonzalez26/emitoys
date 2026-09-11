@@ -78,7 +78,7 @@ export function AboutBento() {
       </div>
 
       {/* Nuestra Misión */}
-      <div className='bento-cell col-span-1 md:col-span-6 p-8 flex flex-col justify-center rounded-2xl border border-[var(--border)] bg-white/90 backdrop-blur-sm'>
+      <div className='bento-cell col-span-1 md:col-span-6 p-8 flex flex-col justify-center rounded-2xl border border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-sm'>
         <div className='flex items-center gap-4 mb-4'>
           <div className='w-12 h-12 rounded-full bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)]'>
             <Flag className='w-6 h-6' />
@@ -104,7 +104,7 @@ export function AboutBento() {
       </div>
 
       {/* Envíos Seguros */}
-      <div className='bento-cell col-span-1 md:col-span-3 p-6 flex flex-col items-center justify-center text-center rounded-2xl border border-[var(--border)] bg-white/90 backdrop-blur-sm'>
+      <div className='bento-cell col-span-1 md:col-span-3 p-6 flex flex-col items-center justify-center text-center rounded-2xl border border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-sm'>
         <div className='w-12 h-12 rounded-full bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] mb-4'>
           <Truck className='w-6 h-6' />
         </div>
@@ -117,7 +117,7 @@ export function AboutBento() {
       </div>
 
       {/* Comunidad */}
-      <div className='bento-cell col-span-1 md:col-span-3 p-6 flex flex-col items-center justify-center text-center rounded-2xl border border-[var(--border)] bg-white/90 backdrop-blur-sm'>
+      <div className='bento-cell col-span-1 md:col-span-3 p-6 flex flex-col items-center justify-center text-center rounded-2xl border border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-sm'>
         <div className='w-12 h-12 rounded-full bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] mb-4'>
           <Users className='w-6 h-6' />
         </div>

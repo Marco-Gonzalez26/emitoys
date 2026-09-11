@@ -4,6 +4,46 @@ import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
 import type { FeaturedProduct, BrandWithProducts } from '../constants/featured-data'
 
+const CANONICAL_SCALES = ['1:12', '1:18', '1:43', '1:64'] as const
+
+export type ScaleStat = {
+  escala: string
+  count: number
+}
+
+export async function getScales(): Promise<ScaleStat[]> {
+  const cookieStore = await cookies()
+  const supabase = createClient(cookieStore)
+
+  const { data, error } = await supabase
+    .from('productos')
+    .select('escala')
+    .neq('estado', 'agotado')
+
+  if (error || !data) {
+    console.error('Error fetching scales:', error)
+    return []
+  }
+
+  const counts = new Map<string, number>()
+  for (const row of data as { escala: string | null }[]) {
+    if (!row.escala) continue
+    counts.set(row.escala, (counts.get(row.escala) ?? 0) + 1)
+  }
+
+  const stats: ScaleStat[] = []
+  for (const escala of CANONICAL_SCALES) {
+    if (counts.has(escala)) stats.push({ escala, count: counts.get(escala)! })
+  }
+  for (const [escala, count] of counts) {
+    if (!stats.some((s) => s.escala === escala)) {
+      stats.push({ escala, count })
+    }
+  }
+
+  return stats
+}
+
 export async function getFeaturedByBrand(): Promise<BrandWithProducts[]> {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)

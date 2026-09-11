@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { SlidersHorizontal } from 'lucide-react'
 import {
   Sheet,
   SheetTrigger,
@@ -10,6 +11,7 @@ import {
 import { Slider } from '@/shared/components/ui/slider'
 import { Input } from '@/shared/components/ui/input'
 import type { Brand } from '@/shared/types'
+import { Button } from '@/shared/components/ui/button'
 
 interface FilterDrawerProps {
   brands: Brand[]
@@ -100,40 +102,28 @@ export function FilterDrawer({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <button className='lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-[var(--brand)] text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 font-semibold text-sm border-none cursor-pointer'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={2}
-            stroke='currentColor'
-            className='w-5 h-5'>
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75'
-            />
-          </svg>
+        <button className='lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-(--brand) text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 font-semibold text-sm border-none cursor-pointer'>
+          <SlidersHorizontal className='w-5 h-5' />
           Filtros
         </button>
       </SheetTrigger>
 
       <SheetContent
         side='bottom'
-        className='h-[80vh] overflow-y-auto rounded-t-2xl'>
+        className='h-[80vh] overflow-y-auto rounded-t-3xl p-4'>
         <div className='flex items-center justify-between mb-6'>
-          <SheetTitle className='text-xl font-extrabold tracking-tight text-[var(--text-primary)]'>
+          <SheetTitle className='text-xl font-extrabold tracking-tight text-(--text-primary)'>
             Filtros
           </SheetTitle>
-          <button
-            onClick={handleClear}
-            className='text-xs text-[var(--text-secondary)] hover:text-[var(--brand)] transition-colors duration-200 bg-transparent border-none cursor-pointer'>
-            Limpiar
-          </button>
         </div>
 
+        <Button
+          onClick={handleClear}
+          className='text-xs text-white hover:text-(--brand) transition-colors duration-200 border-none cursor-pointer'>
+          Limpiar
+        </Button>
         <div className='mb-6'>
-          <h3 className='text-xs font-semibold tracking-wider uppercase text-[var(--text-secondary)] mb-3'>
+          <h3 className='text-xs font-semibold tracking-wider uppercase text-(--text-secondary) mb-3'>
             Marcas
           </h3>
           <div className='flex flex-wrap gap-2'>
