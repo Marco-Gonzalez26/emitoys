@@ -6,11 +6,13 @@ import { ScaleTiles } from '@/features/landing/components/ScaleTiles'
 import type { ScaleTileData } from '@/features/landing/components/ScaleTiles'
 import { BrandMarquee } from '@/features/landing/components/BrandMarquee'
 import { ValueProps } from '@/features/landing/components/ValueProps'
+import { TestimonialsSection } from '@/features/testimonials/components/TestimonialsSection'
 import { getBrandsPublic } from '@/features/brand/actions/brands'
 import {
   getFeaturedByBrand,
   getScales
 } from '@/features/landing/actions/products'
+import { getTestimonialsPublic } from '@/features/testimonials/actions/testimonials'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -22,10 +24,11 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  const [brands, featuredGroups, scales] = await Promise.all([
+  const [brands, featuredGroups, scales, testimonials] = await Promise.all([
     getBrandsPublic(),
     getFeaturedByBrand(),
-    getScales()
+    getScales(),
+    getTestimonialsPublic()
   ])
 
   const whatsappNumero = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? ''
@@ -66,6 +69,7 @@ export default async function Home() {
       <div className='max-w-7xl mx-auto w-full'>
         <ScaleTiles scales={scaleTiles} />
         <FeaturedByBrand />
+        <TestimonialsSection testimonials={testimonials} />
         <ValueProps />
       </div>
     </>
