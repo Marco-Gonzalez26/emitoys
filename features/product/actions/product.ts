@@ -2,7 +2,7 @@
 
 import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
-import type { ProductWithBrand } from '@/features/catalog/actions/products'
+import type { ProductWithBrand } from '@/shared/types'
 
 export async function getProductBySlug(slug: string): Promise<ProductWithBrand | null> {
   const cookieStore = await cookies()

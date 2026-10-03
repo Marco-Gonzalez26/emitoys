@@ -87,7 +87,7 @@ export function TestimonialsTable({
                   className='w-10 h-10 rounded-full object-cover border border-border shrink-0'
                 />
               ) : (
-                <div className='w-10 h-10 rounded-full bg-(--brand) text-white flex items-center justify-center text-sm font-extrabold shrink-0'>
+                <div className='w-10 h-10 rounded-full bg-(--brand) text-(--brand-on) flex items-center justify-center text-sm font-extrabold shrink-0'>
                   {t.nombre_cliente.charAt(0).toUpperCase()}
                 </div>
               )}
@@ -104,7 +104,7 @@ export function TestimonialsTable({
                         className={cn(
                           'w-3.5 h-3.5',
                           i < t.estrellas
-                            ? 'fill-(--brand) text-(--brand)'
+                            ? 'fill-(--alert) text-(--edge)'
                             : 'fill-(--surface-2) text-(--surface-2)'
                         )}
                       />

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { NervHead, NervPanel } from '@/shared/components/ui/NervPanel'
 
 export const metadata: Metadata = {
   title: {
@@ -12,18 +13,22 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className='flex flex-col items-center justify-center min-h-[60vh] px-6 text-center'>
-      <h1 className='text-6xl font-extrabold tracking-tight text-[var(--text-primary)] mb-4'>
-        404
-      </h1>
-      <p className='text-lg text-[var(--text-secondary)] mb-8 max-w-md'>
-        La página que buscas no existe o fue movida.
-      </p>
-      <Link
-        href='/'
-        className='px-6 py-3 rounded-full bg-[var(--brand)] text-white font-semibold hover:bg-[var(--brand-hover)] transition-colors no-underline'>
-        Volver al inicio
-      </Link>
+    <div className='flex min-h-[60vh] items-center justify-center px-6 py-16'>
+      <NervPanel cut={22} className='w-full max-w-lg'>
+        <div aria-hidden='true' className='nerv-hazard' />
+        <NervHead label='Error // 404' />
+        <div className='flex flex-col items-center px-6 py-12 text-center'>
+          <h1 className='m-0 mb-4 font-[family-name:var(--font-garage)] text-8xl leading-none text-(--text-primary)'>
+            404
+          </h1>
+          <p className='m-0 mb-8 max-w-md text-lg text-(--text-secondary)'>
+            La página que buscas no existe o fue movida.
+          </p>
+          <Link href='/' className='nerv-btn nerv-btn--go'>
+            Volver al inicio
+          </Link>
+        </div>
+      </NervPanel>
     </div>
   )
 }

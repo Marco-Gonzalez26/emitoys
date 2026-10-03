@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { TooltipProvider } from '@/shared/components/ui/tooltip'
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/shared/components/ui/sidebar'
 import { AdminSidebar } from '@/features/admin/components/AdminSidebar'
+import { logout } from '@/features/auth/actions/auth'
 
 export default async function AdminLayout({
   children
@@ -32,7 +33,7 @@ export default async function AdminLayout({
   return (
     <TooltipProvider>
       <SidebarProvider>
-        <AdminSidebar userName={profile?.nombre ?? 'Admin'} />
+        <AdminSidebar userName={profile?.nombre ?? 'Admin'} logoutAction={logout} />
         <SidebarInset>
           <header className='flex h-12 items-center border-b border-[var(--border)] bg-[var(--bg)] px-4 md:px-6'>
             <SidebarTrigger className='text-[var(--text-secondary)] hover:text-[var(--text-primary)]' />

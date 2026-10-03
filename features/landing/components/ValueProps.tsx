@@ -1,6 +1,7 @@
 'use client'
 
 import { Truck, ShieldCheck, BadgeCheck, Users } from 'lucide-react'
+import { NervPanel } from '@/shared/components/ui/NervPanel'
 
 const PROPS = [
   {
@@ -25,28 +26,31 @@ const PROPS = [
   }
 ]
 
+// Each prop takes one role color from the NGE palette, black icon on top
+const CHIP = ['nerv-tag--go', '', 'nerv-tag--info', 'nerv-tag--alert']
+
 export function ValueProps() {
   return (
-    <section className='w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 py-8 md:py-10'>
-      {PROPS.map((p, i) => (
-        <div
-          key={p.title}
-          className={`flex items-start gap-4 px-6 md:px-8 py-5 lg:py-3 ${
-            i % 2 === 1 ? 'sm:border-l sm:border-(--border)' : ''
-          } ${i > 0 ? 'lg:border-l lg:border-(--border)' : ''}`}>
-          <span className='inline-flex items-center justify-center w-10 h-10 rounded-full bg-(--brand-soft) text-(--brand-ink) shrink-0'>
-            <p.icon className='w-5 h-5' />
-          </span>
-          <div className='flex flex-col gap-1'>
-            <span className='text-sm font-bold text-(--text-primary)'>
-              {p.title}
+    <section className='w-full px-6 py-8 md:px-10 md:py-12'>
+      <NervPanel innerClassName='grid grid-cols-1 gap-[2px] [--panel-fill:var(--edge)] sm:grid-cols-2 lg:grid-cols-4'>
+        {PROPS.map((p, i) => (
+          <div
+            key={p.title}
+            className='flex items-start gap-4 bg-(--surface) px-6 py-5'>
+            <span className={`nerv-tag h-10 w-10 shrink-0 justify-center p-0 [--cut:7px] ${CHIP[i]}`}>
+              <p.icon className='h-5 w-5' />
             </span>
-            <span className='text-xs text-(--text-secondary) leading-relaxed'>
-              {p.line}
-            </span>
+            <div className='flex flex-col gap-1'>
+              <span className='text-sm font-bold text-(--text-primary)'>
+                {p.title}
+              </span>
+              <span className='text-xs leading-relaxed text-(--text-secondary)'>
+                {p.line}
+              </span>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </NervPanel>
     </section>
   )
 }

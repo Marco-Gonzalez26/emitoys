@@ -5,7 +5,7 @@ import { Slider } from '@/shared/components/ui/slider'
 import { Checkbox } from '@/shared/components/ui/checkbox'
 import { Input } from '@/shared/components/ui/input'
 import type { Brand } from '@/shared/types'
-import { Button } from '@/shared/components/ui/button'
+import { NervPanel } from '@/shared/components/ui/NervPanel'
 
 interface FilterSidebarProps {
   brands: Brand[]
@@ -92,20 +92,20 @@ export function FilterSidebar({
 
   return (
     <aside className='w-full lg:w-64 shrink-0'>
-      <div className='bg-(--surface) border border-(--border) rounded-2xl p-6 sticky top-24'>
+      <NervPanel className='sticky top-24' innerClassName='p-6'>
         <div className='flex items-center justify-between mb-6'>
-          <h2 className='text-xl font-extrabold tracking-tight text-(--text-primary)'>
+          <h2 className='m-0 font-[family-name:var(--font-garage)] text-2xl tracking-[-0.01em] text-(--text-primary) uppercase'>
             Filtros
           </h2>
           <button
             onClick={handleClear}
-            className='text-xs text-(--text-secondary) hover:text-(--brand) transition-colors duration-200 bg-transparent border-none cursor-pointer'>
+            className='cursor-pointer border-none bg-transparent font-mono text-xs font-semibold tracking-[0.14em] text-(--text-secondary) uppercase underline-offset-4 transition-colors duration-200 hover:text-(--brand-ink) hover:underline'>
             Limpiar
           </button>
         </div>
 
         <div className='mb-6'>
-          <h3 className='text-xs font-semibold tracking-wider uppercase text-(--text-secondary) mb-3'>
+          <h3 className='font-[family-name:var(--font-garage)] text-base tracking-[0.02em] uppercase text-(--text-primary) mb-3'>
             Marcas
           </h3>
           <div className='space-y-2'>
@@ -118,10 +118,10 @@ export function FilterSidebar({
                   onCheckedChange={() => toggleMarca(brand.slug)}
                 />
                 <span
-                  className='h-2.5 w-2.5 rounded-full'
+                  className='h-2.5 w-2.5'
                   style={{ background: brand.color_hex }}
                 />
-                <span className='text-sm text-(--text-primary) group-hover:text-(--brand) transition-colors'>
+                <span className='text-sm text-(--text-primary) group-hover:text-(--brand-ink) transition-colors'>
                   {brand.nombre}
                 </span>
               </label>
@@ -130,7 +130,7 @@ export function FilterSidebar({
         </div>
 
         <div className='mb-6'>
-          <h3 className='text-xs font-semibold tracking-wider uppercase text-(--text-secondary) mb-3'>
+          <h3 className='font-[family-name:var(--font-garage)] text-base tracking-[0.02em] uppercase text-(--text-primary) mb-3'>
             Escalas
           </h3>
           <div className='space-y-2'>
@@ -142,7 +142,7 @@ export function FilterSidebar({
                   checked={pendingEscalas.includes(escala)}
                   onCheckedChange={() => toggleEscala(escala)}
                 />
-                <span className='text-sm text-(--text-primary) group-hover:text-(--brand) transition-colors'>
+                <span className='text-sm text-(--text-primary) group-hover:text-(--brand-ink) transition-colors'>
                   {escala}
                 </span>
               </label>
@@ -151,7 +151,7 @@ export function FilterSidebar({
         </div>
 
         <div className='mb-6'>
-          <h3 className='text-xs font-semibold tracking-wider uppercase text-(--text-secondary) mb-3'>
+          <h3 className='font-[family-name:var(--font-garage)] text-base tracking-[0.02em] uppercase text-(--text-primary) mb-3'>
             Precio
           </h3>
           <div className='mb-4'>
@@ -163,7 +163,7 @@ export function FilterSidebar({
               step={1}
               className='py-2'
             />
-            <div className='flex justify-between text-xs text-(--text-secondary) mt-1'>
+            <div className='flex justify-between font-mono text-xs font-semibold tracking-[0.08em] text-(--text-secondary) mt-1 tabular-nums'>
               <span>${sliderValue[0]}</span>
               <span>${sliderValue[1]}</span>
             </div>
@@ -191,16 +191,16 @@ export function FilterSidebar({
           </div>
         </div>
 
-        <Button
+        <button
+          type='button'
           onClick={handleApply}
-          className={`w-full py-3 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-200 border border-border bg-(--surface-2) text-(--text-secondary) cursor-pointer ${
-            hasPendingChanges
-              ? 'bg-(--brand) text-white hover:opacity-90'
-              : 'bg-(--surface-2) text-(--text-secondary) cursor-default hover:text-white'
+          aria-disabled={!hasPendingChanges}
+          className={`nerv-btn nerv-btn--block text-xs ${
+            hasPendingChanges ? 'nerv-btn--brand' : 'nerv-btn--off'
           }`}>
           Aplicar filtros
-        </Button>
-      </div>
+        </button>
+      </NervPanel>
     </aside>
   )
 }

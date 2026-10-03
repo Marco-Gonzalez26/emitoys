@@ -50,14 +50,17 @@ export function AboutValues() {
   }, [])
 
   return (
-    <div ref={ref} className='w-full py-12 border-t border-[var(--border)]'>
+    <div ref={ref} className='w-full border-t-2 border-(--edge) py-12'>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-        {VALUES.map(({ icon: Icon, title, description }) => (
+        {VALUES.map(({ icon: Icon, title, description }, i) => (
           <div
             key={title}
             className='value-item flex flex-col items-center text-center p-6'>
-            <div className='w-16 h-16 rounded-full bg-[var(--brand)]/5 flex items-center justify-center mb-6'>
-              <Icon className='w-8 h-8 text-[var(--brand)]' />
+            <div
+              className={`nerv-tag mb-6 h-16 w-16 justify-center p-0 [--cut:10px] ${
+                ['', 'nerv-tag--go', 'nerv-tag--alert'][i]
+              }`}>
+              <Icon className='h-8 w-8' />
             </div>
             <h3 className='text-xl md:text-2xl font-extrabold tracking-tight text-[var(--text-primary)] mb-3 m-0'>
               {title}

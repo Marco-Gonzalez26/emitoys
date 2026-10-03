@@ -4,17 +4,7 @@
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/shared/lib/supabase/server'
-
-export type ConfigKey =
-  | 'whatsapp'
-  | 'correo'
-  | 'instagram'
-  | 'tiktok'
-  | 'facebook'
-  | 'comunidad_contenido'
-  | 'envios_contenido'
-
-export type Configuracion = Record<ConfigKey, string>
+import type { ConfigKey, Configuracion } from '@/shared/types'
 
 export async function getConfiguracion(): Promise<Configuracion> {
   const cookieStore = await cookies()

@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { login } from '../actions/auth'
 import { Input } from '@/shared/components/ui/input'
 import { Label } from '@/shared/components/ui/label'
-import { Button } from '@/shared/components/ui/button'
 
 export function LoginForm() {
   const [email, setEmail] = useState('')
@@ -52,17 +51,17 @@ export function LoginForm() {
       </div>
 
       {error && (
-        <p className='text-sm text-red-500 bg-red-50 border border-red-200 rounded-lg px-4 py-2'>
+        <p role='alert' className='m-0 border-2 border-(--edge) bg-(--alert) px-4 py-2 text-sm font-semibold text-(--alert-on)'>
           {error}
         </p>
       )}
 
-      <Button
+      <button
         type='submit'
         disabled={loading}
-        className='mt-2'>
+        className='nerv-btn nerv-btn--brand nerv-btn--block mt-2'>
         {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
-      </Button>
+      </button>
     </form>
   )
 }

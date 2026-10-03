@@ -43,7 +43,7 @@ export function ImageUploader({ onUpload, disabled }: ImageUploaderProps) {
         type='button'
         onClick={() => inputRef.current?.click()}
         disabled={disabled}
-        className='w-full h-32 border-2 border-dashed border-[var(--border)] rounded-xl flex flex-col items-center justify-center gap-2 text-[var(--text-secondary)] hover:border-[var(--brand)] hover:text-[var(--brand)] transition-colors cursor-pointer bg-transparent disabled:opacity-50 disabled:cursor-not-allowed'>
+        className='w-full h-32 border-2 border-dashed border-[var(--border)] rounded-xl flex flex-col items-center justify-center gap-2 text-[var(--text-secondary)] hover:border-[var(--brand)] hover:text-[var(--brand-ink)] transition-colors cursor-pointer bg-transparent disabled:opacity-50 disabled:cursor-not-allowed'>
         <ImagePlus className='w-8 h-8' />
         <span className='text-xs font-semibold'>Subir imagen</span>
       </button>

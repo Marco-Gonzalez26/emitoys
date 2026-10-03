@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useCatalogFilters } from '../hooks/useCatalogFilters'
 import type { Brand, CatalogFilters } from '@/shared/types'
-import type { ProductWithBrand } from '../actions/products'
+import type { ProductWithBrand } from '@/shared/types'
 import {
   Select,
   SelectContent,
@@ -151,26 +151,28 @@ export function CatalogPage({ products, maxPrice, brands }: CatalogPageProps) {
       {/* Main Content */}
       <div key={JSON.stringify({ marca: filters.marca, escala: filters.escala, precio_min: filters.precio_min, precio_max: filters.precio_max })} className='grow'>
         <div className='mb-8 flex flex-wrap items-end justify-between gap-4'>
-          <div className='flex flex-col gap-1'>
-            <span className='text-xs font-semibold uppercase tracking-widest text-(--brand)'>
-              Colección
-            </span>
-            <h1 className='text-3xl font-extrabold tracking-tight text-(--text-primary) md:text-4xl'>
+          <div className='flex flex-col gap-2'>
+            <h1 className='m-0 font-[family-name:var(--font-garage)] text-4xl tracking-[-0.01em] text-(--text-primary) uppercase md:text-5xl'>
               Catálogo
             </h1>
+            <p className='m-0 font-mono text-xs font-semibold tracking-[0.14em] text-(--text-secondary) uppercase tabular-nums'>
+              {sortedProducts.length}{' '}
+              {sortedProducts.length === 1 ? 'producto' : 'productos'}
+            </p>
           </div>
+          <span aria-hidden='true' className='nerv-rule mb-5 hidden flex-1 sm:block' />
           <Select
             value={filters.sort}
             onValueChange={(value) => setSort(value as CatalogFilters['sort'])}>
-            <SelectTrigger className='h-10 rounded-full border-(--border) bg-(--surface) px-4 text-sm font-semibold text-(--text-primary) shadow-none'>
+            <SelectTrigger className='h-10 rounded-none border-2 border-(--edge) bg-(--bg) px-4 text-sm font-bold text-(--text-primary) shadow-none'>
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className='rounded-2xl border-(--border) bg-(--surface) shadow-[var(--shadow-lift)]'>
+            <SelectContent className='rounded-none border-2 border-(--edge) bg-(--bg) shadow-none'>
               {SORT_OPTIONS.map((option) => (
                 <SelectItem
                   key={option.value}
                   value={option.value}
-                  className='cursor-pointer rounded-xl text-(--text-primary) focus:bg-(--brand-soft)'>
+                  className='cursor-pointer rounded-none text-(--text-primary) focus:bg-(--info)'>
                   {option.label}
                 </SelectItem>
               ))}
@@ -180,7 +182,6 @@ export function CatalogPage({ products, maxPrice, brands }: CatalogPageProps) {
 
         <ProductGrid
           products={displayedProducts}
-          totalCount={sortedProducts.length}
           hasMore={hasMore}
           loadMoreRef={loadMoreRef}
           onClearFilters={clearFilters}

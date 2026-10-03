@@ -1,5 +1,5 @@
 import { SITE_URL } from '@/shared/lib/site'
-import type { ProductWithBrand } from '@/features/catalog/actions/products'
+import type { ProductWithBrand } from '@/shared/types'
 
 export function ProductJsonLd({ product }: { product: ProductWithBrand }) {
   const price = product.precio_oferta ?? product.precio

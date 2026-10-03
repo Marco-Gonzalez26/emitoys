@@ -2,18 +2,7 @@
 
 import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
-import type { CatalogFilters, Product } from '@/shared/types'
-
-export type ProductWithBrand = Product & {
-  marca: {
-    id: string
-    nombre: string
-    slug: string
-    color_hex: string
-    logo_url: string | null
-  } | null
-  imagenes: { id: string; url: string; orden: number }[]
-}
+import type { CatalogFilters, ProductWithBrand } from '@/shared/types'
 
 export interface GetProductsResult {
   products: ProductWithBrand[]

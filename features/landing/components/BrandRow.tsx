@@ -70,15 +70,20 @@ export function BrandRow({
         ref={titleRef}
         className='flex items-center justify-between px-6 md:px-10'>
         <div className='flex items-center gap-3'>
-          <div className='w-1 h-8 rounded-full bg-(--brand)' />
+          <span
+            aria-hidden='true'
+            className='nerv-tag h-8 w-3 p-0 [--cut:3px]'
+            style={{ background: marca.color_hex }}
+          />
           <h2 className='text-xl md:text-2xl font-bold text-(--text-primary) tracking-tight m-0 font-(family-name:--font-display)'>
             {marca.nombre}
           </h2>
         </div>
+        <span aria-hidden='true' className='nerv-rule mx-6 hidden flex-1 sm:block' />
 
         <Link
           href={`/catalogo?marca=${marca.slug}`}
-          className='text-sm font-semibold no-underline transition-colors duration-200 text-(--brand) hover:text-(--brand-hover)'>
+          className='text-sm font-semibold no-underline transition-colors duration-200 text-(--brand-ink) underline-offset-4 hover:underline'>
           Ver todos <ArrowRight className='inline-block w-4 h-4' />
         </Link>
       </div>
