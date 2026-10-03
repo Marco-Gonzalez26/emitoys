@@ -159,27 +159,25 @@ Only use Realtime for live stock updates (`vistas_producto`, `productos.stock`).
 ### Color tokens — always use CSS variables, never hardcode hex
 
 ```
-Light mode (default)
+Light mode (default) — NGE retro palette
 --bg              #FFFFFF    Page background
---surface         #F9F9FB    Card / panel background
---surface-2       #F0EEF8    Nested surface, hover states
+--surface         #F9F9FA    Card interior
+--surface-2       #F0F0F2    Image wells, disabled fills
 --text-primary    #1A1A1A    Main text
---text-secondary  #666666    Muted text, labels
---border          #E2E8F0    All borders
---brand           #960DF2    Primary purple — CTAs, active states, brand accents
---brand-hover     #7A0BC8    Hover state of brand
---cyan            #00FFFF    Validations, checks, secondary accent
+--text-secondary  #5C5C66    Muted text, labels
+--border          #E2E2E8    Internal dividers only
+--edge            #000000    Ink outline on every card and button
+--brand           #A877C8    Unit-01 lilac — brand fills (black text on top)
+--brand-ink       #5E2F82    Lilac text
+--cta             #A2DA5A    Unit-01 lime — WhatsApp go-actions only (black text)
+--signal-ink      #3F6212    Lime text
+--info            #A2B2DF    Unit-00 periwinkle — disponible, hover fills
+--alert           #F7BB2A    NERV amber — pre-venta, warnings, focus fill
+--alert-ink       #8A5A00    Amber text
+Pastels are fills only: always black text on them, never white; never pastel text on white.
 
-Dark mode — applied via [data-theme="dark"] on <html>
---bg              #0D0014
---surface         #1A0035
---surface-2       #2D0057
---text-primary    #F0E8FF
---text-secondary  rgba(240, 232, 255, 0.5)
---border          rgba(255, 255, 255, 0.08)
---brand           #C92AC7
---brand-hover     #A020A0
---cyan            #00E5FF
+Dark mode — applied via [data-theme="dark"] on <html> (admin only)
+--edge            #F0E8FF    Ink edge flips light
 ```
 
 Always write `bg-[var(--bg)]`, `text-[var(--text-primary)]`, `border-[var(--border)]`.
@@ -201,9 +199,13 @@ Brand colors per marca (used for badges and dropdown accents):
 
 ### Component style rules
 
-- **Buttons / pills:** `rounded-full` — always pill shape, never `rounded-md`
-- **Cards / cells:** `rounded-2xl border border-[var(--border)]`
-- **Shadows:** none by default. Borders instead. Shadows only on floating elements (dropdowns, modals)
+- **Buttons:** `.nerv-btn` + variant (`--go` lime for WhatsApp, `--brand`, `--warn`, default ghost, `--off` disabled; sizes `--sm`, `--block`, `--icon`). Chamfered NERV corners, 2px black edge — never `rounded-full` pills on the storefront
+- **Cards / cells:** `NervPanel` (or `.nerv-panel` + `.nerv-panel__inner` on a Link; `.nerv-box` for text-only blocks). Optional `NervHead` strip. Never `rounded-2xl`
+- **Tags / seals:** `.nerv-tag` (+ `--info`, `--alert`, `--black`, `--light`, `--muted`)
+- **Glow:** keep the GlowCard light — pass `glow={color}` (and `href` for link cards) to `NervPanel`
+- **Section headings:** follow the title with `<span className='nerv-rule flex-1' />`
+- **Grommet:** only for Clock / Accordion-type behavior, wrapped in `NervGrommet` (`shared/components/ui/NervGrommet.tsx`). Never for layout, buttons or cards
+- **Shadows:** none. The ink edge is the depth. Clip-path hides outlines, so focus is handled inside `.nerv-btn`
 - **Hover transitions:** `transition-all duration-200` or `transition-colors duration-200`
 - **No inline styles** unless passing dynamic values (e.g. `style={{ background: brand.color_hex }}`). Everything else via Tailwind.
 

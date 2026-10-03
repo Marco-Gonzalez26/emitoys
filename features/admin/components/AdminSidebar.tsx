@@ -1,15 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { LayoutDashboard, Package, Tag, LogOut, Home, Settings, MessageSquareQuote } from 'lucide-react'
-import { logout } from '@/features/auth/actions/auth'
 import {
   Sidebar,
   SidebarHeader,
   SidebarContent,
   SidebarFooter,
-  SidebarSeparator,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
@@ -55,11 +53,11 @@ const NAV_ITEMS = [
 
 interface AdminSidebarProps {
   userName: string
+  logoutAction: () => Promise<void>
 }
 
-export function AdminSidebar({ userName }: AdminSidebarProps) {
+export function AdminSidebar({ userName, logoutAction }: AdminSidebarProps) {
   const pathname = usePathname()
-  const router = useRouter()
   return (
     <Sidebar collapsible='icon'>
       <SidebarHeader>
@@ -109,7 +107,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
 
       <SidebarFooter>
         <div className='flex items-center gap-3 px-2 py-1'>
-          <div className='w-8 h-8 rounded-full bg-[var(--brand)] flex items-center justify-center text-white text-xs font-bold shrink-0'>
+          <div className='w-8 h-8 rounded-full bg-[var(--brand)] flex items-center justify-center text-[var(--brand-on)] text-xs font-bold shrink-0'>
             {userName.charAt(0).toUpperCase()}
           </div>
           <div className='flex-1 min-w-0 group-data-[collapsible=icon]:hidden'>
@@ -118,7 +116,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
             </p>
           </div>
         </div>
-        <form action={logout}>
+        <form action={logoutAction}>
           <Button
             type='submit'
             variant='ghost'

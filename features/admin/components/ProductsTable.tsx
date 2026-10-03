@@ -2,10 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import type { Brand } from '@/shared/types'
-import type { ProductWithBrand } from '@/features/catalog/actions/products'
+import type { Brand, ProductWithBrand } from '@/shared/types'
 import { getAdminProducts, deleteProduct } from '../actions/products'
-import { getBrands } from '@/features/brand/actions/brands'
 import { Button } from '@/shared/components/ui/button'
 import {
   Table,
@@ -27,14 +25,13 @@ import { ErrorDialog } from '@/shared/components/ErrorDialog'
 import { Plus } from 'lucide-react'
 
 const ESTADO_BADGES: Record<string, string> = {
-  disponible: 'bg-green-100 text-green-800',
-  pre_venta: 'bg-purple-100 text-purple-800',
-  agotado: 'bg-gray-100 text-gray-500'
+  disponible: 'nerv-tag nerv-tag--info',
+  pre_venta: 'nerv-tag nerv-tag--alert',
+  agotado: 'nerv-tag nerv-tag--muted'
 }
 
-export function ProductsTable() {
+export function ProductsTable({ brands }: { brands: Brand[] }) {
   const [products, setProducts] = useState<ProductWithBrand[]>([])
-  const [brands, setBrands] = useState<Brand[]>([])
   const [loading, setLoading] = useState(true)
   const [filterBrand, setFilterBrand] = useState('all')
   const [filterEstado, setFilterEstado] = useState('all')
@@ -43,12 +40,8 @@ export function ProductsTable() {
 
   const fetchData = async () => {
     setLoading(true)
-    const [productsData, brandsData] = await Promise.all([
-      getAdminProducts(),
-      getBrands()
-    ])
+    const productsData = await getAdminProducts()
     setProducts(productsData)
-    setBrands(brandsData)
     setLoading(false)
   }
 
@@ -82,7 +75,7 @@ export function ProductsTable() {
         <h1 className='text-2xl font-extrabold tracking-tight text-[var(--text-primary)]'>
           Productos
         </h1>
-        <Button asChild className='bg-(--brand)'>
+        <Button asChild className='bg-(--brand) text-(--brand-on) hover:bg-(--brand-hover)'>
           <Link href='/admin/dashboard/productos/nuevo'>
             Nuevo producto <Plus className='w-4 h-4 ml-1' />
           </Link>
@@ -177,7 +170,7 @@ export function ProductsTable() {
                         ${product.precio.toFixed(2)}
                       </span>
                       {product.precio_oferta && (
-                        <span className='ml-2 text-xs text-[var(--brand)] line-through'>
+                        <span className='ml-2 text-xs text-[var(--brand-ink)] line-through'>
                           ${product.precio_oferta.toFixed(2)}
                         </span>
                       )}
@@ -188,7 +181,7 @@ export function ProductsTable() {
                   </TableCell>
                   <TableCell>
                     <span
-                      className={`text-xs font-semibold px-2.5 py-1 rounded-full ${ESTADO_BADGES[product.estado] ?? ''}`}>
+                      className={ESTADO_BADGES[product.estado] ?? 'nerv-tag'}>
                       {product.estado === 'disponible'
                         ? 'Disponible'
                         : product.estado === 'pre_venta'

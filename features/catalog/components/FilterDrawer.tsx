@@ -11,7 +11,6 @@ import {
 import { Slider } from '@/shared/components/ui/slider'
 import { Input } from '@/shared/components/ui/input'
 import type { Brand } from '@/shared/types'
-import { Button } from '@/shared/components/ui/button'
 
 interface FilterDrawerProps {
   brands: Brand[]
@@ -102,7 +101,7 @@ export function FilterDrawer({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <button className='lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-(--brand) text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 font-semibold text-sm border-none cursor-pointer'>
+        <button className='nerv-btn nerv-btn--brand fixed bottom-6 left-1/2 z-40 -translate-x-1/2 lg:hidden'>
           <SlidersHorizontal className='w-5 h-5' />
           Filtros
         </button>
@@ -110,20 +109,21 @@ export function FilterDrawer({
 
       <SheetContent
         side='bottom'
-        className='h-[80vh] overflow-y-auto rounded-t-3xl p-4'>
+        className='h-[80vh] overflow-y-auto rounded-none border-t-2 border-(--edge) p-4'>
         <div className='flex items-center justify-between mb-6'>
-          <SheetTitle className='text-xl font-extrabold tracking-tight text-(--text-primary)'>
+          <SheetTitle className='m-0 font-[family-name:var(--font-garage)] text-2xl tracking-[-0.01em] text-(--text-primary) uppercase'>
             Filtros
           </SheetTitle>
         </div>
 
-        <Button
+        <button
+          type='button'
           onClick={handleClear}
-          className='text-xs text-white hover:text-(--brand) transition-colors duration-200 border-none cursor-pointer'>
+          className='nerv-btn nerv-btn--sm mb-6'>
           Limpiar
-        </Button>
+        </button>
         <div className='mb-6'>
-          <h3 className='text-xs font-semibold tracking-wider uppercase text-(--text-secondary) mb-3'>
+          <h3 className='font-[family-name:var(--font-garage)] text-base tracking-[0.02em] uppercase text-(--text-primary) mb-3'>
             Marcas
           </h3>
           <div className='flex flex-wrap gap-2'>
@@ -131,10 +131,9 @@ export function FilterDrawer({
               <button
                 key={brand.id}
                 onClick={() => toggleMarca(brand.slug)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border-none cursor-pointer ${
-                  pendingMarcas.includes(brand.slug)
-                    ? 'bg-[var(--brand)] text-white'
-                    : 'bg-[var(--surface-2)] text-[var(--text-primary)] border border-[var(--border)]'
+                aria-pressed={pendingMarcas.includes(brand.slug)}
+                className={`nerv-btn nerv-btn--sm ${
+                  pendingMarcas.includes(brand.slug) ? 'nerv-btn--brand' : ''
                 }`}>
                 {brand.nombre}
               </button>
@@ -143,7 +142,7 @@ export function FilterDrawer({
         </div>
 
         <div className='mb-6'>
-          <h3 className='text-xs font-semibold tracking-wider uppercase text-[var(--text-secondary)] mb-3'>
+          <h3 className='font-[family-name:var(--font-garage)] text-base tracking-[0.02em] uppercase text-(--text-primary) mb-3'>
             Escalas
           </h3>
           <div className='flex flex-wrap gap-2'>
@@ -151,10 +150,9 @@ export function FilterDrawer({
               <button
                 key={escala}
                 onClick={() => toggleEscala(escala)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border-none cursor-pointer ${
-                  pendingEscalas.includes(escala)
-                    ? 'bg-[var(--brand)] text-white'
-                    : 'bg-[var(--surface-2)] text-[var(--text-primary)] border border-[var(--border)]'
+                aria-pressed={pendingEscalas.includes(escala)}
+                className={`nerv-btn nerv-btn--sm ${
+                  pendingEscalas.includes(escala) ? 'nerv-btn--brand' : ''
                 }`}>
                 {escala}
               </button>
@@ -163,7 +161,7 @@ export function FilterDrawer({
         </div>
 
         <div className='mb-6'>
-          <h3 className='text-xs font-semibold tracking-wider uppercase text-[var(--text-secondary)] mb-3'>
+          <h3 className='font-[family-name:var(--font-garage)] text-base tracking-[0.02em] uppercase text-(--text-primary) mb-3'>
             Precio
           </h3>
           <div className='mb-4'>
@@ -174,7 +172,7 @@ export function FilterDrawer({
               max={maxPrice}
               step={1}
             />
-            <div className='flex justify-between text-xs text-[var(--text-secondary)] mt-1'>
+            <div className='flex justify-between font-mono text-xs font-semibold tracking-[0.08em] text-[var(--text-secondary)] mt-1 tabular-nums'>
               <span>${sliderValue[0]}</span>
               <span>${sliderValue[1]}</span>
             </div>
@@ -203,11 +201,11 @@ export function FilterDrawer({
         </div>
 
         <button
+          type='button'
           onClick={handleApply}
-          className={`w-full py-3 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-200 border-none cursor-pointer ${
-            hasPendingChanges
-              ? 'bg-[var(--brand)] text-white hover:opacity-90'
-              : 'bg-[var(--surface-2)] text-[var(--text-secondary)] cursor-default'
+          aria-disabled={!hasPendingChanges}
+          className={`nerv-btn nerv-btn--block text-xs ${
+            hasPendingChanges ? 'nerv-btn--brand' : 'nerv-btn--off'
           }`}>
           Aplicar filtros
         </button>

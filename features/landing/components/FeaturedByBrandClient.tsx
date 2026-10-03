@@ -51,13 +51,11 @@ export function FeaturedByBrandClient({
 
   return (
     <section ref={sectionRef} className='w-full py-20 md:py-24 flex flex-col gap-14'>
-      <div className='featured-heading flex flex-col gap-3 px-6 md:px-10'>
-        <span className='text-[11px] font-bold tracking-[0.3em] uppercase text-(--text-secondary)'>
-          Colección
-        </span>
+      <div className='featured-heading flex items-center gap-6 px-6 md:px-10'>
         <h2 className='text-3xl md:text-5xl font-extrabold text-(--text-primary) tracking-[-0.02em] m-0 font-[family-name:var(--font-display)]'>
           Destacados por marca
         </h2>
+        <span aria-hidden='true' className='nerv-rule flex-1' />
       </div>
 
       {brandsWithProducts.map(({ marca, productos }) => (

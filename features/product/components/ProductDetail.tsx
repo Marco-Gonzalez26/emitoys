@@ -6,8 +6,8 @@ import Link from 'next/link'
 import { useCartStore } from '@/shared/store/cartStore'
 import { cn } from '@/shared/lib/utils'
 import { buildWhatsAppUrl } from '@/shared/lib/whatsapp'
-import type { ProductWithBrand } from '@/features/catalog/actions/products'
-import { GlowCard } from '@/shared/components/ui/GlowCard'
+import type { ProductWithBrand } from '@/shared/types'
+import { NervHead, NervPanel } from '@/shared/components/ui/NervPanel'
 import { ProductCard } from '@/shared/components/cards/ProductCard'
 import { getOptimizedImage } from '@/shared/lib/image'
 import {
@@ -34,10 +34,10 @@ function getProductImage(product: ProductWithBrand): string {
 const ESTADO_LABEL: Record<string, { label: string; className: string }> = {
   disponible: {
     label: 'Disponible',
-    className: 'bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-300'
+    className: 'nerv-tag--info'
   },
-  pre_venta: { label: 'Pre-venta', className: 'text-white font-extrabold' },
-  agotado: { label: 'Agotado', className: 'bg-(--surface-3) text-(--text-secondary)' }
+  pre_venta: { label: 'Pre-venta', className: 'nerv-tag--alert' },
+  agotado: { label: 'Agotado', className: 'nerv-tag--muted' }
 }
 
 interface ProductDetailProps {
@@ -84,13 +84,13 @@ export function ProductDetail({
       <nav className='mb-8 text-xs text-(--text-secondary)'>
         <Link
           href='/'
-          className='no-underline text-(--text-secondary) transition-colors hover:text-(--brand)'>
+          className='no-underline text-(--text-secondary) transition-colors hover:text-(--brand-ink)'>
           Inicio
         </Link>
         <span className='mx-2'>/</span>
         <Link
           href='/catalogo'
-          className='no-underline text-(--text-secondary) transition-colors hover:text-(--brand)'>
+          className='no-underline text-(--text-secondary) transition-colors hover:text-(--brand-ink)'>
           Catálogo
         </Link>
         {product.marca && (
@@ -98,7 +98,7 @@ export function ProductDetail({
             <span className='mx-2'>/</span>
             <Link
               href={`/catalogo?marca=${product.marca.slug}`}
-              className='no-underline text-(--text-secondary) transition-colors hover:text-(--brand)'>
+              className='no-underline text-(--text-secondary) transition-colors hover:text-(--brand-ink)'>
               {product.marca.nombre}
             </Link>
           </>
@@ -109,11 +109,17 @@ export function ProductDetail({
 
       <div className='mb-16 grid grid-cols-1 gap-10 lg:grid-cols-2'>
         <div className='flex flex-col gap-4'>
-          <GlowCard
-            glowColor={product.marca?.color_hex}
-            glowSize={260}
-            className='border border-border bg-(--surface)'>
-            <div className='relative aspect-square overflow-hidden rounded-2xl bg-(--surface-2)'>
+          <NervPanel
+            cut={22}
+            glow={product.marca?.color_hex ?? 'var(--brand)'}
+            glowSize={260}>
+            <NervHead
+              label={[product.marca?.nombre, product.escala, product.codigo]
+                .filter(Boolean)
+                .join(' // ') || 'EmiToys'}
+              swatch={product.marca?.color_hex}
+            />
+            <div className='relative aspect-square overflow-hidden bg-(--surface-2)'>
               <Image
                 src={images[selectedImage]}
                 alt={product.nombre}
@@ -130,24 +136,19 @@ export function ProductDetail({
 
               <span
                 className={cn(
-                  'absolute right-4 top-4 z-20 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest',
+                  'nerv-tag absolute right-4 top-4 z-20',
                   badge?.className
-                )}
-                style={
-                  product.estado === 'pre_venta'
-                    ? { background: 'var(--brand)' }
-                    : undefined
-                }>
+                )}>
                 {badge?.label}
               </span>
 
               {product.es_nuevo && (
-                <span className='absolute left-4 top-4 z-20 rounded-full bg-(--brand) px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white'>
+                <span className='nerv-tag absolute left-4 top-4 z-20'>
                   Nuevo
                 </span>
               )}
             </div>
-          </GlowCard>
+          </NervPanel>
 
           {images.length > 1 && (
             <div className='flex gap-3 overflow-x-auto pb-2 no-scrollbar'>
@@ -156,22 +157,25 @@ export function ProductDetail({
                   key={i}
                   onClick={() => setSelectedImage(i)}
                   aria-label={`Imagen ${i + 1} de ${product.nombre}`}
+                  aria-pressed={selectedImage === i}
                   className={cn(
-                    'relative h-20 w-20 shrink-0 cursor-pointer overflow-hidden rounded-xl border-2 bg-(--surface) transition-colors',
+                    'nerv-panel h-20 w-20 shrink-0 cursor-pointer border-0 [--cut:8px]',
                     selectedImage === i
-                      ? 'border-(--brand)'
-                      : 'border-(--border) hover:border-(--brand)/50'
+                      ? ''
+                      : '[--edge:var(--border)] hover:[--edge:var(--text-secondary)]'
                   )}>
-                  <Image
-                    src={img}
-                    alt={`${product.nombre} ${i + 1}`}
-                    fill
-                    loading='eager'
-                    className={cn(
-                      isHotWheels ? 'object-contain p-2' : 'object-cover'
-                    )}
-                    sizes='80px'
-                  />
+                  <span className='nerv-panel__inner block'>
+                    <Image
+                      src={img}
+                      alt={`${product.nombre} ${i + 1}`}
+                      fill
+                      loading='eager'
+                      className={cn(
+                        isHotWheels ? 'object-contain p-2' : 'object-cover'
+                      )}
+                      sizes='80px'
+                    />
+                  </span>
                 </button>
               ))}
             </div>
@@ -182,7 +186,7 @@ export function ProductDetail({
           {product.marca && (
             <div className='flex items-center gap-2'>
               <span
-                className='h-2.5 w-2.5 rounded-full'
+                className='h-2.5 w-2.5'
                 style={{ background: product.marca.color_hex }}
               />
               <span className='text-xs font-semibold uppercase tracking-widest text-(--text-secondary)'>
@@ -191,14 +195,14 @@ export function ProductDetail({
             </div>
           )}
 
-          <h1 className='m-0 text-3xl font-extrabold tracking-tight text-(--text-primary) md:text-4xl'>
+          <h1 className='m-0 font-[family-name:var(--font-garage)] text-3xl tracking-[-0.01em] text-(--text-primary) uppercase md:text-4xl'>
             {product.nombre}
           </h1>
 
           <div className='flex flex-wrap items-center gap-3'>
             {product.escala && (
-              <span className='rounded-full border border-(--border) bg-(--surface) px-3 py-1 text-sm font-semibold text-(--text-primary)'>
-                {product.escala}
+              <span className='nerv-tag'>
+                Escala {product.escala}
               </span>
             )}
             {product.codigo && (
@@ -209,7 +213,7 @@ export function ProductDetail({
           </div>
 
           <div className='flex items-baseline gap-3'>
-            <span className='text-4xl font-extrabold text-(--brand)'>
+            <span className='font-mono text-4xl font-extrabold text-(--text-primary) tabular-nums'>
               ${price.toFixed(2)}
             </span>
             {product.precio_oferta && (
@@ -228,8 +232,8 @@ export function ProductDetail({
           <div className='flex items-center gap-2 text-sm'>
             <span
               className={cn(
-                'h-2 w-2 rounded-full',
-                product.stock > 0 ? 'bg-green-500' : 'bg-red-500'
+                'h-2.5 w-2.5 border border-(--edge)',
+                product.stock > 0 ? 'bg-(--cta)' : 'bg-(--surface-3)'
               )}
             />
             <span className='text-(--text-secondary)'>
@@ -242,7 +246,8 @@ export function ProductDetail({
               <TooltipTrigger asChild>
                 <div
                   onClick={handleAddToCart}
-                  className='flex-1 cursor-pointer rounded-full border border-(--border) bg-(--surface) px-4 py-3.5 text-xs font-semibold uppercase tracking-widest text-(--text-secondary) opacity-60 transition-colors duration-200 pointer-events-none'>
+                    aria-disabled='true'
+                  className='nerv-btn nerv-btn--off pointer-events-none flex-1 text-xs'>
                   Añadir al carrito
                 </div>
               </TooltipTrigger>
@@ -263,7 +268,7 @@ export function ProductDetail({
                 )}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='flex flex-1 items-center justify-center gap-2 rounded-full bg-(--brand) px-4 py-3.5 text-xs font-bold uppercase tracking-widest text-white no-underline transition-colors duration-200 hover:bg-(--brand-hover) active:scale-[0.97]'>
+                className='nerv-btn nerv-btn--go flex-1 text-xs'>
                 <WhatsApp className='h-4 w-4' />
                 Pedir en WhatsApp
               </a>
@@ -274,7 +279,7 @@ export function ProductDetail({
 
       {relatedProducts.length > 0 && (
         <section>
-          <h2 className='mb-6 m-0 text-2xl font-extrabold tracking-tight text-(--text-primary)'>
+          <h2 className='mb-6 m-0 font-[family-name:var(--font-garage)] text-2xl tracking-[-0.01em] text-(--text-primary) uppercase'>
             Te puede gustar
           </h2>
           <div

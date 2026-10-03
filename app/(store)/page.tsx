@@ -1,10 +1,9 @@
-import { HeroSection } from '@/features/landing/components/HeroSection'
-import { HeroCarousel } from '@/features/landing/components/HeroCarousel'
+import { GarageHero } from '@/features/landing/components/GarageHero'
+import { PreventaRow } from '@/features/landing/components/PreventaRow'
+import { BrandGrid } from '@/features/landing/components/BrandGrid'
 import FeaturedByBrand from '@/features/landing/components/FeaturedByBrand'
-import { AnnouncementBar } from '@/features/landing/components/AnnouncementBar'
 import { ScaleTiles } from '@/features/landing/components/ScaleTiles'
 import type { ScaleTileData } from '@/features/landing/components/ScaleTiles'
-import { BrandMarquee } from '@/features/landing/components/BrandMarquee'
 import { ValueProps } from '@/features/landing/components/ValueProps'
 import { TestimonialsSection } from '@/features/testimonials/components/TestimonialsSection'
 import { getBrandsPublic } from '@/features/brand/actions/brands'
@@ -37,6 +36,8 @@ export default async function Home() {
     .flatMap((g) => g.productos)
     .slice(0, 6)
 
+  const heroPick = heroProducts[0]
+
   const productImage = (p: { imagenes: { url: string; orden: number }[] }) =>
     p.imagenes?.find((img) => img.orden === 0)?.url ??
     p.imagenes?.[0]?.url
@@ -50,25 +51,14 @@ export default async function Home() {
 
   return (
     <>
-      <AnnouncementBar />
-      <div className='max-w-7xl mx-auto w-full px-4 md:px-6'>
-        <HeroSection products={heroProducts} />
-      </div>
-      <div className='max-w-7xl mx-auto w-full px-4 md:px-6'>
-        <section className='w-full flex flex-col gap-8 pb-16 md:pb-20'>
-          <h2 className='m-0 text-2xl md:text-3xl font-extrabold text-(--text-primary) tracking-[-0.02em] font-[family-name:var(--font-display)]'>
-            Destacado de la semana
-          </h2>
-          <HeroCarousel
-            products={heroProducts}
-            whatsappNumero={whatsappNumero}
-          />
-        </section>
-      </div>
-      <BrandMarquee brands={brands} />
+      {heroPick && (
+        <GarageHero product={heroPick} whatsappNumero={whatsappNumero} />
+      )}
+      <PreventaRow products={heroProducts} whatsappNumero={whatsappNumero} />
+      <BrandGrid brands={brands} />
       <div className='max-w-7xl mx-auto w-full'>
         <ScaleTiles scales={scaleTiles} />
-        <FeaturedByBrand />
+        <FeaturedByBrand groups={featuredGroups} />
         <TestimonialsSection testimonials={testimonials} />
         <ValueProps />
       </div>

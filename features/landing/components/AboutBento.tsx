@@ -35,8 +35,8 @@ export function AboutBento() {
       ref={gridRef}
       className='grid grid-cols-1 md:grid-cols-12 gap-4 w-full'>
       {/* Nuestra Historia */}
-      <div className='bento-cell col-span-1 md:col-span-8 p-8 md:p-12 flex flex-col justify-center rounded-2xl border border-[var(--border)] '>
-        <span className='text-xs font-bold tracking-widest uppercase text-[var(--brand)] mb-4'>
+      <div className='bento-cell col-span-1 md:col-span-8 p-8 md:p-12 flex flex-col justify-center nerv-box'>
+        <span className='text-xs font-bold tracking-widest uppercase text-[var(--brand-ink)] mb-4'>
           Nuestra Historia
         </span>
         <h2 className='text-2xl md:text-3xl font-extrabold tracking-tight text-[var(--text-primary)] mb-4 m-0'>
@@ -59,28 +59,30 @@ export function AboutBento() {
       </div>
 
       {/* Calidad Curada */}
-      <div className='bento-cell col-span-1 md:col-span-4 relative overflow-hidden min-h-75 flex flex-col justify-end p-6 rounded-2xl border border-border'>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={CALIDAD_IMAGE}
-          alt='Calidad  Calidad Excepcional de modelos a escala'
-          className='absolute inset-0 w-full h-full object-cover z-0'
-        />
+      <div className='bento-cell nerv-panel col-span-1 md:col-span-4'>
+        <div className='nerv-panel__inner flex min-h-75 flex-col justify-end p-6'>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={CALIDAD_IMAGE}
+            alt='Calidad  Calidad Excepcional de modelos a escala'
+            className='absolute inset-0 w-full h-full object-cover z-0'
+          />
 
-        <div className='relative z-20'>
-          <h3 className='text-xl md:text-2xl font-extrabold tracking-tight text-neutral-900 mb-2 m-0'>
-            Calidad Excepcional
-          </h3>
-          <p className='text-sm md:text-base text-neutral-700 m-0'>
-            Solo seleccionamos piezas exclusivas para ti.
-          </p>
+          <div className='relative z-20'>
+            <h3 className='text-xl md:text-2xl font-extrabold tracking-tight text-(--text-primary) mb-2 m-0'>
+              Calidad Excepcional
+            </h3>
+            <p className='text-sm md:text-base text-(--text-secondary) m-0'>
+              Solo seleccionamos piezas exclusivas para ti.
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Nuestra Misión */}
-      <div className='bento-cell col-span-1 md:col-span-6 p-8 flex flex-col justify-center rounded-2xl border border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-sm'>
+      <div className='bento-cell col-span-1 md:col-span-6 p-8 flex flex-col justify-center nerv-box'>
         <div className='flex items-center gap-4 mb-4'>
-          <div className='w-12 h-12 rounded-full bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)]'>
+          <div className='nerv-tag h-12 w-12 justify-center p-0 [--cut:8px]'>
             <Flag className='w-6 h-6' />
           </div>
           <h2 className='text-xl md:text-2xl font-extrabold tracking-tight text-[var(--text-primary)] m-0 '>
@@ -104,8 +106,8 @@ export function AboutBento() {
       </div>
 
       {/* Envíos Seguros */}
-      <div className='bento-cell col-span-1 md:col-span-3 p-6 flex flex-col items-center justify-center text-center rounded-2xl border border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-sm'>
-        <div className='w-12 h-12 rounded-full bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] mb-4'>
+      <div className='bento-cell col-span-1 md:col-span-3 p-6 flex flex-col items-center justify-center text-center nerv-box'>
+        <div className='nerv-tag h-12 w-12 justify-center p-0 [--cut:8px] mb-4'>
           <Truck className='w-6 h-6' />
         </div>
         <h3 className='text-base font-bold text-[var(--text-primary)] mb-2 m-0'>
@@ -117,8 +119,8 @@ export function AboutBento() {
       </div>
 
       {/* Comunidad */}
-      <div className='bento-cell col-span-1 md:col-span-3 p-6 flex flex-col items-center justify-center text-center rounded-2xl border border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-sm'>
-        <div className='w-12 h-12 rounded-full bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] mb-4'>
+      <div className='bento-cell col-span-1 md:col-span-3 p-6 flex flex-col items-center justify-center text-center nerv-box'>
+        <div className='nerv-tag h-12 w-12 justify-center p-0 [--cut:8px] mb-4'>
           <Users className='w-6 h-6' />
         </div>
         <h3 className='text-base font-bold text-[var(--text-primary)] mb-2 m-0'>

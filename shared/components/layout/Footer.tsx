@@ -1,21 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { getConfiguracion } from '@/features/settings/actions/settings'
 import { WhatsApp } from '@/shared/components/icons/Whastapp'
 import { Instagram } from '@/shared/components/icons/Instagram'
 import { TikTok } from '@/shared/components/icons/Tiktok'
 import Facebook from '@/shared/components/icons/Facebook'
 import { Mail } from 'lucide-react'
+import { NervHead } from '@/shared/components/ui/NervPanel'
+import type { Configuracion } from '@/shared/types'
 
-export async function Footer() {
-  const config = await getConfiguracion()
-
+export function Footer({ config }: { config: Configuracion }) {
   return (
-    <footer className='border-t border-border bg-(--surface) px-10 py-8 flex flex-col gap-6 w-full z-50'>
+    <footer className='z-50 flex w-full flex-col gap-6 border-t-2 border-(--edge) bg-(--surface) px-10 pt-8'>
       <div className='flex flex-col md:flex-row justify-between items-center gap-6'>
         <div className='flex items-center gap-3'>
           <Image src='/logo.png' alt='Logo' width={50} height={50} />
-          <span className='text-lg text-(--text-secondary) font-bold'>
+          <span className='font-[family-name:var(--font-garage)] text-2xl tracking-[-0.01em] text-(--text-primary) uppercase'>
             EmiToys
           </span>
         </div>
@@ -23,17 +22,17 @@ export async function Footer() {
         <div className='flex gap-6'>
           <Link
             href='/sobre-nosotros'
-            className='text-xs text-(--text-secondary) hover:text-(--text-primary) no-underline transition-colors duration-200'>
+            className='font-mono text-xs font-semibold tracking-[0.14em] text-(--text-secondary) uppercase no-underline underline-offset-4 transition-colors duration-200 hover:text-(--brand-ink) hover:underline'>
             Sobre nosotros
           </Link>
           <Link
             href='/catalogo'
-            className='text-xs text-(--text-secondary) hover:text-(--text-primary) no-underline transition-colors duration-200'>
+            className='font-mono text-xs font-semibold tracking-[0.14em] text-(--text-secondary) uppercase no-underline underline-offset-4 transition-colors duration-200 hover:text-(--brand-ink) hover:underline'>
             Catálogo
           </Link>
           <Link
             href='/comunidad'
-            className='text-xs text-(--text-secondary) hover:text-(--text-primary) no-underline transition-colors duration-200'>
+            className='font-mono text-xs font-semibold tracking-[0.14em] text-(--text-secondary) uppercase no-underline underline-offset-4 transition-colors duration-200 hover:text-(--brand-ink) hover:underline'>
             Comunidad
           </Link>
         </div>
@@ -42,7 +41,7 @@ export async function Footer() {
       {/* Social media icons */}
       <div className='flex flex-col flex-wrap items-center justify-center gap-3'>
         <div>
-          <span className='text-(--text-secondary) text-lg font-bold'>Síguenos</span>
+          <span className='font-mono text-xs font-semibold tracking-[0.14em] text-(--text-secondary) uppercase'>Síguenos</span>
         </div>
         <div className='flex gap-3 flex-wrap'>
           {config.whatsapp && (
@@ -50,7 +49,7 @@ export async function Footer() {
               href={`https://chat.whatsapp.com/DHElpltb1DFEIIrFtOJ1CO`}
               target='_blank'
               rel='noopener noreferrer'
-              className='w-9 h-9 rounded-full bg-green-500 text-white flex items-center justify-center hover:scale-110 transition-transform border border-green-500'
+              className='nerv-tag h-9 w-9 justify-center p-0 [--cut:7px] bg-green-500 text-white flex items-center justify-center transition-transform duration-200 hover:-translate-y-0.5 border border-green-500'
               aria-label='WhatsApp'>
               <WhatsApp className='w-4 h-4' />
             </a>
@@ -60,7 +59,7 @@ export async function Footer() {
               href={config.instagram}
               target='_blank'
               rel='noopener noreferrer'
-              className='w-9 h-9 rounded-full bg-linear-to-tr from-purple-600 via-pink-500 to-orange-400 text-white flex items-center justify-center hover:scale-110 transition-transform'
+              className='nerv-tag h-9 w-9 justify-center p-0 [--cut:7px] bg-linear-to-tr from-purple-600 via-pink-500 to-orange-400 text-white flex items-center justify-center transition-transform duration-200 hover:-translate-y-0.5'
               aria-label='Instagram'>
               <Instagram className='w-4 h-4' />
             </a>
@@ -70,7 +69,7 @@ export async function Footer() {
               href={config.tiktok}
               target='_blank'
               rel='noopener noreferrer'
-              className='w-9 h-9 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform'
+              className='nerv-tag h-9 w-9 justify-center p-0 [--cut:7px] bg-(--eva-black) text-white flex items-center justify-center transition-transform duration-200 hover:-translate-y-0.5'
               aria-label='TikTok'>
               <TikTok className='w-4 h-4' />
             </a>
@@ -80,7 +79,7 @@ export async function Footer() {
               href={config.facebook}
               target='_blank'
               rel='noopener noreferrer'
-              className='w-9 h-9 rounded-full bg-blue-800 text-white flex items-center justify-center hover:scale-110 transition-transform'
+              className='nerv-tag h-9 w-9 justify-center p-0 [--cut:7px] bg-blue-800 text-white flex items-center justify-center transition-transform duration-200 hover:-translate-y-0.5'
               aria-label='Facebook'>
               <Facebook className='w-4 h-4' />
             </a>
@@ -88,16 +87,14 @@ export async function Footer() {
           {config.correo && (
             <a
               href={`mailto:${config.correo}`}
-              className='w-9 h-9 rounded-full bg-(--brand) text-white flex items-center justify-center hover:scale-110 transition-transform'
+              className='nerv-tag h-9 w-9 justify-center p-0 [--cut:7px] bg-(--brand) text-(--brand-on) flex items-center justify-center transition-transform duration-200 hover:-translate-y-0.5'
               aria-label='Correo'>
               <Mail className='w-4 h-4' />
             </a>
           )}
         </div>
       </div>
-      <span className='text-xs text-(--text-secondary) text-center'>
-        © {new Date().getFullYear()} EmiToys
-      </span>
+      <NervHead label={`© ${new Date().getFullYear()} EmiToys`} className='-mx-10' />
     </footer>
   )
 }

@@ -5,6 +5,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import Image from 'next/image'
+import { NervPanel } from '@/shared/components/ui/NervPanel'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -27,20 +28,22 @@ export function AboutHero() {
   }, [])
 
   return (
-    <div
-      ref={ref}
-      className='w-full relative h-100 md:h-125 overflow-hidden rounded-2xl flex items-center justify-center'>
-      <Image
-        width={2000}
-        height={800}
-        src='/sobre-nosotros.jpeg'
-        alt='EmiToys - Pasión por el coleccionismo'
-        className='absolute inset-0 w-full h-full  z-0 object-cover '
-      />
-      <div className='absolute inset-0 bg-black/40 z-10' />
-      <h1 className='relative z-20 text-center px-6 text-3xl md:text-5xl font-extrabold tracking-tight text-white m-0'>
-        Pasión por el coleccionismo
-      </h1>
+    <div ref={ref} className='w-full'>
+      <NervPanel
+        cut={28}
+        innerClassName='flex h-100 items-center justify-center md:h-125'>
+        <Image
+          width={2000}
+          height={800}
+          src='/sobre-nosotros.jpeg'
+          alt='EmiToys - Pasión por el coleccionismo'
+          className='absolute inset-0 w-full h-full  z-0 object-cover '
+        />
+        <div className='absolute inset-0 z-10 bg-(--eva-black)/35' />
+        <h1 className='relative z-20 m-0 mx-6 bg-(--eva-black) px-5 py-3 text-center text-3xl font-extrabold tracking-tight text-white md:text-5xl'>
+          Pasión por el coleccionismo
+        </h1>
+      </NervPanel>
     </div>
   )
 }

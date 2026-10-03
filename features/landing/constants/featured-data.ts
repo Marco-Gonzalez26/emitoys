@@ -6,6 +6,9 @@ export interface FeaturedProduct {
   precio: number
   precio_oferta: number | null
   estado: 'disponible' | 'pre_venta' | 'agotado'
+  stock: number | null
+  pre_venta_fecha_cierre: string | null
+  pre_venta_cupo_total: number | null
   marca_id: string
   marca: {
     id: string
