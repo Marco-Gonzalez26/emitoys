@@ -58,6 +58,9 @@ export async function getFeaturedByBrand(): Promise<BrandWithProducts[]> {
       precio,
       precio_oferta,
       estado,
+      stock,
+      pre_venta_fecha_cierre,
+      pre_venta_cupo_total,
       marca_id,
       marcas:id,marcas(nombre,slug,color_hex,logo_url,created_at),
       imagenes_producto(url,orden)
@@ -97,6 +100,9 @@ export async function getFeaturedByBrand(): Promise<BrandWithProducts[]> {
       precio: item.precio as number,
       precio_oferta: item.precio_oferta as number | null,
       estado: item.estado as FeaturedProduct['estado'],
+      stock: item.stock as number | null,
+      pre_venta_fecha_cierre: item.pre_venta_fecha_cierre as string | null,
+      pre_venta_cupo_total: item.pre_venta_cupo_total as number | null,
       marca_id: marcaId,
       marca: group.marca,
       imagenes
