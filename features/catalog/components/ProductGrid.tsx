@@ -6,13 +6,12 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ProductCard } from '@/shared/components/cards/ProductCard'
 import { EmptyState } from './EmptyState'
-import type { ProductWithBrand } from '../actions/products'
+import type { ProductWithBrand } from '@/shared/types'
 
 gsap.registerPlugin(ScrollTrigger)
 
 interface ProductGridProps {
   products: ProductWithBrand[]
-  totalCount: number
   hasMore: boolean
   loadMoreRef: React.RefObject<HTMLDivElement | null>
   onClearFilters: () => void
@@ -21,7 +20,6 @@ interface ProductGridProps {
 
 export function ProductGrid({
   products,
-  totalCount,
   hasMore,
   loadMoreRef,
   onClearFilters,
@@ -65,11 +63,7 @@ export function ProductGrid({
 
   return (
     <div ref={gridRef} className='grow'>
-      <div className='mb-6 text-sm text-(--text-secondary)'>
-        {totalCount} {totalCount === 1 ? 'producto' : 'productos'}
-      </div>
-
-      <div className='grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6'>
+      <div className='grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6'>
         {products.map((product) => (
           <ProductCard
             key={product.id}

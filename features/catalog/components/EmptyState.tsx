@@ -1,6 +1,7 @@
 'use client'
 
 import { Search } from 'lucide-react'
+import { NervPanel } from '@/shared/components/ui/NervPanel'
 
 interface EmptyStateProps {
   onClearFilters: () => void
@@ -8,11 +9,13 @@ interface EmptyStateProps {
 
 export function EmptyState({ onClearFilters }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-(--border) bg-(--surface) px-6 py-20 text-center">
-      <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-(--surface-2)">
-        <Search className="h-10 w-10 text-(--text-secondary)" />
+    <NervPanel
+      cut={22}
+      innerClassName="flex flex-col items-center justify-center px-6 py-20 text-center">
+      <div className="nerv-tag nerv-tag--black mb-6 h-20 w-20 justify-center p-0 [--cut:12px]">
+        <Search className="h-9 w-9" />
       </div>
-      <h3 className="mb-2 text-2xl font-extrabold tracking-tight text-(--text-primary)">
+      <h3 className="mb-2 font-[family-name:var(--font-garage)] text-2xl tracking-[-0.01em] text-(--text-primary) uppercase">
         No se encontraron productos
       </h3>
       <p className="mb-8 max-w-sm text-(--text-secondary)">
@@ -21,9 +24,9 @@ export function EmptyState({ onClearFilters }: EmptyStateProps) {
       </p>
       <button
         onClick={onClearFilters}
-        className="cursor-pointer rounded-full bg-(--brand) px-6 py-3 text-sm font-bold tracking-wide text-white transition-colors duration-200 hover:bg-(--brand-hover) active:scale-[0.97]">
+        className="nerv-btn nerv-btn--brand">
         Limpiar filtros
       </button>
-    </div>
+    </NervPanel>
   )
 }
