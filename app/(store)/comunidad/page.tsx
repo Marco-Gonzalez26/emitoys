@@ -4,8 +4,8 @@ import { Instagram } from '@/shared/components/icons/Instagram'
 import { TikTok } from '@/shared/components/icons/Tiktok'
 import { WhatsApp } from '@/shared/components/icons/Whastapp'
 import { ArrowUpRight } from 'lucide-react'
-import { GlowCard } from '@/shared/components/ui/GlowCard'
 import { Reveal } from '@/shared/components/ui/Reveal'
+import { NervPanel } from '@/shared/components/ui/NervPanel'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -29,13 +29,11 @@ export default async function ComunidadPage() {
     <div className='mx-auto max-w-3xl px-6 py-12 md:px-10'>
       <div className='flex flex-col gap-6'>
         <Reveal>
-          <div className='flex flex-col gap-2'>
-            <span className='text-xs font-semibold uppercase tracking-widest text-(--brand)'>
-              EmiToys
-            </span>
-            <h1 className='m-0 text-3xl font-extrabold tracking-tight text-(--text-primary) md:text-4xl'>
+          <div className='flex items-center gap-6'>
+            <h1 className='m-0 font-[family-name:var(--font-garage)] text-4xl tracking-[-0.01em] text-(--text-primary) uppercase md:text-5xl'>
               Comunidad
             </h1>
+            <span aria-hidden='true' className='nerv-rule flex-1' />
           </div>
         </Reveal>
 
@@ -52,78 +50,75 @@ export default async function ComunidadPage() {
         {(config.instagram || config.tiktok || config.facebook) && (
           <Reveal delay={0.1}>
             <div className='flex flex-col gap-4 pt-4'>
-              <span className='text-sm font-bold text-(--text-primary)'>
+              <span className='font-mono text-xs font-semibold tracking-[0.14em] text-(--text-secondary) uppercase'>
                 Síguenos
               </span>
               <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                 {config.instagram && (
-                  <GlowCard
+                  <NervPanel
                     href={config.instagram}
                     target='_blank'
                     rel='noopener noreferrer'
-                    glowColor='#E4405F'
-                    className='border border-border bg-(--surface)'>
-                    <div className='flex h-full flex-col gap-4 p-6'>
-                      <div className='flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-tr from-purple-600 via-pink-500 to-orange-400 text-white'>
-                        <Instagram className='h-6 w-6' />
-                      </div>
-                      <div className='flex flex-col gap-1'>
-                        <span className='text-lg font-extrabold tracking-tight text-(--text-primary)'>
-                          Instagram
-                        </span>
-                        <span className='text-sm text-(--text-secondary)'>
-                          Novedades y stories
-                        </span>
-                      </div>
-                      <ArrowUpRight className='ml-auto h-5 w-5 text-(--text-secondary)' />
+                    glow='#E4405F'
+                    className='group transition-transform duration-200 hover:-translate-y-0.5'
+                    innerClassName='flex flex-col gap-4 p-6'>
+                    <div className='nerv-tag h-12 w-12 justify-center p-0 [--cut:8px] bg-linear-to-tr from-purple-600 via-pink-500 to-orange-400 text-white'>
+                      <Instagram className='h-6 w-6' />
                     </div>
-                  </GlowCard>
+                    <div className='flex flex-col gap-1'>
+                      <span className='text-lg font-extrabold tracking-tight text-(--text-primary)'>
+                        Instagram
+                      </span>
+                      <span className='text-sm text-(--text-secondary)'>
+                        Novedades y stories
+                      </span>
+                    </div>
+                    <ArrowUpRight className='ml-auto h-5 w-5 text-(--text-secondary) transition-transform duration-200 group-hover:translate-x-0.5' />
+                  </NervPanel>
                 )}
                 {config.tiktok && (
-                  <GlowCard
+                  <NervPanel
                     href={config.tiktok}
                     target='_blank'
                     rel='noopener noreferrer'
-                    glowColor='#00F2EA'
-                    className='border border-(--border) bg-(--surface)'>
-                    <div className='flex h-full flex-col gap-4 p-6'>
-                      <div className='flex h-12 w-12 items-center justify-center rounded-full bg-black text-white'>
-                        <TikTok className='h-6 w-6' />
-                      </div>
-                      <div className='flex flex-col gap-1'>
-                        <span className='text-lg font-extrabold tracking-tight text-(--text-primary)'>
-                          TikTok
-                        </span>
-                        <span className='text-sm text-(--text-secondary)'>
-                          Unboxings y reels
-                        </span>
-                      </div>
-                      <ArrowUpRight className='ml-auto h-5 w-5 text-(--text-secondary)' />
+                    glow='#00F2EA'
+                    className='group transition-transform duration-200 hover:-translate-y-0.5'
+                    innerClassName='flex flex-col gap-4 p-6'>
+                    <div className='nerv-tag h-12 w-12 justify-center p-0 [--cut:8px] bg-(--eva-black) text-white'>
+                      <TikTok className='h-6 w-6' />
                     </div>
-                  </GlowCard>
+                    <div className='flex flex-col gap-1'>
+                      <span className='text-lg font-extrabold tracking-tight text-(--text-primary)'>
+                        TikTok
+                      </span>
+                      <span className='text-sm text-(--text-secondary)'>
+                        Unboxings y reels
+                      </span>
+                    </div>
+                    <ArrowUpRight className='ml-auto h-5 w-5 text-(--text-secondary) transition-transform duration-200 group-hover:translate-x-0.5' />
+                  </NervPanel>
                 )}
                 {config.facebook && (
-                  <GlowCard
+                  <NervPanel
                     href={config.facebook}
                     target='_blank'
                     rel='noopener noreferrer'
-                    glowColor='#1877F2'
-                    className='border border-(--border) bg-(--surface)'>
-                    <div className='flex h-full flex-col gap-4 p-6'>
-                      <div className='flex h-12 w-12 items-center justify-center rounded-full bg-blue-800 text-white'>
-                        <Facebook className='h-6 w-6' />
-                      </div>
-                      <div className='flex flex-col gap-1'>
-                        <span className='text-lg font-extrabold tracking-tight text-(--text-primary)'>
-                          Facebook
-                        </span>
-                        <span className='text-sm text-(--text-secondary)'>
-                          Comunicados y eventos
-                        </span>
-                      </div>
-                      <ArrowUpRight className='ml-auto h-5 w-5 text-(--text-secondary)' />
+                    glow='#1877F2'
+                    className='group transition-transform duration-200 hover:-translate-y-0.5'
+                    innerClassName='flex flex-col gap-4 p-6'>
+                    <div className='nerv-tag h-12 w-12 justify-center p-0 [--cut:8px] bg-blue-800 text-white'>
+                      <Facebook className='h-6 w-6' />
                     </div>
-                  </GlowCard>
+                    <div className='flex flex-col gap-1'>
+                      <span className='text-lg font-extrabold tracking-tight text-(--text-primary)'>
+                        Facebook
+                      </span>
+                      <span className='text-sm text-(--text-secondary)'>
+                        Comunicados y eventos
+                      </span>
+                    </div>
+                    <ArrowUpRight className='ml-auto h-5 w-5 text-(--text-secondary) transition-transform duration-200 group-hover:translate-x-0.5' />
+                  </NervPanel>
                 )}
               </div>
             </div>
@@ -135,8 +130,8 @@ export default async function ComunidadPage() {
             href='https://chat.whatsapp.com/DHElpltb1DFEIIrFtOJ1CO'
             target='_blank'
             rel='noopener noreferrer'
-            className='flex items-center justify-center gap-2 self-start rounded-full border border-green-500 bg-green-500 px-5 py-2.5 text-sm font-bold text-white no-underline transition-colors duration-200 hover:bg-green-600 active:scale-[0.97]'>
-            <WhatsApp className='size-7' />
+            className='nerv-btn nerv-btn--go self-start'>
+            <WhatsApp className='size-5' />
             Únete al grupo de WhatsApp
           </a>
         )}

@@ -1,12 +1,13 @@
 import { LoginForm } from '@/features/auth/components/LoginForm'
+import { NervHead, NervPanel } from '@/shared/components/ui/NervPanel'
 
 export default function LoginPage() {
   return (
     <div className='min-h-screen flex items-center justify-center bg-(--bg) px-6'>
       <div className='flex flex-col items-center gap-8'>
         <div className='flex flex-col items-center gap-2'>
-          <span className='font-extrabold text-3xl tracking-tight'>
-            <span className='text-(--brand)'>EMI</span>
+          <span className='font-[family-name:var(--font-garage)] text-4xl tracking-[-0.01em] uppercase'>
+            <span className='text-(--brand-ink)'>EMI</span>
             <span className='text-(--text-primary)'>TOYS</span>
           </span>
           <p className='text-sm text-(--text-secondary)'>
@@ -14,12 +15,15 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <div className='bg-(--surface) border border-border rounded-2xl p-8 w-full max-w-md'>
-          <h1 className='text-xl font-extrabold tracking-tight text-(--text-primary) mb-6 text-center'>
-            Iniciar sesión
-          </h1>
-          <LoginForm />
-        </div>
+        <NervPanel cut={18} className='w-full max-w-md'>
+          <NervHead label='Acceso // Admin' />
+          <div className='flex flex-col items-center p-8'>
+            <h1 className='m-0 mb-6 text-center text-xl font-extrabold tracking-tight text-(--text-primary)'>
+              Iniciar sesión
+            </h1>
+            <LoginForm />
+          </div>
+        </NervPanel>
 
         <p className='text-xs text-(--text-secondary)'>
           © {new Date().getFullYear()} EmiToys 
