@@ -23,7 +23,7 @@ export function BrandForm({ brand }: BrandFormProps) {
   const router = useRouter()
   const [nombre, setNombre] = useState(brand?.nombre ?? '')
   const [slug, setSlug] = useState(brand?.slug ?? '')
-  const [colorHex, setColorHex] = useState(brand?.color_hex ?? '#960DF2')
+  const [colorHex, setColorHex] = useState(brand?.color_hex ?? '#6B2FBF')
   const [logoUrl, setLogoUrl] = useState(brand?.logo_url ?? '')
   const [orden, setOrden] = useState(brand?.orden ?? '')
   const [loading, setLoading] = useState(false)
@@ -128,7 +128,7 @@ export function BrandForm({ brand }: BrandFormProps) {
               value={colorHex}
               onChange={(e) => setColorHex(e.target.value)}
               required
-              placeholder='#960DF2'
+              placeholder='#6B2FBF'
               className='font-mono'
             />
           </div>

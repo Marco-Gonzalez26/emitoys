@@ -8,6 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { cn } from '@/shared/lib/utils'
 import { getOptimizedImage } from '@/shared/lib/image'
 import type { Testimonial } from '@/shared/types'
+import { NervPanel } from '@/shared/components/ui/NervPanel'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -25,7 +26,7 @@ function Stars({ value }: { value: number }) {
           className={cn(
             'w-4 h-4',
             i < value
-              ? 'fill-(--brand) text-(--brand)'
+              ? 'fill-(--alert) text-(--edge)'
               : 'fill-(--surface-2) text-(--surface-2)'
           )}
         />
@@ -42,13 +43,13 @@ function TestimonialAvatar({ testimonial }: { testimonial: Testimonial }) {
         alt={`Foto de ${testimonial.nombre_cliente}`}
         width={44}
         height={44}
-        className='h-11 w-11 rounded-full object-cover border border-(--border) shrink-0'
+        className='h-11 w-11 shrink-0 border-2 border-(--edge) object-cover'
       />
     )
   }
 
   return (
-    <div className='h-11 w-11 shrink-0 rounded-full bg-(--brand) text-white flex items-center justify-center text-sm font-extrabold'>
+    <div className='flex h-11 w-11 shrink-0 items-center justify-center border-2 border-(--edge) bg-(--brand) text-sm font-extrabold text-(--brand-on)'>
       {testimonial.nombre_cliente.charAt(0).toUpperCase()}
     </div>
   )
@@ -108,23 +109,26 @@ export function TestimonialsSection({
           </p>
         </div>
 
+        <span aria-hidden='true' className='nerv-rule mb-5 hidden flex-1 md:block' />
         <a
           href='https://chat.whatsapp.com/DHElpltb1DFEIIrFtOJ1CO'
           target='_blank'
           rel='noopener noreferrer'
-          className='inline-flex w-max items-center gap-1.5 rounded-full bg-(--brand) text-white font-bold px-7 py-3 tracking-wide no-underline transition-colors duration-200 hover:bg-(--brand-hover) active:scale-[0.97]'>
+          className='nerv-btn nerv-btn--go w-max'>
           Grupo WhatsApp <ArrowUpRight className='w-4 h-4' />
         </a>
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4'>
         {cards.map((t) => (
-          <article
+          <NervPanel
+            as='article'
             key={t.id}
-            className='testimonial-card flex flex-col gap-4 rounded-2xl border border-(--border) bg-(--surface) p-6 transition-colors duration-200 hover:border-(--brand)'>
+            className='testimonial-card'
+            innerClassName='flex flex-col gap-4 p-6'>
             <div className='flex items-start justify-between gap-4'>
               <Stars value={t.estrellas} />
-              <Quote className='w-6 h-6 text-(--brand) opacity-60 shrink-0' />
+              <Quote className='h-6 w-6 shrink-0 fill-(--brand) text-(--edge)' />
             </div>
 
             <p className='m-0 flex-1 text-sm md:text-base leading-relaxed text-(--text-primary)'>
@@ -137,13 +141,13 @@ export function TestimonialsSection({
                 <span className='text-sm font-bold text-(--text-primary) truncate'>
                   {t.nombre_cliente}
                 </span>
-                <span className='flex items-center gap-1 text-xs font-semibold text-(--cyan)'>
+                <span className='flex items-center gap-1 text-xs font-semibold text-(--signal-ink)'>
                   <BadgeCheck className='w-3.5 h-3.5' />
                   Compra verificada
                 </span>
               </div>
             </div>
-          </article>
+          </NervPanel>
         ))}
       </div>
     </section>
