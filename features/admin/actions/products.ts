@@ -4,7 +4,7 @@ import { createClient } from '@/shared/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { uploadToCloudinary } from '@/shared/lib/cloudinary'
 import type { Product } from '@/shared/types'
-import type { ProductWithBrand } from '@/features/catalog/actions/products'
+import type { ProductWithBrand } from '@/shared/types'
 
 async function verifyAdmin(supabase: ReturnType<typeof createClient>) {
   const { data: auth } = await supabase.auth.getClaims()

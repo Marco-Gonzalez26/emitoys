@@ -144,3 +144,25 @@ export type CatalogFilters = {
   solo_en_stock?: boolean
   sort?: 'reciente' | 'precio_asc' | 'precio_desc' | 'nombre'
 }
+
+export type ProductWithBrand = Product & {
+  marca: {
+    id: string
+    nombre: string
+    slug: string
+    color_hex: string
+    logo_url: string | null
+  } | null
+  imagenes: { id: string; url: string; orden: number }[]
+}
+
+export type ConfigKey =
+  | 'whatsapp'
+  | 'correo'
+  | 'instagram'
+  | 'tiktok'
+  | 'facebook'
+  | 'comunidad_contenido'
+  | 'envios_contenido'
+
+export type Configuracion = Record<ConfigKey, string>
